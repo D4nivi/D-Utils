@@ -6,83 +6,170 @@
 <meta name="robots" content="noindex">
 <title>OCR (Extracción de texto) · D-Utils</title>
 <link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="ocr.css">
 <script src="../assets/base.js"></script>
-<style>
-  main { max-width: 860px; margin: 0 auto; padding: 12px 24px 64px; }
-  nav { margin-bottom: 24px; }
-  nav a { font-family: var(--fuente-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
-  .panel-dev {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 36px 32px;
-    backdrop-filter: blur(14px);
-    position: relative;
-    overflow: hidden;
-  }
-  .panel-dev::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-warn), transparent);
-  }
-  .dev-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .specs-box {
-    margin: 28px 0;
-    padding: 20px;
-    background: rgba(0,0,0,0.15);
-    border: 1px dashed var(--line);
-    border-radius: 8px;
-    font-family: var(--fuente-mono);
-    font-size: 0.85rem;
-  }
-  .specs-box h3 {
-    font-size: 0.9rem;
-    color: var(--accent-warn);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .specs-box ul {
-    margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.7;
-  }
-</style>
+<script src="../componentes/iconos.js"></script>
+<script src="../componentes/bloque-texto.js"></script>
+<script src="assets/tesseract.min.js"></script>
+<script src="ocr.js"></script>
 </head>
 <body>
 <main>
   <nav><a href="../index.html">← D-Utils // Centro de control</a></nav>
 
-  <div class="panel-dev">
-    <div class="dev-header">
-      <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
-      <span style="font-family: var(--fuente-mono); font-size: 0.8rem; color: var(--muted);">MOD_06 // OPTICAL SCAN</span>
+  <div class="meta-header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+      <span class="meta-code">MOD_06 // OCR ÓPTICO</span>
+    </div>
+    <span class="meta-code">PROCESAMIENTO 100% LOCAL</span>
+  </div>
+
+  <h1>OCR (Extracción de texto)</h1>
+  <p class="sub">Reconocimiento óptico de caracteres en cliente mediante Tesseract WebAssembly. Extrae texto de imágenes, documentos y capturas de forma 100% privada sin subir archivos a ningún servidor.</p>
+
+  <!-- Banner informativo de protocolo file:// -->
+  <div id="aviso-protocolo" class="aviso-protocolo oculto">
+    <div><strong>Aviso de seguridad del navegador:</strong> Estás abriendo la herramienta desde <code>file://</code>. Por seguridad interna, los navegadores impiden que los Web Workers carguen WebAssembly y ficheros locales directamente. Para ejecutar el OCR, abre esta página a través de un servidor web local (por ejemplo con <code>npx serve</code>, la extensión Live Server de VS Code o <code>python -m http.server</code>) o directamente en GitHub Pages.</div>
+  </div>
+
+  <!-- Zona de arrastre de imágenes (Dropzone) -->
+  <div id="drop" class="ocr-dropzone" tabindex="0" role="button" aria-label="Seleccionar o soltar imágenes">
+    <svg class="ocr-dropzone-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/>
+      <line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+    <div class="ocr-dropzone-texto">Arrastra imágenes aquí o <strong>haz clic para elegirlas</strong></div>
+    <div class="ocr-dropzone-pista">JPG, PNG y WebP · Soporta múltiples imágenes y pegado directo con <kbd>Ctrl+V</kbd></div>
+    <input id="fichero" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+  </div>
+
+  <!-- Cola de imágenes seleccionadas -->
+  <div id="cola-imagenes" style="display: none;">
+    <div class="ocr-cola-cabecera">
+      <div class="ocr-cola-titulo">
+        <span class="hud-badge hud-badge-mini">COLA</span>
+        <span id="contador-cola">0 imágenes</span>
+      </div>
+      <button type="button" id="btn-limpiar-cola" class="btn-tactico btn-peligro" style="padding: 6px 14px; font-size: 0.775rem;">Limpiar cola</button>
+    </div>
+    <div id="galeria-imagenes" class="ocr-galeria"></div>
+  </div>
+
+  <!-- Panel de Configuración OCR -->
+  <section class="panel-controles" aria-label="Opciones de configuración de reconocimiento OCR">
+    <!-- 1. Selección de Idioma -->
+    <div>
+      <div class="seccion-titulo">Idioma del documento</div>
+      <div class="funciones-fila" role="radiogroup" aria-label="Idioma de reconocimiento">
+        <button type="button" class="btn-opcion btn-idioma activo" data-idioma="spa" role="radio" aria-checked="true">
+          <span>Español</span>
+        </button>
+        <button type="button" class="btn-opcion btn-idioma" data-idioma="eng" role="radio" aria-checked="false">
+          <span>Inglés</span>
+        </button>
+        <button type="button" class="btn-opcion btn-idioma" data-idioma="spa+eng" role="radio" aria-checked="false">
+          <span>Español + Inglés</span>
+        </button>
+      </div>
     </div>
 
-    <h1>OCR (Reconocimiento óptico de caracteres)</h1>
-    <p class="sub">Extracción automática de texto a partir de fotos, documentos y capturas de pantalla de forma 100% privada en cliente.</p>
-
-    <div class="specs-box">
-      <h3>Planificación de características del módulo</h3>
-      <ul>
-        <li>Carga de imágenes por arrastrar y soltar o pegado directo desde el portapapeles (Ctrl+V).</li>
-        <li>Procesamiento por WebAssembly en el navegador para máxima privacidad de documentos sensibles.</li>
-        <li>Soporte de reconocimiento para español e inglés con preprocesamiento de contraste y binarización.</li>
-        <li>Exportación directa a texto plano o copiado en un clic.</li>
-      </ul>
+    <!-- 2. Selección de Calidad del Modelo -->
+    <div>
+      <div class="seccion-titulo">Calidad del modelo lingüístico</div>
+      <div class="funciones-fila" role="radiogroup" aria-label="Calidad del modelo lingüístico">
+        <button type="button" class="btn-opcion btn-calidad activo" data-calidad="fast" role="radio" aria-checked="true" title="Modelo rápido (tessdata_fast): Ligero, respuesta ágil">
+          <span>Rápido (Fast)</span>
+        </button>
+        <button type="button" class="btn-opcion btn-calidad" data-calidad="best" role="radio" aria-checked="false" title="Modelo de máxima calidad (tessdata_best): Mayor precisión en caracteres complejos">
+          <span>Alta precisión (Best)</span>
+        </button>
+      </div>
     </div>
 
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <a href="../index.html"><button type="button">Volver al catálogo</button></a>
-      <span class="note">Módulo en cola de desarrollo estático.</span>
+    <!-- 3. Parámetros de segmentación y preprocesamiento -->
+    <div class="grid-opciones">
+      <!-- Segmentación PSM -->
+      <div class="opcion-card">
+        <div class="opcion-cabecera">
+          <span class="opcion-nombre">MODO DE SEGMENTACIÓN (PSM)</span>
+        </div>
+        <select id="select-psm" class="select-tactico" aria-label="Modo de segmentación de página">
+          <option value="6" selected>PSM 6 · Bloque uniforme de texto (Recomendado)</option>
+          <option value="3">PSM 3 · Detección automática (Párrafos y columnas)</option>
+          <option value="7">PSM 7 · Una sola línea de texto</option>
+          <option value="4">PSM 4 · Columna única de texto</option>
+          <option value="1">PSM 1 · Automático con orientación (OSD)</option>
+          <option value="11">PSM 11 · Texto disperso sin orden específico</option>
+        </select>
+        <span class="opcion-desc">Configuración del motor para analizar la estructura espacial del texto en la imagen.</span>
+      </div>
+
+      <!-- Preprocesamiento de texto sobre fondo blanco -->
+      <div class="opcion-card">
+        <div class="opcion-cabecera">
+          <span class="opcion-nombre">PREPROCESAMIENTO DE IMAGEN</span>
+          <label class="switch-contenedor" title="Activar algoritmo de autocontraste y binarización para texto sobre fondo blanco">
+            <input type="checkbox" id="check-preprocesar" class="switch-input" checked>
+            <span class="switch-cuerpo"></span>
+          </label>
+        </div>
+        <span class="opcion-desc">Aumenta el contraste, binariza a blanco/negro puro y aplana canal alfa sobre fondo blanco.</span>
+      </div>
+
+      <!-- Ampliación automática -->
+      <div class="opcion-card">
+        <div class="opcion-cabecera">
+          <span class="opcion-nombre">ESCALAR 2X SI ALTURA &lt; 1000 PX</span>
+          <label class="switch-contenedor" title="Ampliar texto pequeño para mejorar la precisión de Tesseract">
+            <input type="checkbox" id="check-ampliar" class="switch-input" checked>
+            <span class="switch-cuerpo"></span>
+          </label>
+        </div>
+        <span class="opcion-desc">Tesseract rinde mejor con letras de ~30 px; amplía automáticamente capturas pequeñas.</span>
+      </div>
+
+      <!-- Margen perimetral -->
+      <div class="opcion-card">
+        <div class="opcion-cabecera">
+          <span class="opcion-nombre">MARGEN PERIMETRAL BLANCO</span>
+          <span class="meta-code">PX</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <input type="number" id="input-margen" class="select-tactico" min="0" max="100" value="20" style="max-width: 110px;">
+          <span class="opcion-desc">Evita errores de detección cuando el texto toca los bordes exteriores.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Pie del panel con botón de procesar abajo a la derecha -->
+    <div class="panel-controles-pie">
+      <div class="panel-acciones-derecha">
+        <button type="button" id="btn-cancelar" class="btn-tactico btn-peligro" style="display: none;">
+          <span>Cancelar</span>
+        </button>
+        <button type="button" id="btn-procesar" class="btn-tactico btn-primario" disabled>
+          <span class="btn-icono" data-icono="escanear"></span>
+          <span>Procesar texto (OCR)</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- HUD de Progreso Reactivo -->
+  <div id="progreso-panel" class="ocr-progreso-panel oculto" aria-live="polite">
+    <div class="ocr-progreso-cabecera">
+      <div id="progreso-estado" class="ocr-progreso-estado"><span class="pulse-dot"></span>Iniciando...</div>
+      <div id="progreso-tiempo" class="ocr-progreso-tiempo">Tiempo: 0.0s</div>
+    </div>
+    <div class="ocr-barra-track">
+      <div id="barra-progreso-fill" class="ocr-barra-fill"></div>
     </div>
   </div>
+
+  <!-- Bloque de Salida Reutilizable con Botón Copiar -->
+  <div id="host-bloque-salida" class="ocr-salida-host"></div>
 </main>
 </body>
 </html>

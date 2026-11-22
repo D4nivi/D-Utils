@@ -31,13 +31,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Descargar paquetes de Tesseract y modelos OCR
+        run: |
+          npm --prefix . install --no-save "tesseract.js@5.1.1" "tesseract.js-core@5.1.1" "@tesseract.js-data/spa@1.0.0" "@tesseract.js-data/eng@1.0.0"
+          node scripts/preparar-ocr-assets.js
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
+          # Upload entire repository (incluye los activos generados en ocr/assets/)
           path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5

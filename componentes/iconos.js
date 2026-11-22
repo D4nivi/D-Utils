@@ -300,6 +300,15 @@
         '<polyline points="20 6 9 17 4 12"/>' +
       '</svg>',
 
+    "escanear":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M3 7V5a2 2 0 0 1 2-2h2"/>' +
+        '<path d="M17 3h2a2 2 0 0 1 2 2v2"/>' +
+        '<path d="M21 17v2a2 2 0 0 1-2 2h-2"/>' +
+        '<path d="M7 21H5a2 2 0 0 1-2-2v-2"/>' +
+        '<line x1="7" y1="12" x2="17" y2="12"/>' +
+      '</svg>',
+
     // Variaciones temáticas específicas para el tema "cartoon"
     "cartoon": {
       "recortar":
@@ -344,6 +353,20 @@
           '<line x1="44" y1="56" x2="80" y2="56" stroke="#10ac84" stroke-width="3" stroke-linecap="round"/>' +
           '<rect x="38" y="74" width="84" height="22" rx="6" fill="#ff477e" stroke="#181818" stroke-width="2"/>' +
           '<text x="80" y="89" font-family="sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" font-weight="900">1.250 PALABRAS</text>' +
+        '</svg>',
+
+      "ocr":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="25" y="16" width="110" height="88" rx="14" fill="#ffffff" stroke="#181818" stroke-width="3"/>' +
+          '<rect x="36" y="24" width="46" height="34" rx="8" fill="#fff3b0" stroke="#181818" stroke-width="2"/>' +
+          '<circle cx="50" cy="38" r="5" fill="#ff477e"/>' +
+          '<polygon points="40,54 52,44 60,50 72,38 78,54" fill="#00d2d3" stroke="#181818" stroke-width="1.5"/>' +
+          '<line x1="90" y1="28" x2="124" y2="28" stroke="#181818" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="90" y1="38" x2="118" y2="38" stroke="#ff477e" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="90" y1="48" x2="122" y2="48" stroke="#00d2d3" stroke-width="3" stroke-linecap="round"/>' +
+          '<line class="anim-ocr-beam" x1="28" y1="64" x2="132" y2="64" stroke="#ff477e" stroke-width="3" stroke-dasharray="6 4"/>' +
+          '<rect x="42" y="76" width="76" height="20" rx="8" fill="#ffd600" stroke="#181818" stroke-width="2"/>' +
+          '<text x="80" y="90" font-family="sans-serif" font-size="8" fill="#181818" text-anchor="middle" font-weight="900">★ ESCÁNER POP ★</text>' +
         '</svg>'
     },
 
@@ -401,6 +424,25 @@
           '<circle cx="110" cy="52" r="1.5" fill="var(--accent)"/>' +
           '<rect x="42" y="82" width="76" height="16" rx="8" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>' +
           '<text x="80" y="93" font-family="sans-serif" font-size="8" fill="var(--accent)" text-anchor="middle" font-weight="700">♥ CONTEO MISHI ♥</text>' +
+        '</svg>',
+
+      "ocr":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="25" y="16" width="110" height="88" rx="16" fill="rgba(255,255,255,0.08)" stroke="var(--line)" stroke-width="1.5"/>' +
+          '<rect x="36" y="24" width="48" height="34" rx="10" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>' +
+          '<!-- Gato escaneando documento -->' +
+          '<circle cx="52" cy="40" r="7" fill="var(--accent)"/>' +
+          '<polygon points="46,35 48,29 53,34" fill="var(--accent)"/>' +
+          '<polygon points="56,34 61,29 63,35" fill="var(--accent)"/>' +
+          '<line x1="92" y1="30" x2="124" y2="30" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>' +
+          '<line x1="92" y1="40" x2="116" y2="40" stroke="var(--accent-sec)" stroke-width="2" stroke-linecap="round"/>' +
+          '<line x1="92" y1="50" x2="120" y2="50" stroke="var(--accent-ok)" stroke-width="2" stroke-linecap="round"/>' +
+          '<g class="anim-ocr-beam">' +
+            '<line x1="30" y1="64" x2="130" y2="64" stroke="var(--accent-sec)" stroke-width="2"/>' +
+            '<circle cx="80" cy="64" r="3" fill="var(--accent-sec)"/>' +
+          '</g>' +
+          '<rect x="42" y="78" width="76" height="18" rx="8" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>' +
+          '<text x="80" y="90" font-family="sans-serif" font-size="8" fill="var(--accent)" text-anchor="middle" font-weight="700">♥ ESCÁNER MISHI ♥</text>' +
         '</svg>'
     }
   };

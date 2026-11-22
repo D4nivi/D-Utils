@@ -84,16 +84,16 @@
       id: "ocr",
       titulo: "OCR (Extracción de texto)",
       url: "ocr/index.html",
-      estado: "construccion",
-      badgeClase: "hud-badge-warn",
-      badgeTexto: "EN CONSTRUCCIÓN",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
       categoria: "cat-imagen",
       categoriaTexto: "IMAGEN // MOD_06",
-      descripcion: "Convierte imágenes, capturas de pantalla y fotos en texto editable mediante algoritmos ópticos ejecutados íntegramente en tu navegador.",
-      tags: ["MOTOR OCR", "CAPTURA A TEXTO", "OFFLINE"],
-      accionTexto: "VER DETALLE →",
+      descripcion: "Convierte imágenes, fotos y capturas en texto editable con Tesseract WebAssembly 100% en local. Modelos fast y best para español e inglés.",
+      tags: ["TESSERACT WASM", "100% LOCAL", "SPA / ENG"],
+      accionTexto: "ABRIR MÓDULO →",
       icono: "ocr",
-      keywords: "ocr reconocimiento texto imagen capturas escanear extraer letras optical character recognition fotos"
+      keywords: "ocr reconocimiento texto imagen capturas escanear extraer letras optical character recognition fotos tesseract wasm"
     },
     {
       id: "indexator",

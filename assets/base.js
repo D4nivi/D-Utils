@@ -18,6 +18,12 @@
   var CLAVE_SONIDO = "dutils-sonido";
   var raiz = document.documentElement;
   var base = document.currentScript ? document.currentScript.src : location.href;
+  var urlRaiz = "";
+  try {
+    urlRaiz = new URL("../index.html", base).href;
+  } catch (e) {
+    urlRaiz = "../index.html";
+  }
 
   function leerLS(clave) {
     try { return localStorage.getItem(clave); } catch (e) { return null; }
@@ -44,6 +50,18 @@
     document.head.appendChild(icono);
   } catch (e) {
     /* fallback si URL falla */
+  }
+
+  // Estilos globales (relativo a assets/css/base.css)
+  if (typeof document !== "undefined" && !document.querySelector('link[href*="base.css"]')) {
+    try {
+      var linkEstilos = document.createElement("link");
+      linkEstilos.rel = "stylesheet";
+      linkEstilos.href = new URL("css/base.css", base).href;
+      document.head.appendChild(linkEstilos);
+    } catch (e) {
+      /* fallback si URL falla */
+    }
   }
 
   // Asegura la disponibilidad de iconos UI desde componentes/iconos.js
@@ -274,21 +292,7 @@
     // Logo / Brand táctico que lleva al inicio
     var enlaceInicio = document.createElement("a");
     enlaceInicio.className = "topbar-brand";
-    var profundidad = location.pathname.split("/").filter(Boolean).length;
-    var esSubcarpeta = !location.pathname.endsWith("index.html") && profundidad > 0
-      ? true
-      : /([^/]+)\/index\.html$/.test(location.pathname) && !/\/D-Utils\/index\.html$/i.test(location.pathname) && !location.pathname.endsWith("/index.html")
-      ? true
-      : location.pathname.indexOf("/recortar/") !== -1 ||
-        location.pathname.indexOf("/simbolos/") !== -1 ||
-        location.pathname.indexOf("/ruleta/") !== -1 ||
-        location.pathname.indexOf("/contador-palabras/") !== -1 ||
-        location.pathname.indexOf("/comparador-textos/") !== -1 ||
-        location.pathname.indexOf("/ocr/") !== -1 ||
-        location.pathname.indexOf("/indexator/") !== -1;
-
-    var rutaRaiz = esSubcarpeta ? "../index.html" : "index.html";
-    enlaceInicio.href = rutaRaiz;
+    enlaceInicio.href = urlRaiz || "index.html";
     enlaceInicio.innerHTML = '<span class="topbar-brand-mark">D</span><span>D-UTILS // TACTICAL</span>';
 
     var contenedorControles = document.createElement("div");

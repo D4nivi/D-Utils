@@ -8,7 +8,7 @@
     {
       id: "recortar",
       titulo: "Recortar imágenes",
-      url: "recortar/index.html",
+      url: "pages/recortar/index.html",
       estado: "disponibles",
       badgeClase: "hud-badge-ok",
       badgeTexto: "DISPONIBLE",
@@ -23,7 +23,7 @@
     {
       id: "simbolos",
       titulo: "Símbolos para copiar/pegar",
-      url: "simbolos/index.html",
+      url: "pages/simbolos/index.html",
       estado: "construccion",
       badgeClase: "hud-badge-warn",
       badgeTexto: "EN CONSTRUCCIÓN",
@@ -38,7 +38,7 @@
     {
       id: "ruleta",
       titulo: "Ruleta para sorteos",
-      url: "ruleta/index.html",
+      url: "pages/ruleta/index.html",
       estado: "construccion",
       badgeClase: "hud-badge-warn",
       badgeTexto: "EN CONSTRUCCIÓN",
@@ -53,7 +53,7 @@
     {
       id: "contador-palabras",
       titulo: "Contador de palabras",
-      url: "contador-palabras/index.html",
+      url: "pages/contador-palabras/index.html",
       estado: "disponibles",
       badgeClase: "hud-badge-ok",
       badgeTexto: "DISPONIBLE",
@@ -68,7 +68,7 @@
     {
       id: "comparador-textos",
       titulo: "Comparador de textos",
-      url: "comparador-textos/index.html",
+      url: "pages/comparador-textos/index.html",
       estado: "construccion",
       badgeClase: "hud-badge-warn",
       badgeTexto: "EN CONSTRUCCIÓN",
@@ -83,7 +83,7 @@
     {
       id: "ocr",
       titulo: "OCR (Extracción de texto)",
-      url: "ocr/index.html",
+      url: "pages/ocr/index.html",
       estado: "disponibles",
       badgeClase: "hud-badge-ok",
       badgeTexto: "DISPONIBLE",
@@ -98,7 +98,7 @@
     {
       id: "indexator",
       titulo: "Indexator",
-      url: "indexator/index.html",
+      url: "pages/indexator/index.html",
       estado: "disponibles",
       badgeClase: "hud-badge-ok",
       badgeTexto: "DISPONIBLE",

@@ -66,9 +66,8 @@
 
 /* 6. OCR: barrido láser óptico vertical */
 @keyframes laser-sweep {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(65px); }
-  100% { transform: translateY(0); }
+  0%, 100% { transform: translateY(24px); }
+  50% { transform: translateY(88px); }
 }
 .anim-ocr-beam {
   animation: laser-sweep 2.8s ease-in-out infinite;

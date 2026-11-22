@@ -295,7 +295,10 @@ button:disabled {
   border-radius: 50%;
   background: var(--bg);
   border: 1px solid var(--muted);
-  transition: transform .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: transform .2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .2s ease, border-color .2s ease;
 }
 .switch[aria-checked="true"] .switch-track {
   background: var(--accent);
@@ -305,6 +308,31 @@ button:disabled {
   transform: translateX(18px);
   border-color: var(--on-accent);
   background: var(--on-accent);
+}
+.switch-icon {
+  grid-area: 1 / 1;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.switch-icon-sun {
+  color: var(--accent-warn);
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+.switch-icon-moon {
+  color: var(--accent);
+  opacity: 0;
+  transform: scale(0.3) rotate(-90deg);
+}
+.switch[aria-checked="true"] .switch-icon-sun {
+  opacity: 0;
+  transform: scale(0.3) rotate(90deg);
+}
+.switch[aria-checked="true"] .switch-icon-moon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
 }
 
 /* Botón de sonido táctico */
@@ -393,7 +421,7 @@ button:disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .switch-track, .switch-thumb, button, .pulse-dot {
+  .switch-track, .switch-thumb, .switch-icon, button, .pulse-dot {
     transition: none !important;
     animation: none !important;
   }

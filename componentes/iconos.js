@@ -14,7 +14,6 @@
         '<circle cx="80" cy="54" r="8" fill="var(--accent-sec)" opacity="0.8"/>' +
         '<rect class="anim-crop-border" x="44" y="24" width="72" height="72" rx="2" stroke="var(--accent)" stroke-width="1.8"/>' +
         '<path d="M40 28 V20 H48 M112 20 H120 V28 M120 92 V100 H112 M48 100 H40 V92" stroke="var(--accent-ok)" stroke-width="2"/>' +
-        '<line x1="80" y1="20" x2="80" y2="24" stroke="var(--muted)" stroke-width="1"/>' +
         '<text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent-ok)" text-anchor="middle" font-weight="700">MARGEN 60PX</text>' +
       '</svg>',
 
@@ -149,6 +148,32 @@
         '<circle cx="30" cy="92" r="4" fill="var(--accent-warn)"/>' +
         '<circle cx="130" cy="92" r="4" fill="var(--accent-sec)"/>' +
         '<text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent-ok)" text-anchor="middle" font-weight="700">INDEX_NODES // TOPOLOGY</text>' +
+      '</svg>',
+
+    // 8. Iconos de interfaz (UI)
+    "sol":
+      '<svg class="switch-icon switch-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<circle cx="12" cy="12" r="4"></circle>' +
+        '<path d="M12 2v2"></path>' +
+        '<path d="M12 20v2"></path>' +
+        '<path d="m4.93 4.93 1.41 1.41"></path>' +
+        '<path d="m17.66 17.66 1.41 1.41"></path>' +
+        '<path d="M2 12h2"></path>' +
+        '<path d="M20 12h2"></path>' +
+        '<path d="m6.34 17.66-1.41 1.41"></path>' +
+        '<path d="m19.07 4.93-1.41 1.41"></path>' +
+      '</svg>',
+
+    "luna":
+      '<svg class="switch-icon switch-icon-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">' +
+        '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>' +
+      '</svg>',
+
+    "sonido":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+        '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>' +
+        '<path class="sound-waves" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>' +
+        '<path class="sound-waves" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>' +
       '</svg>'
   };
 })();

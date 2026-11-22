@@ -45,6 +45,20 @@
     /* fallback si URL falla */
   }
 
+  // Asegura la disponibilidad de iconos UI desde componentes/iconos.js
+  if (typeof window !== "undefined" && !window.DUtilsIconos) {
+    try {
+      var scriptIconos = document.createElement("script");
+      scriptIconos.src = new URL("../componentes/iconos.js", base).href;
+      scriptIconos.onload = function () {
+        actualizarBotonTema();
+      };
+      document.head.appendChild(scriptIconos);
+    } catch (e) {
+      /* fallback si URL falla */
+    }
+  }
+
   // ---------- 2. MOTOR DE AUDIO SINTÉTICO (Web Audio API) ----------
   // Sin archivos externos: audio táctico generado en tiempo real.
   var audioCtx = null;
@@ -174,6 +188,14 @@
     botonTemaEl.setAttribute("aria-checked", String(esOscuro));
     var label = botonTemaEl.querySelector(".switch-label");
     if (label) label.textContent = esOscuro ? "Modo oscuro" : "Modo claro";
+
+    var thumb = botonTemaEl.querySelector(".switch-thumb");
+    if (thumb && !thumb.querySelector(".switch-icon") && window.DUtilsIconos) {
+      var sol = window.DUtilsIconos.sol || "";
+      var luna = window.DUtilsIconos.luna || "";
+      if (sol) thumb.insertAdjacentHTML("beforeend", sol);
+      if (luna) thumb.insertAdjacentHTML("beforeend", luna);
+    }
   }
 
   function actualizarBotonSonido() {
@@ -226,13 +248,13 @@
     botonSonidoEl.type = "button";
     botonSonidoEl.className = "sound-btn";
     botonSonidoEl.setAttribute("aria-label", "Activar o desactivar efectos de sonido");
-    botonSonidoEl.innerHTML =
+    var iconoSonido = (window.DUtilsIconos && window.DUtilsIconos.sonido) ||
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
       '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>' +
       '<path class="sound-waves" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>' +
       '<path class="sound-waves" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>' +
-      '</svg>' +
-      '<span class="sound-text">FX: OFF</span>';
+      '</svg>';
+    botonSonidoEl.innerHTML = iconoSonido + '<span class="sound-text">FX: OFF</span>';
 
     botonSonidoEl.addEventListener("click", function () {
       alternarSonido();
@@ -244,8 +266,15 @@
     botonTemaEl.className = "switch";
     botonTemaEl.setAttribute("role", "switch");
     botonTemaEl.setAttribute("aria-label", "Alternar modo claro y oscuro");
+    var iconoSol = (window.DUtilsIconos && window.DUtilsIconos.sol) || "";
+    var iconoLuna = (window.DUtilsIconos && window.DUtilsIconos.luna) || "";
     botonTemaEl.innerHTML =
-      '<span class="switch-track"><span class="switch-thumb"></span></span>' +
+      '<span class="switch-track">' +
+        '<span class="switch-thumb">' +
+          iconoSol +
+          iconoLuna +
+        '</span>' +
+      '</span>' +
       '<span class="switch-label">Modo oscuro</span>';
 
     botonTemaEl.addEventListener("click", function () {

@@ -290,28 +290,53 @@
     },
     {
       id: "subdivision_1",
-      nombre: "Subdivision 1",
+      nombre: "Subdivisión 1 (1.1, 1.2, 1.2.1...)",
       valores: { useWikilinks: false, subdivision: true, index: 1, ignoreHeaders: 0, noIndexHeaders: 0 }
     },
     {
       id: "subdivision_2",
-      nombre: "Subdivision 2",
+      nombre: "Subdivisión 2 (2.1, 2.2, 2.2.1...)",
       valores: { useWikilinks: false, subdivision: true, index: 2, ignoreHeaders: 0, noIndexHeaders: 0 }
     },
     {
       id: "subdivision_3",
-      nombre: "Subdivision 3",
+      nombre: "Subdivisión 3 (3.1, 3.2, 3.2.1...)",
       valores: { useWikilinks: false, subdivision: true, index: 3, ignoreHeaders: 0, noIndexHeaders: 0 }
     },
     {
       id: "subdivision_4",
-      nombre: "Subdivision 4",
+      nombre: "Subdivisión 4 (4.1, 4.2, 4.2.1...)",
       valores: { useWikilinks: false, subdivision: true, index: 4, ignoreHeaders: 0, noIndexHeaders: 0 }
     },
     {
       id: "subdivision_5",
-      nombre: "Subdivision 5",
+      nombre: "Subdivisión 5 (5.1, 5.2, 5.2.1...)",
       valores: { useWikilinks: false, subdivision: true, index: 5, ignoreHeaders: 0, noIndexHeaders: 0 }
+    },
+    {
+      id: "subdivision_6",
+      nombre: "Subdivisión 6 (6.1, 6.2, 6.2.1...)",
+      valores: { useWikilinks: false, subdivision: true, index: 6, ignoreHeaders: 0, noIndexHeaders: 0 }
+    },
+    {
+      id: "subdivision_7",
+      nombre: "Subdivisión 7 (7.1, 7.2, 7.2.1...)",
+      valores: { useWikilinks: false, subdivision: true, index: 7, ignoreHeaders: 0, noIndexHeaders: 0 }
+    },
+    {
+      id: "subdivision_8",
+      nombre: "Subdivisión 8 (8.1, 8.2, 8.2.1...)",
+      valores: { useWikilinks: false, subdivision: true, index: 8, ignoreHeaders: 0, noIndexHeaders: 0 }
+    },
+    {
+      id: "subdivision_9",
+      nombre: "Subdivisión 9 (9.1, 9.2, 9.2.1...)",
+      valores: { useWikilinks: false, subdivision: true, index: 9, ignoreHeaders: 0, noIndexHeaders: 0 }
+    },
+    {
+      id: "subdivision_10",
+      nombre: "Subdivisión 10 (10.1, 10.2, 10.2.1...)",
+      valores: { useWikilinks: false, subdivision: true, index: 10, ignoreHeaders: 0, noIndexHeaders: 0 }
     }
   ];
 

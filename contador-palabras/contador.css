@@ -8,22 +8,6 @@ main {
   padding: 10px 28px 64px;
 }
 
-.meta-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-
-.meta-code {
-  font-family: var(--fuente-mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-  letter-spacing: 0.05em;
-}
-
 /* Grid principal de dos columnas */
 .contador-layout {
   display: grid;
@@ -39,173 +23,11 @@ main {
   }
 }
 
-/* ---------- Columna izquierda: Escritura y acciones ---------- */
-.col-escritura {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.barra-acciones {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  min-height: 38px;
-}
-
-.acciones-grupo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.btn-tactico {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: var(--card-bg);
-  border: var(--card-border-width, 1px) solid var(--line);
-  border-radius: var(--radio-borde, 999px);
-  color: var(--fg);
-  font-size: 0.825rem;
-  font-family: var(--fuente-mono);
-  font-weight: 600;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: transform .12s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, background-color .15s ease;
-}
-
-.btn-tactico:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 0 10px var(--accent-glow);
-  transform: translateY(-1px);
-}
-
-.btn-tactico:active {
-  transform: translateY(0);
-}
-
-.btn-tactico-peligro:hover {
-  border-color: var(--error);
-  color: var(--error);
-  box-shadow: 0 0 10px rgba(255, 51, 102, 0.3);
-}
-
-.btn-icono {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-}
-
-.btn-icono svg {
-  width: 15px;
-  height: 15px;
-}
-
-.toast-feedback {
-  font-family: var(--fuente-mono);
-  font-size: 0.8rem;
-  color: var(--accent-ok);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  opacity: 0;
-  transform: translateX(6px);
-  transition: opacity .2s ease, transform .2s ease;
-  min-height: 20px;
-}
-
-.toast-feedback.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Contenedor del área de escritura */
-.editor-contenedor {
-  position: relative;
-  background: var(--card-bg);
-  border: var(--card-border-width, 1px) solid var(--card-border);
-  border-radius: var(--radio-card, 12px);
-  box-shadow: var(--sombra-card, none);
-  backdrop-filter: blur(14px);
-  display: flex;
-  flex-direction: column;
-  transition: border-color .15s ease, box-shadow .15s ease;
-  overflow: hidden;
-}
-
-.editor-contenedor:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 16px var(--accent-glow);
-}
-
-.editor-contenedor.drag-over {
-  border-color: var(--accent-ok);
-  box-shadow: 0 0 24px rgba(0, 255, 159, 0.35);
-}
-
+/* Ajustes tipográficos específicos del editor de Contador */
 #editor-texto {
-  width: 100%;
-  height: 480px;
-  min-height: 480px;
-  max-height: 920px;
-  padding: 22px 24px;
-  background: transparent;
-  color: var(--fg);
-  border: none;
-  outline: none;
-  resize: vertical;
   font-family: var(--fuente);
   font-size: 1.05rem;
   line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
-
-#editor-texto::placeholder {
-  color: var(--muted);
-  opacity: 0.75;
-  font-style: italic;
-}
-
-.editor-pie {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  border-top: 1px solid var(--line);
-  background: rgba(0, 0, 0, 0.08);
-  font-family: var(--fuente-mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.editor-pista {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.editor-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent-ok);
-  box-shadow: 0 0 6px var(--accent-ok);
-}
-
-.editor-cuenta-pie {
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
 }
 
 /* ---------- Columna derecha: Panel de métricas ---------- */
@@ -447,61 +269,6 @@ main {
   background: var(--accent);
   color: var(--on-accent);
   box-shadow: 0 0 8px var(--accent-glow);
-}
-
-/* Switch accesible para stopwords */
-.switch-contenedor {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.switch-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.switch-cuerpo {
-  width: 36px;
-  height: 20px;
-  background: var(--line);
-  border-radius: 999px;
-  position: relative;
-  transition: background-color .2s ease, box-shadow .2s ease;
-  flex-shrink: 0;
-}
-
-.switch-cuerpo::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--fg);
-  transition: transform .2s ease;
-}
-
-.switch-input:checked + .switch-cuerpo {
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent-glow);
-}
-
-.switch-input:checked + .switch-cuerpo::after {
-  transform: translateX(16px);
-  background: var(--on-accent);
-}
-
-.switch-input:focus-visible + .switch-cuerpo {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }
 
 /* Lista de palabras clave */

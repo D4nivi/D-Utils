@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recortar imágenes · D-Utils</title>
+<link rel="stylesheet" href="../assets/base.css">
+<script src="../assets/base.js"></script>
+<style>
+  #drop { border:2px dashed var(--line); border-radius:12px; padding:36px 16px; text-align:center; background:var(--card); cursor:pointer; transition:border-color .15s; }
+  #drop.over, #drop:focus-visible { border-color: var(--accent); outline: none; }
+  #drop strong { color: var(--accent); }
+  .opts { display:flex; flex-wrap:wrap; gap:16px; margin:20px 0; }
+  .opts label { display:flex; flex-direction:column; gap:4px; font-size:.875rem; color:var(--muted); }
+  .opts input { width:110px; padding:8px; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:8px; }
+  details { margin: 8px 0 20px; }
+  summary { cursor:pointer; color:var(--accent); }
+  textarea { width:100%; min-height:90px; margin-top:8px; padding:8px; font:13px/1.4 ui-monospace,Menlo,monospace; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:8px; }
+  .bar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:20px 0 12px; }
+  #estado { color:var(--muted); font-size:.875rem; }
+  #resultados { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
+  .item { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px; font-size:.8125rem; }
+  .item .th { aspect-ratio:1; display:flex; align-items:center; justify-content:center; background:#fff; border-radius:6px; overflow:hidden; margin-bottom:8px; border:1px solid var(--line); }
+  .item img { max-width:100%; max-height:100%; display:block; }
+  .item .n { word-break:break-all; font-weight:600; }
+  .item .m { color:var(--muted); }
+  .item.err { border-color:var(--error); }
+  .item.err .m { color:var(--error); }
+  nav a { font-size:.875rem; text-decoration:none; }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="../index.html">← D-Utils</a></nav>
+  <h1>Recortar imágenes</h1>
+  <p class="sub">Recorta el fondo blanco al borde del objeto y deja un margen fijo. Todo se procesa en tu navegador: las imágenes no se suben a ningún sitio.</p>
+
+  <div id="drop" tabindex="0" role="button" aria-label="Seleccionar imágenes">
+    <div>Arrastra imágenes aquí o <strong>haz clic para elegirlas</strong></div>
+    <div class="note">JPG y PNG, tantas como quieras</div>
+    <input id="fichero" type="file" accept="image/jpeg,image/png" multiple hidden>
+  </div>
+
+  <div class="opts">
+    <label>Margen (px)<input id="margen" type="number" min="0" value="60"></label>
+    <label>Umbral (0–254)<input id="umbral" type="number" min="0" max="254" value="8"></label>
+  </div>
+
+  <details>
+    <summary>Procesar desde URLs</summary>
+    <textarea id="urls" placeholder="Una URL por línea (# para comentarios)"></textarea>
+    <p class="note">Solo funciona si el servidor de la imagen permite CORS. Si no, el navegador la bloqueará y tendrás que descargarla y arrastrarla aquí.</p>
+    <div style="margin-top:8px"><button id="btnUrls" class="sec">Procesar URLs</button></div>
+  </details>
+
+  <div class="bar">
+    <button id="btnZip" disabled>Descargar todo (ZIP)</button>
+    <button id="btnLimpiar" class="sec" disabled>Limpiar</button>
+    <span id="estado"></span>
+  </div>
+  <div id="resultados"></div>
+</main>
+
+<script>
+"use strict";
+const AREA_OBJETIVO = 1000 * 1000;
+const LADO_MAXIMO = 1200;
+const CALIDAD_JPG = 0.98;
+const SUFIJO = "_recortada";
+
+const $ = (id) => document.getElementById(id);
+const resultados = [];   // {nombre, blob}
+const usados = new Set();
+
+// ---------- Algoritmo (equivalente al script de Python) ----------
+
+function calcularBbox(data, w, h, umbral) {
+  let minX = w, minY = h, maxX = -1, maxY = -1;
+  for (let y = 0; y < h; y++) {
+    let i = y * w * 4;
+    for (let x = 0; x < w; x++, i += 4) {
+      const r = 255 - data[i], g = 255 - data[i + 1], b = 255 - data[i + 2];
+      const m = Math.max(Math.abs(r), Math.abs(g), Math.abs(b));
+      if (m > umbral) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+  if (maxX < 0) return null; // imagen totalmente blanca
+  return { x: minX, y: minY, w: maxX - minX + 1, h: maxY - minY + 1 };
+}
+
+function calcularEscala(w, h) {
+  return Math.min(1, Math.sqrt(AREA_OBJETIVO / (w * h)), LADO_MAXIMO / Math.max(w, h));
+}
+
+function lienzo(w, h) {
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  return c;
+}
+
+// Reducción por pasos (mitades sucesivas) para evitar aliasing en reducciones grandes.
+function reducir(origen, tw, th) {
+  let actual = origen;
+  while (actual.width / 2 > tw && actual.height / 2 > th) {
+    const w = Math.max(1, Math.floor(actual.width / 2));
+    const h = Math.max(1, Math.floor(actual.height / 2));
+    const c = lienzo(w, h);
+    const ctx = c.getContext("2d");
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(actual, 0, 0, w, h);
+    actual = c;
+  }
+  const c = lienzo(tw, th);
+  const ctx = c.getContext("2d");
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(actual, 0, 0, tw, th);
+  return c;
+}
+
+async function procesarBitmap(bitmap, margen, umbral) {
+  const w = bitmap.width, h = bitmap.height;
+  const base = lienzo(w, h);
+  const ctx = base.getContext("2d", { willReadFrequently: true });
+  ctx.fillStyle = "#fff";           // la transparencia se compone sobre blanco
+  ctx.fillRect(0, 0, w, h);
+  ctx.drawImage(bitmap, 0, 0);
+
+  const bbox = calcularBbox(ctx.getImageData(0, 0, w, h).data, w, h, umbral);
+  if (!bbox) return null;
+
+  let recorte = lienzo(bbox.w, bbox.h);
+  recorte.getContext("2d").drawImage(base, bbox.x, bbox.y, bbox.w, bbox.h, 0, 0, bbox.w, bbox.h);
+
+  const escala = calcularEscala(bbox.w, bbox.h);
+  if (escala < 1) {
+    recorte = reducir(recorte, Math.max(1, Math.round(bbox.w * escala)), Math.max(1, Math.round(bbox.h * escala)));
+  }
+
+  // El margen se añade DESPUÉS de reescalar: son exactamente `margen` px finales.
+  const final = lienzo(recorte.width + 2 * margen, recorte.height + 2 * margen);
+  const fctx = final.getContext("2d");
+  fctx.fillStyle = "#fff";
+  fctx.fillRect(0, 0, final.width, final.height);
+  fctx.drawImage(recorte, margen, margen);
+  return final;
+}
+
+function aBlob(canvas, mime) {
+  return new Promise((ok, ko) =>
+    canvas.toBlob((b) => (b ? ok(b) : ko(new Error("no se pudo codificar la imagen"))),
+                  mime, mime === "image/jpeg" ? CALIDAD_JPG : undefined));
+}
+
+// ---------- Entrada: archivos y URLs ----------
+
+function nombreUnico(base) {
+  let n = base, i = 2;
+  while (usados.has(n)) n = `${base}_${i++}`;
+  usados.add(n);
+  return n;
+}
+
+function partirNombre(nombre) {
+  const i = nombre.lastIndexOf(".");
+  return i > 0 ? nombre.slice(0, i) : nombre;
+}
+
+async function procesarBlob(blob, nombreBase, mime, margen, umbral) {
+  if (mime !== "image/jpeg" && mime !== "image/png") {
+    throw new Error(`formato no soportado (${mime || "desconocido"})`);
+  }
+  const ext = mime === "image/png" ? ".png" : ".jpg";
+  const bitmap = await createImageBitmap(blob, { imageOrientation: "from-image" });
+  try {
+    const canvas = await procesarBitmap(bitmap, margen, umbral);
+    if (!canvas) return { aviso: "imagen totalmente blanca, se omite" };
+    const salida = await aBlob(canvas, mime);
+    return { blob: salida, nombre: nombreUnico(nombreBase) + SUFIJO + ext, w: canvas.width, h: canvas.height };
+  } finally {
+    bitmap.close();
+  }
+}
+
+function leerOpciones() {
+  const margen = parseInt($("margen").value, 10);
+  const umbral = parseInt($("umbral").value, 10);
+  if (!(margen >= 0)) { alert("El margen no puede ser negativo."); return null; }
+  if (!(umbral >= 0 && umbral <= 254)) { alert("El umbral debe estar entre 0 y 254."); return null; }
+  return { margen, umbral };
+}
+
+function nombreDesdeUrl(url) {
+  try {
+    const ruta = new URL(url).pathname;
+    const f = decodeURIComponent(ruta.split("/").pop() || "");
+    return partirNombre(f) || "imagen";
+  } catch { return "imagen"; }
+}
+
+async function lote(tareas) {
+  const op = leerOpciones();
+  if (!op) return;
+  let hechas = 0;
+  for (const t of tareas) {
+    $("estado").textContent = `Procesando ${++hechas} de ${tareas.length}…`;
+    try {
+      const r = await t(op);
+      if (r.aviso) anadirTarjeta({ titulo: r.etiqueta, error: r.aviso });
+      else anadirResultado(r);
+    } catch (e) {
+      anadirTarjeta({ titulo: e.etiqueta || "Error", error: e.message });
+    }
+    await new Promise((r) => setTimeout(r)); // deja respirar a la interfaz
+  }
+  $("estado").textContent = `${resultados.length} imagen(es) listas`;
+}
+
+function procesarFicheros(lista) {
+  const ficheros = [...lista].filter((f) => /^image\/(jpeg|png)$/.test(f.type) || /\.(jpe?g|png)$/i.test(f.name));
+  if (!ficheros.length) { $("estado").textContent = "No hay JPG/PNG en la selección."; return; }
+  lote(ficheros.map((f) => async (op) => {
+    const mime = f.type || (/\.png$/i.test(f.name) ? "image/png" : "image/jpeg");
+    try {
+      const r = await procesarBlob(f, partirNombre(f.name), mime, op.margen, op.umbral);
+      if (r.aviso) r.etiqueta = f.name;
+      return r;
+    } catch (e) { e.message = e.message; e.etiqueta = f.name; throw e; }
+  }));
+}
+
+function procesarUrls() {
+  const urls = [...new Set($("urls").value.split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith("#")))];
+  if (!urls.length) return;
+  lote(urls.map((u) => async (op) => {
+    const etiqueta = nombreDesdeUrl(u);
+    try {
+      let resp;
+      try { resp = await fetch(u); }
+      catch { throw new Error("el servidor no permite descargarla desde el navegador (CORS) o no responde"); }
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const mime = (resp.headers.get("content-type") || "").split(";")[0].trim().toLowerCase().replace("image/jpg", "image/jpeg");
+      const r = await procesarBlob(await resp.blob(), etiqueta, mime, op.margen, op.umbral);
+      if (r.aviso) r.etiqueta = etiqueta;
+      return r;
+    } catch (e) { e.etiqueta = etiqueta; throw e; }
+  }));
+}
+
+// ---------- Resultados ----------
+
+function formatoBytes(n) { return n > 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.round(n / 1024) + " KB"; }
+
+function anadirTarjeta({ titulo, error, url, w, h, bytes, nombre }) {
+  const d = document.createElement("div");
+  d.className = "item" + (error ? " err" : "");
+  if (error) {
+    d.innerHTML = `<div class="n"></div><div class="m"></div>`;
+    d.querySelector(".n").textContent = titulo;
+    d.querySelector(".m").textContent = error;
+  } else {
+    d.innerHTML = `<div class="th"><img alt=""></div><div class="n"></div><div class="m"></div><a download>Descargar</a>`;
+    d.querySelector("img").src = url;
+    d.querySelector(".n").textContent = nombre;
+    d.querySelector(".m").textContent = `${w}×${h} · ${formatoBytes(bytes)}`;
+    const a = d.querySelector("a");
+    a.href = url; a.download = nombre;
+  }
+  $("resultados").appendChild(d);
+}
+
+function anadirResultado(r) {
+  resultados.push({ nombre: r.nombre, blob: r.blob });
+  anadirTarjeta({ url: URL.createObjectURL(r.blob), w: r.w, h: r.h, bytes: r.blob.size, nombre: r.nombre });
+  $("btnZip").disabled = false;
+  $("btnLimpiar").disabled = false;
+}
+
+function limpiar() {
+  for (const img of $("resultados").querySelectorAll("img")) URL.revokeObjectURL(img.src);
+  $("resultados").innerHTML = "";
+  resultados.length = 0;
+  usados.clear();
+  $("btnZip").disabled = true;
+  $("btnLimpiar").disabled = true;
+  $("estado").textContent = "";
+}
+
+// ---------- ZIP mínimo (sin compresión; JPG/PNG ya van comprimidos) ----------
+
+const TABLA_CRC = (() => {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+
+function crc32(bytes) {
+  let c = 0xffffffff;
+  for (let i = 0; i < bytes.length; i++) c = TABLA_CRC[(c ^ bytes[i]) & 0xff] ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+}
+
+async function crearZip(archivos) {
+  const enc = new TextEncoder();
+  const partes = [], central = [];
+  let offset = 0;
+  const ahora = new Date();
+  const hora = (ahora.getHours() << 11) | (ahora.getMinutes() << 5) | (ahora.getSeconds() >> 1);
+  const fecha = ((ahora.getFullYear() - 1980) << 9) | ((ahora.getMonth() + 1) << 5) | ahora.getDate();
+
+  for (const a of archivos) {
+    const nombre = enc.encode(a.nombre);
+    const datos = new Uint8Array(await a.blob.arrayBuffer());
+    const crc = crc32(datos);
+
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true);
+    lh.setUint16(8, 0, true); lh.setUint16(10, hora, true); lh.setUint16(12, fecha, true);
+    lh.setUint32(14, crc, true); lh.setUint32(18, datos.length, true); lh.setUint32(22, datos.length, true);
+    lh.setUint16(26, nombre.length, true); lh.setUint16(28, 0, true);
+    partes.push(lh.buffer, nombre, datos);
+
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true);
+    ch.setUint16(8, 0x0800, true); ch.setUint16(10, 0, true); ch.setUint16(12, hora, true); ch.setUint16(14, fecha, true);
+    ch.setUint32(16, crc, true); ch.setUint32(20, datos.length, true); ch.setUint32(24, datos.length, true);
+    ch.setUint16(28, nombre.length, true); ch.setUint32(42, offset, true);
+    central.push(ch.buffer, nombre);
+
+    offset += 30 + nombre.length + datos.length;
+  }
+
+  const tamCentral = central.reduce((s, p) => s + (p.byteLength ?? p.length), 0);
+  const fin = new DataView(new ArrayBuffer(22));
+  fin.setUint32(0, 0x06054b50, true);
+  fin.setUint16(8, archivos.length, true); fin.setUint16(10, archivos.length, true);
+  fin.setUint32(12, tamCentral, true); fin.setUint32(16, offset, true);
+  return new Blob([...partes, ...central, fin.buffer], { type: "application/zip" });
+}
+
+async function descargarZip() {
+  const zip = await crearZip(resultados);
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(zip);
+  a.download = "recortadas.zip";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+}
+
+// ---------- Eventos ----------
+
+const drop = $("drop"), fichero = $("fichero");
+drop.addEventListener("click", () => fichero.click());
+drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fichero.click(); } });
+fichero.addEventListener("change", () => { procesarFicheros(fichero.files); fichero.value = ""; });
+for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
+for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
+drop.addEventListener("drop", (e) => procesarFicheros(e.dataTransfer.files));
+$("btnUrls").addEventListener("click", procesarUrls);
+$("btnZip").addEventListener("click", descargarZip);
+$("btnLimpiar").addEventListener("click", limpiar);
+</script>
+</body>
+</html>

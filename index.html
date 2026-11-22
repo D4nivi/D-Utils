@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D-Utils</title>
+<link rel="stylesheet" href="assets/base.css">
+<script src="assets/base.js"></script>
+<style>
+  main { max-width: 720px; }
+  #buscador { width: 100%; padding: 10px 12px; margin: 0 0 16px; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+  #buscador:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  a.tool { display: block; padding: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; color: inherit; }
+  a.tool:hover, a.tool:focus-visible { border-color: var(--accent); outline: none; }
+  a.tool strong { color: var(--accent); }
+  a.tool span { display: block; color: var(--muted); font-size: .875rem; }
+  #vacio { color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>D-Utils</h1>
+  <p class="sub">Herramientas pequeñas que se ejecutan en tu navegador.</p>
+
+  <input id="buscador" type="search" placeholder="Buscar utilidad…" aria-label="Buscar utilidad" autocomplete="off">
+
+  <ul id="lista">
+    <li data-keywords="imagen foto recortar recorte fondo blanco margen jpg png">
+      <a class="tool" href="recortar/index.html"><strong>Recortar imágenes</strong><span>Quita el fondo blanco sobrante y deja un margen fijo.</span></a>
+    </li>
+    <!-- Añade aquí cada nueva utilidad copiando el <li> de arriba.
+         data-keywords: palabras extra por las que quieras que se encuentre en el buscador. -->
+  </ul>
+  <p id="vacio" hidden>No hay ninguna utilidad que coincida.</p>
+</main>
+
+<script>
+"use strict";
+// Búsqueda simple: ignora mayúsculas y tildes; todas las palabras escritas deben aparecer.
+const normalizar = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const items = [...document.querySelectorAll("#lista > li")].map((li) => ({
+  li,
+  texto: normalizar(li.textContent + " " + (li.dataset.keywords || "")),
+}));
+
+document.getElementById("buscador").addEventListener("input", (e) => {
+  const palabras = normalizar(e.target.value).split(/\s+/).filter(Boolean);
+  let visibles = 0;
+  for (const { li, texto } of items) {
+    const ok = palabras.every((p) => texto.includes(p));
+    li.hidden = !ok;
+    if (ok) visibles++;
+  }
+  document.getElementById("vacio").hidden = visibles > 0;
+});
+</script>
+</body>
+</html>

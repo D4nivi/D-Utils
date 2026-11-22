@@ -15,7 +15,7 @@ There is no package manager, build step, bundler, linter, or test suite.
 - Root `index.html` is the launcher plus the client-side search.
 - Each tool is a self-contained `<folder>/index.html`; `recortar/index.html` is
   the only one today.
-- Every page must load `assets/base.css` and `assets/base.js` (adjust `../` by
+- Every page must load `assets/css/base.css` and `assets/base.js` (adjust `../` by
   depth). `base.css` holds theme variables and shared styles; `base.js` sets the
   theme, renders the toggle, and injects the favicon.
 - `base.js` must stay in `<head>` **without** `defer`: it sets `data-theme`

@@ -1,0 +1,392 @@
+/* =========================================================
+   D-Utils · Estilos del layout, grid y tarjetas de portada
+   ========================================================= */
+
+/* ---------- Hero Táctico ---------- */
+.hero {
+  margin: 20px 0 28px;
+  padding: 24px 28px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  backdrop-filter: blur(14px);
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  width: 140px; height: 140px;
+  background: radial-gradient(circle at top right, var(--bg-glow-1), transparent 70%);
+  pointer-events: none;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-family: var(--fuente-mono);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.hero-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--fg);
+  letter-spacing: -0.03em;
+  margin: 0 0 8px;
+}
+.hero-desc {
+  color: var(--muted);
+  font-size: 1.02rem;
+  max-width: 820px;
+  margin: 0;
+}
+
+/* ---------- Consola de Búsqueda y Filtros ---------- */
+.control-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.search-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+.search-icon {
+  position: absolute;
+  left: 16px;
+  width: 20px;
+  height: 20px;
+  color: var(--muted);
+  pointer-events: none;
+}
+#buscador {
+  width: 100%;
+  padding: 14px 105px 14px 48px;
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-size: 0.95rem;
+  outline: none;
+}
+#buscador::placeholder {
+  color: var(--muted);
+  opacity: 0.85;
+}
+.search-kbd {
+  position: absolute;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-family: var(--fuente-mono);
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Filtros rápidos */
+.filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.filter-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.filter-chip {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-family: var(--fuente-mono);
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: all .15s ease;
+  backdrop-filter: blur(6px);
+}
+.filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+  transform: translateY(-1px);
+}
+.filter-chip.active {
+  background: var(--hud-tag-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.meta-stats {
+  font-family: var(--fuente-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ---------- Grid de Tarjetas Rectangulares Horizontales ---------- */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
+  gap: 22px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tool-item {
+  display: block;
+  height: 100%;
+}
+.tool-item[hidden], [hidden] {
+  display: none !important;
+}
+
+/* Tarjeta rectangular (mayor ancho que alto) */
+.tool-card {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  min-height: 200px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  backdrop-filter: blur(12px);
+  position: relative;
+  transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color .2s ease,
+              box-shadow .2s ease;
+}
+.tool-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--card-hover-border);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 16px var(--accent-glow);
+  text-decoration: none;
+}
+.tool-card:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-glow);
+  outline: none;
+}
+
+/* Preview Visual Táctica (Columna izquierda) */
+.tool-preview {
+  flex: 0 0 210px;
+  background: radial-gradient(circle at center, rgba(var(--accent-rgb), 0.08) 0%, rgba(0, 0, 0, 0.25) 100%);
+  border-right: 1px solid var(--card-border);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+}
+.tool-preview::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.tool-preview svg {
+  width: 100%;
+  height: 100%;
+  max-height: 155px;
+  display: block;
+  position: relative;
+  z-index: 2;
+  transition: transform .3s ease;
+}
+.tool-card:hover .tool-preview svg {
+  transform: scale(1.04);
+}
+
+/* Retícula / visor HUD en la preview */
+.preview-hud {
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  z-index: 3;
+  border: 1px dashed rgba(var(--accent-rgb), 0.2);
+  border-radius: 4px;
+}
+.preview-hud::before, .preview-hud::after {
+  content: "";
+  position: absolute;
+  width: 8px; height: 8px;
+  border-color: var(--accent);
+  border-style: solid;
+}
+.preview-hud::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.preview-hud::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* Contenido de la Tarjeta (Columna derecha) */
+.tool-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 22px;
+  gap: 12px;
+  min-width: 0;
+}
+
+.tool-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.tool-cat {
+  font-family: var(--fuente-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+.tool-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tool-card:hover .tool-title {
+  color: var(--accent);
+}
+
+.tool-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0;
+  flex: 1;
+}
+
+/* Metadatos inferiores de la tarjeta */
+.tool-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  margin-top: auto;
+}
+.tool-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tool-tag-mini {
+  font-family: var(--fuente-mono);
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.tool-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--fuente-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  transition: transform .15s ease;
+}
+.tool-card:hover .tool-action {
+  transform: translateX(3px);
+}
+.tool-card.en-construccion .tool-action {
+  color: var(--accent-warn);
+}
+
+/* Panel de búsqueda vacía */
+#vacio {
+  display: none;
+  text-align: center;
+  padding: 64px 24px;
+  background: var(--card-bg);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  margin: 32px 0;
+}
+#vacio.visible {
+  display: block;
+}
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+/* Footer con telemetría */
+.system-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 40px;
+  margin-top: 48px;
+  border-top: 1px solid var(--line);
+  font-family: var(--fuente-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.system-shortcuts {
+  display: flex;
+  gap: 16px;
+}
+.shortcut-item kbd {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--fg);
+}

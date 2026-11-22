@@ -150,7 +150,7 @@
         '<text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent-ok)" text-anchor="middle" font-weight="700">INDEX_NODES // TOPOLOGY</text>' +
       '</svg>',
 
-    // 8. Iconos de interfaz (UI)
+    // Iconos de interfaz (UI)
     "sol":
       '<svg class="switch-icon switch-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
         '<circle cx="12" cy="12" r="4"></circle>' +
@@ -174,6 +174,42 @@
         '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>' +
         '<path class="sound-waves" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>' +
         '<path class="sound-waves" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>' +
+      '</svg>',
+
+    // Iconos de la radio táctica integrada
+    "radioPlay":
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+        '<polygon points="7 5 19 12 7 19 7 5"/>' +
+      '</svg>',
+
+    "radioPause":
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+        '<rect x="6" y="5" width="4" height="14" rx="1"/>' +
+        '<rect x="14" y="5" width="4" height="14" rx="1"/>' +
+      '</svg>',
+
+    "radioPrev":
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+        '<path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>' +
+      '</svg>',
+
+    "radioNext":
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+        '<path d="m6 18 8.5-6L6 6v12zM16 6v12h2V6h-2z"/>' +
+      '</svg>',
+
+    "radioVol":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>' +
+        '<path class="sound-waves" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>' +
+        '<path class="sound-waves" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>' +
+      '</svg>',
+
+    "radioMute":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>' +
+        '<line x1="23" y1="9" x2="17" y2="15"></line>' +
+        '<line x1="17" y1="9" x2="23" y2="15"></line>' +
       '</svg>'
   };
 })();

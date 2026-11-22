@@ -1,7 +1,7 @@
 /* =========================================================
    D-Utils · Código común a todas las páginas
    - Aplica el tema claro/oscuro antes de pintar (sin parpadeos)
-   - Inserta la barra superior (topbar) con switches de tema y sonido
+   - Inserta la barra superior (topbar) con slot de radio, tema y sonido
    - Gestiona el favicon
    - Motor de efectos de sonido sintéticos tácticos (Web Audio API)
    - Atajos de teclado en escritorio
@@ -52,6 +52,10 @@
       scriptIconos.src = new URL("../componentes/iconos.js", base).href;
       scriptIconos.onload = function () {
         actualizarBotonTema();
+        actualizarBotonSonido();
+        if (window.DUtilsRadio && window.DUtilsRadio.actualizarIconos) {
+          window.DUtilsRadio.actualizarIconos();
+        }
       };
       document.head.appendChild(scriptIconos);
     } catch (e) {
@@ -59,8 +63,25 @@
     }
   }
 
+  // Asegura la disponibilidad del módulo de radio táctica desde componentes/radio.js
+  if (typeof window !== "undefined" && !window.DUtilsRadio) {
+    try {
+      var scriptRadio = document.createElement("script");
+      scriptRadio.src = new URL("../componentes/radio.js", base).href;
+      scriptRadio.onload = function () {
+        var host = document.getElementById("radio-host");
+        if (host && window.DUtilsRadio && window.DUtilsRadio.montar) {
+          window.DUtilsRadio.montar(host);
+        }
+      };
+      document.head.appendChild(scriptRadio);
+    } catch (e) {
+      /* fallback si URL falla */
+    }
+  }
+
   // ---------- 2. MOTOR DE AUDIO SINTÉTICO (Web Audio API) ----------
-  // Sin archivos externos: audio táctico generado en tiempo real.
+  // Sin archivos externos: audio táctico generado en tiempo real para clics/hovers.
   var audioCtx = null;
   var sonidoActivo = leerLS(CLAVE_SONIDO) === "1"; // por defecto silenciado
 
@@ -120,7 +141,6 @@
       reproducirTono(1200, 900, 0.015, "triangle", 0.012);
     },
     activado: function () {
-      // Arpegio ascendente futurista
       reproducirTono(440, 660, 0.06, "sine", 0.035);
       setTimeout(function () {
         reproducirTono(660, 880, 0.08, "sine", 0.04);
@@ -162,6 +182,9 @@
       click: Sonidos.click,
       accion: Sonidos.accion,
       tecleo: Sonidos.tecleo
+    },
+    get radio() {
+      return window.DUtilsRadio;
     },
     tema: {
       actual: function () { return raiz.getAttribute("data-theme"); },
@@ -206,6 +229,11 @@
     if (texto) {
       texto.textContent = sonidoActivo ? "FX: ON" : "FX: OFF";
     }
+
+    if (!botonSonidoEl.querySelector("svg") && window.DUtilsIconos && window.DUtilsIconos.sonido) {
+      botonSonidoEl.insertAdjacentHTML("afterbegin", window.DUtilsIconos.sonido);
+    }
+
     botonSonidoEl.title = sonidoActivo
       ? "Efectos de sonido tácticos activados (Pulsa M para silenciar)"
       : "Efectos de sonido silenciados (Pulsa M para activar)";
@@ -221,7 +249,6 @@
     // Logo / Brand táctico que lleva al inicio
     var enlaceInicio = document.createElement("a");
     enlaceInicio.className = "topbar-brand";
-    // Si estamos en una subcarpeta (ej: recortar/), el enlace a inicio es ../index.html
     var profundidad = location.pathname.split("/").filter(Boolean).length;
     var esSubcarpeta = !location.pathname.endsWith("index.html") && profundidad > 0
       ? true
@@ -235,7 +262,6 @@
         location.pathname.indexOf("/ocr/") !== -1 ||
         location.pathname.indexOf("/indexator/") !== -1;
 
-    // Determinamos la ruta a la raíz de D-Utils
     var rutaRaiz = esSubcarpeta ? "../index.html" : "index.html";
     enlaceInicio.href = rutaRaiz;
     enlaceInicio.innerHTML = '<span class="topbar-brand-mark">D</span><span>D-UTILS // TACTICAL</span>';
@@ -243,17 +269,21 @@
     var contenedorControles = document.createElement("div");
     contenedorControles.className = "topbar-controls";
 
-    // Botón de sonido sintético
+    // Slot receptor para el componente modular de la radio táctica
+    var slotRadio = document.createElement("div");
+    slotRadio.className = "topbar-radio-slot";
+    slotRadio.id = "radio-host";
+    if (window.DUtilsRadio && window.DUtilsRadio.montar) {
+      window.DUtilsRadio.montar(slotRadio);
+    }
+    contenedorControles.appendChild(slotRadio);
+
+    // Botón de sonido sintético (FX)
     botonSonidoEl = document.createElement("button");
     botonSonidoEl.type = "button";
     botonSonidoEl.className = "sound-btn";
     botonSonidoEl.setAttribute("aria-label", "Activar o desactivar efectos de sonido");
-    var iconoSonido = (window.DUtilsIconos && window.DUtilsIconos.sonido) ||
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-      '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>' +
-      '<path class="sound-waves" d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>' +
-      '<path class="sound-waves" d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>' +
-      '</svg>';
+    var iconoSonido = (window.DUtilsIconos && window.DUtilsIconos.sonido) || "";
     botonSonidoEl.innerHTML = iconoSonido + '<span class="sound-text">FX: OFF</span>';
 
     botonSonidoEl.addEventListener("click", function () {
@@ -315,7 +345,6 @@
         return;
       }
 
-      // Si el cursor viene de un hijo dentro del mismo elemento interactivo, ignorar
       if (el === ultimoElementoHover || (e.relatedTarget && el.contains(e.relatedTarget))) {
         return;
       }
@@ -358,7 +387,6 @@
         return;
       }
 
-      // Si el usuario está escribiendo en un input, no interceptar 'm', 't', '/'
       if (esInput) return;
 
       // Atajo [ / ] o [ Ctrl+K ]: enfocar buscador
@@ -373,10 +401,19 @@
         return;
       }
 
-      // Atajo [ M ]: alternar sonido
+      // Atajo [ M ]: alternar sonido FX
       if (e.key === "m" || e.key === "M") {
         e.preventDefault();
         alternarSonido();
+        return;
+      }
+
+      // Atajo [ R ]: alternar radio (play / pause)
+      if (e.key === "r" || e.key === "R") {
+        e.preventDefault();
+        if (window.DUtilsRadio && window.DUtilsRadio.alternar) {
+          window.DUtilsRadio.alternar();
+        }
         return;
       }
 

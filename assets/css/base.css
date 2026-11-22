@@ -367,6 +367,335 @@ button:disabled {
   flex-shrink: 0;
 }
 
+/* ---------- Radio Táctica Integrada (Cyberpunk HUD) ---------- */
+.radio-widget {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 8px 3px 6px;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--fuente-mono);
+  backdrop-filter: blur(8px);
+  transition: border-color .15s ease, box-shadow .15s ease;
+  user-select: none;
+}
+
+.radio-widget:hover {
+  border-color: var(--card-hover-border);
+}
+
+.radio-widget.playing {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Indicador de pista y ecualizador minimalista */
+.radio-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  max-width: 170px;
+  cursor: default;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+
+:root[data-theme="dark"] .radio-display {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.radio-widget.playing .radio-display {
+  border-color: rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+
+/* Ecualizador animado */
+.radio-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.radio-eq-bar {
+  width: 2px;
+  height: 3px;
+  background: var(--muted);
+  border-radius: 1px;
+  transition: height .15s ease, background-color .15s ease;
+}
+
+.radio-widget.playing .radio-eq-bar {
+  background: var(--accent);
+  box-shadow: 0 0 4px var(--accent);
+}
+
+.radio-widget.playing .radio-eq-bar:nth-child(1) {
+  animation: eq-bounce-1 0.75s ease-in-out infinite alternate;
+}
+.radio-widget.playing .radio-eq-bar:nth-child(2) {
+  animation: eq-bounce-2 0.95s ease-in-out infinite alternate 0.15s;
+}
+.radio-widget.playing .radio-eq-bar:nth-child(3) {
+  animation: eq-bounce-3 0.65s ease-in-out infinite alternate 0.3s;
+}
+.radio-widget.playing .radio-eq-bar:nth-child(4) {
+  animation: eq-bounce-4 0.85s ease-in-out infinite alternate 0.05s;
+}
+
+@keyframes eq-bounce-1 {
+  0% { height: 3px; }
+  100% { height: 11px; }
+}
+@keyframes eq-bounce-2 {
+  0% { height: 4px; }
+  100% { height: 12px; }
+}
+@keyframes eq-bounce-3 {
+  0% { height: 2px; }
+  100% { height: 10px; }
+}
+@keyframes eq-bounce-4 {
+  0% { height: 4px; }
+  100% { height: 9px; }
+}
+
+.radio-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.73rem;
+  line-height: 1;
+}
+
+.radio-tag {
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-size: 0.68rem;
+  flex-shrink: 0;
+}
+
+.radio-widget.playing .radio-tag {
+  color: var(--accent);
+}
+
+.radio-title {
+  color: var(--fg);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95px;
+}
+
+/* Botonera de control táctico */
+.radio-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.radio-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: transform .12s ease, color .15s ease, background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.radio-btn:hover:not(:disabled) {
+  color: var(--fg);
+  background: var(--hud-tag-bg);
+  border-color: var(--line);
+  box-shadow: none;
+  transform: scale(1.08);
+}
+
+.radio-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.radio-btn svg {
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+
+/* Botón Play/Pause principal */
+.radio-btn-play {
+  width: 26px;
+  height: 26px;
+  background: var(--card);
+  border-color: var(--line);
+  color: var(--fg);
+}
+
+.radio-btn-play svg {
+  width: 14px;
+  height: 14px;
+}
+
+.radio-btn-play:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.radio-widget.playing .radio-btn-play {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Si la playlist solo tiene 1 pista, esconder de forma limpia botones de navegación */
+.radio-widget.single-track .radio-btn-step {
+  display: none;
+}
+
+/* Control de volumen */
+.radio-volume {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.radio-vol-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .15s ease, transform .12s ease;
+}
+
+.radio-vol-btn:hover {
+  color: var(--accent);
+  transform: scale(1.08);
+}
+
+.radio-vol-btn svg {
+  width: 13px;
+  height: 13px;
+  pointer-events: none;
+}
+
+/* Slider cyberpunk */
+.radio-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 48px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  outline: none;
+  margin: 0;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+
+.radio-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+.radio-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+.radio-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  margin-top: -3px;
+  border: 1px solid var(--card);
+  box-shadow: 0 0 5px var(--accent);
+  transition: transform .12s ease, box-shadow .15s ease;
+}
+
+.radio-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 1px solid var(--card);
+  box-shadow: 0 0 5px var(--accent);
+  transition: transform .12s ease, box-shadow .15s ease;
+}
+
+.radio-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.radio-slider:hover::-moz-range-thumb {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px var(--accent);
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 720px) {
+  .radio-title {
+    display: none;
+  }
+  .radio-display {
+    max-width: none;
+    padding: 3px 6px;
+  }
+  .radio-slider {
+    width: 36px;
+  }
+}
+
+@media (max-width: 520px) {
+  .radio-slider {
+    display: none;
+  }
+  .topbar-controls {
+    gap: 6px;
+  }
+  .radio-widget {
+    gap: 5px;
+    padding: 3px 6px;
+  }
+}
+
 /* ---------- Badges y Chips Tácticos HUD ---------- */
 .hud-badge {
   display: inline-flex;
@@ -421,7 +750,7 @@ button:disabled {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .switch-track, .switch-thumb, .switch-icon, button, .pulse-dot {
+  .switch-track, .switch-thumb, .switch-icon, button, .pulse-dot, .radio-eq-bar {
     transition: none !important;
     animation: none !important;
   }

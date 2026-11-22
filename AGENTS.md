@@ -19,11 +19,15 @@ There is no package manager, build step, bundler, linter, or test suite.
   - `portada.css`: desktop layout, card grid, search bar, and filter chips.
   - `animaciones.css`: preview animations and keyframes.
 - `assets/base.js` stays in `<head>` **without** `defer`: sets `data-theme` before
-  first paint to avoid theme flash, injects topbar controls (theme + Web Audio API
-  sound toggle), and handles keyboard shortcuts (`/`, `Esc`, `T`, `M`).
-- `componentes/` holds client-side JS modules only:
+  first paint to avoid theme flash, injects topbar skeleton/slots (theme switch, FX Web Audio API,
+  host de radio), y gestiona atajos de teclado (`/`, `Esc`, `T`, `M`, `R`).
+  Do NOT add full components here; extract them to `componentes/`.
+- `componentes/` holds client-side JS modules only. All feature widgets and tools
+  must live here, never bloated into `base.js`:
   - `catalogo.js`: central array of tools and card renderer (`window.DUtilsCatalogo`).
-  - `iconos.js`: inline SVG illustrations dictionary (`window.DUtilsIconos`).
+  - `iconos.js`: inline SVG illustrations and UI icons dictionary (`window.DUtilsIconos`).
+    All icons belong here; never hardcode SVGs in other scripts.
+  - `radio.js`: reproductor de radio táctica integrada (`window.DUtilsRadio`).
   - `buscador.js`: accent-insensitive search, filter chips, and empty state.
 - Each tool is a self-contained `<folder>/index.html`. Every tool page must load
   `assets/css/base.css` and `assets/base.js` (adjust `../` by folder depth).
@@ -40,6 +44,13 @@ There is no package manager, build step, bundler, linter, or test suite.
 - No CDNs, external requests, or third-party libraries: fonts are self-hosted
   and all processing is client-side. `recortar` implements its own ZIP writer,
   so do not replace it with JSZip.
+- **Component modularity**: New components must NOT be implemented in full inside
+  `assets/base.js`. `base.js` only handles shared base wiring, slots, theme, and global hotkeys.
+  Extract all component logic, widgets, and state into dedicated files in `componentes/`
+  (e.g., `componentes/<nombre>.js`). In case of doubt, ask the user before proceeding.
+- **Icon centralization**: ALL icons and SVGs must go in `componentes/iconos.js`
+  under `window.DUtilsIconos`. Never hardcode inline SVGs in `base.js` or other component files.
+  In case of doubt, ask the user before proceeding.
 - To add a tool: create `<name>/index.html`, add its SVG preview to `componentes/iconos.js`,
   and append an entry to `DUtilsCatalogo` in `componentes/catalogo.js` (with title,
   description, category, status, tags, and search `keywords`).

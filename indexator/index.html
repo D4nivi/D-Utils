@@ -6,83 +6,181 @@
 <meta name="robots" content="noindex">
 <title>Indexator · D-Utils</title>
 <link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="indexator.css">
 <script src="../assets/base.js"></script>
-<style>
-  main { max-width: 860px; margin: 0 auto; padding: 12px 24px 64px; }
-  nav { margin-bottom: 24px; }
-  nav a { font-family: var(--fuente-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
-  .panel-dev {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 36px 32px;
-    backdrop-filter: blur(14px);
-    position: relative;
-    overflow: hidden;
-  }
-  .panel-dev::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-warn), transparent);
-  }
-  .dev-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .specs-box {
-    margin: 28px 0;
-    padding: 20px;
-    background: rgba(0,0,0,0.15);
-    border: 1px dashed var(--line);
-    border-radius: 8px;
-    font-family: var(--fuente-mono);
-    font-size: 0.85rem;
-  }
-  .specs-box h3 {
-    font-size: 0.9rem;
-    color: var(--accent-warn);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .specs-box ul {
-    margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.7;
-  }
-</style>
+<script src="../componentes/iconos.js"></script>
+<script src="../componentes/bloque-texto.js"></script>
+<script src="indexators.js"></script>
 </head>
 <body>
 <main>
   <nav><a href="../index.html">← D-Utils // Centro de control</a></nav>
 
-  <div class="panel-dev">
-    <div class="dev-header">
-      <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
-      <span style="font-family: var(--fuente-mono); font-size: 0.8rem; color: var(--muted);">MOD_07 // DATA TOPOLOGY</span>
+  <div class="meta-header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+      <span class="meta-code">MOD_07 // INDEXACIÓN OBSIDIAN</span>
     </div>
-
-    <h1>Indexator</h1>
-    <p class="sub">Organizador de estructuras de datos, enlaces y catálogos jerárquicos para estructurar notas y flujos de trabajo personales.</p>
-
-    <div class="specs-box">
-      <h3>Planificación de características del módulo</h3>
-      <ul>
-        <li>Creación rápida de índices anidados y jerarquías tipo árbol de carpetas o documentos.</li>
-        <li>Generación de formatos de salida estándar (Markdown, JSON, lista HTML).</li>
-        <li>Búsqueda y filtrado de ramas en tiempo real.</li>
-        <li>Almacenamiento en caché local del navegador con importación y exportación de archivos de respaldo.</li>
-      </ul>
-    </div>
-
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <a href="../index.html"><button type="button">Volver al catálogo</button></a>
-      <span class="note">Módulo en cola de desarrollo estático.</span>
-    </div>
+    <span class="meta-code">PROCESAMIENTO 100% LOCAL</span>
   </div>
+
+  <h1>Indexator</h1>
+  <p class="sub">Indexador jerárquico y estructurador de notas Markdown para Obsidian. Genera índices navegables automáticos, numera apartados y soporta wikilinks con ejecución inmediata en el navegador.</p>
+
+  <!-- Panel de Funciones y Configuración -->
+  <section class="panel-controles" aria-label="Panel de configuración de indexación">
+    <!-- 1. Fila de Funciones principales (tipo radio, todas en la misma fila) -->
+    <div>
+      <div class="seccion-titulo">¿Qué función vamos a usar hoy?</div>
+      <div class="funciones-fila" role="radiogroup" aria-label="Función de indexación">
+        <button type="button" class="btn-funcion activo" data-funcion="re_indexator" role="radio" aria-checked="true" title="Actualiza el índice borrando el anterior y renumerando desde cero">
+          <span>Re-Indexator</span>
+        </button>
+        <button type="button" class="btn-funcion" data-funcion="indexator" role="radio" aria-checked="false" title="Numera encabezados e inserta índice por primera vez">
+          <span>Indexator</span>
+        </button>
+        <button type="button" class="btn-funcion" data-funcion="quasi_indexator" role="radio" aria-checked="false" title="Crea el índice a partir de los títulos tal cual están, sin añadir números">
+          <span>Quasi-Indexator</span>
+        </button>
+        <button type="button" class="btn-funcion" data-funcion="de_indexator" role="radio" aria-checked="false" title="Elimina el índice y quita los números de todos los apartados">
+          <span>De-Indexator</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. Fila de Presets rápidos -->
+    <div class="fila-presets">
+      <div class="preset-selector-grupo">
+        <label for="select-preset" class="preset-etiqueta">Presets habituales:</label>
+        <select id="select-preset" class="select-tactico" aria-label="Seleccionar preset de configuración">
+          <!-- Opciones pobladas dinámicamente desde PRESETS_DEFECTO en indexators.js -->
+        </select>
+      </div>
+      <button type="button" id="btn-reset-vars" class="btn-tactico" title="Restablecer todas las variables a sus valores por defecto">
+        <span class="btn-icono" data-icono="reiniciar"></span>
+        <span>Restablecer predeterminados</span>
+      </button>
+    </div>
+
+    <!-- 3. Grid de Variables configurables (en varias líneas con límites) -->
+    <div>
+      <div class="seccion-titulo">Configuración de variables</div>
+      <div class="grid-variables">
+        <!-- USE_WIKILINKS -->
+        <div class="variable-card">
+          <div class="variable-cabecera">
+            <span class="variable-nombre">USE_WIKILINKS</span>
+            <label class="switch-contenedor" title="Alternar formato de enlaces">
+              <input type="checkbox" id="check-wikilinks" class="switch-input">
+              <span class="switch-cuerpo"></span>
+            </label>
+          </div>
+          <span class="variable-desc">Crea enlaces internos anidados tipo <code>[[#Ruta|Título]]</code> en lugar del formato estándar Markdown. Útil si hay títulos repetidos.</span>
+        </div>
+
+        <!-- SUBDIVISION -->
+        <div class="variable-card">
+          <div class="variable-cabecera">
+            <span class="variable-nombre">SUBDIVISION</span>
+            <label class="switch-contenedor" title="Alternar prefijo de subdivisión">
+              <input type="checkbox" id="check-subdivision" class="switch-input">
+              <span class="switch-cuerpo"></span>
+            </label>
+          </div>
+          <span class="variable-desc">Añade el valor de <code>INDEX</code> como prefijo principal en los títulos (ejemplo: <code>1.1</code>, <code>1.2</code> en lugar de <code>1.</code>, <code>2.</code>).</span>
+        </div>
+
+        <!-- INDEX -->
+        <div class="variable-card" id="contenedor-index">
+          <div class="variable-cabecera">
+            <span class="variable-nombre">INDEX</span>
+            <span class="meta-code">RANGO: &gt;= 0</span>
+          </div>
+          <div class="variable-control">
+            <input type="number" id="input-index" class="input-numero" min="0" step="1" value="1" aria-label="Valor base de INDEX">
+          </div>
+          <span class="variable-desc">Número base inicial usado cuando <code>SUBDIVISION</code> está activado.</span>
+        </div>
+
+        <!-- IGNORE_HEADERS -->
+        <div class="variable-card">
+          <div class="variable-cabecera">
+            <span class="variable-nombre">IGNORE_HEADERS</span>
+            <span class="meta-code">0 | 2..6</span>
+          </div>
+          <div class="variable-control">
+            <select id="select-ignore-headers" class="select-tactico" style="width: 100%; min-width: auto;" aria-label="Encabezados a ignorar en el índice">
+              <option value="0">0 · Incluir todos los encabezados</option>
+              <option value="2">2 · Omitir todo el índice (h2+)</option>
+              <option value="3">3 · Omitir h3, h4, h5, h6</option>
+              <option value="4">4 · Omitir h4, h5, h6</option>
+              <option value="5">5 · Omitir h5, h6</option>
+              <option value="6">6 · Omitir solo h6</option>
+            </select>
+          </div>
+          <span class="variable-desc">No incluye en el índice los encabezados iguales o superiores a <code>hN</code>.</span>
+        </div>
+
+        <!-- NO_INDEX_HEADERS -->
+        <div class="variable-card">
+          <div class="variable-cabecera">
+            <span class="variable-nombre">NO_INDEX_HEADERS</span>
+            <span class="meta-code">0 | 2..6</span>
+          </div>
+          <div class="variable-control">
+            <select id="select-no-index-headers" class="select-tactico" style="width: 100%; min-width: auto;" aria-label="Encabezados a no indexar en el texto">
+              <option value="0">0 · Numerar todos los encabezados</option>
+              <option value="2">2 · No numerar ningún encabezado</option>
+              <option value="3">3 · No numerar desde h3 en adelante</option>
+              <option value="4">4 · No numerar desde h4 en adelante</option>
+              <option value="5">5 · No numerar desde h5 en adelante</option>
+              <option value="6">6 · No numerar h6</option>
+            </select>
+          </div>
+          <span class="variable-desc">Deja los encabezados del documento sin números a partir de <code>hN</code>.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner de aviso condicional sobre el marcador '---' -->
+  <div id="aviso-separador" class="aviso-separador oculto" role="alert">
+    <span class="aviso-icono">⚠</span>
+    <span>
+      <strong>Convención importante:</strong> No se detectó ninguna línea con <code>---</code> en tu nota de entrada.
+      Indexator inserta el índice de contenidos inmediatamente después de la primera línea <code>---</code>. Colócala donde quieras ubicar el índice.
+    </span>
+  </div>
+
+  <!-- Layout de dos bloques de texto grandes (Entrada y Salida) -->
+  <div class="indexator-layout">
+    <!-- Columna Izquierda: Nota de entrada (Bruto) -->
+    <div id="host-bloque-entrada"></div>
+
+    <!-- Columna Derecha: Nota de salida (Indexado) -->
+    <div id="host-bloque-salida"></div>
+  </div>
+
+  <!-- Sección de documentación y notas sobre convenciones -->
+  <section class="seccion-guia" aria-label="Guía de convenciones de Indexator">
+    <div class="seccion-titulo">Guía de uso y convenciones de Obsidian</div>
+    <div class="guia-grid">
+      <div class="guia-card">
+        <h4><span>El marcador <code>---</code></span></h4>
+        <p>Indexator inserta el índice tras la primera línea que contiene exclusivamente <code>---</code>. El índice generado queda delimitado entre dos líneas <code>---</code> para que <code>Re-Indexator</code> o <code>De-Indexator</code> puedan localizarlo y sustituirlo limpiamente.</p>
+      </div>
+
+      <div class="guia-card">
+        <h4><span>Encabezados soportados</span></h4>
+        <p>El programa procesa encabezados desde <code>##</code> (h2) hasta <code>######</code> (h6). No trata encabezados <code>#</code> (h1) para respetar la jerarquía visual de notas en Obsidian. Los encabezados dentro de bloques de código (<code>```</code>) se omiten automáticamente.</p>
+      </div>
+
+      <div class="guia-card">
+        <h4><span>¿Cuándo usar cada función?</span></h4>
+        <p><strong>Re-Indexator</strong> es la función recomendada y flexible por defecto: recalcula numeraciones y actualiza el índice existente. <strong>Quasi-Indexator</strong> crea enlaces sin alterar títulos. <strong>De-Indexator</strong> desindexa por completo devolviendo la nota original.</p>
+      </div>
+    </div>
+  </section>
 </main>
 </body>
 </html>

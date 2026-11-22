@@ -99,16 +99,16 @@
       id: "indexator",
       titulo: "Indexator",
       url: "indexator/index.html",
-      estado: "construccion",
-      badgeClase: "hud-badge-warn",
-      badgeTexto: "EN CONSTRUCCIÓN",
-      categoria: "cat-utilidad",
-      categoriaTexto: "UTILIDAD // MOD_07",
-      descripcion: "Herramienta de indexación, catalogación estructurada y visualización de recursos en nodos organizados para flujos de trabajo personales.",
-      tags: ["GRAFO DE DATOS", "ORGANIZADOR", "LOCAL"],
-      accionTexto: "VER DETALLE →",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
+      categoria: "cat-texto",
+      categoriaTexto: "TEXTO // MOD_07",
+      descripcion: "Indexador jerárquico de notas Markdown para Obsidian. Genera índices navegables automáticos, numera apartados y soporta wikilinks.",
+      tags: ["OBSIDIAN", "MARKDOWN", "ÍNDICES"],
+      accionTexto: "ABRIR MÓDULO →",
       icono: "indexator",
-      keywords: "indexator indexar organizador enlaces nodos grafo arbol enlaces carpetas estructura catalogador referencias"
+      keywords: "indexator indexar obsidian markdown indice contenidos encabezados titulos wikilinks notas reindexar jerarquia subdivision"
     }
   ];
 

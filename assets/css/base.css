@@ -474,6 +474,7 @@ button:disabled {
 .theme-opt {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
   width: 100%;
   padding: 7px 10px;

@@ -80,6 +80,22 @@
     }
   }
 
+  // Asegura la disponibilidad del fondo interactivo táctico desde componentes/fondo.js
+  if (typeof window !== "undefined" && !window.DUtilsFondo) {
+    try {
+      var scriptFondo = document.createElement("script");
+      scriptFondo.src = new URL("../componentes/fondo.js", base).href;
+      scriptFondo.onload = function () {
+        if (window.DUtilsFondo && window.DUtilsFondo.iniciar) {
+          window.DUtilsFondo.iniciar();
+        }
+      };
+      document.head.appendChild(scriptFondo);
+    } catch (e) {
+      /* fallback si URL falla */
+    }
+  }
+
   // ---------- 2. MOTOR DE AUDIO SINTÉTICO (Web Audio API) ----------
   // Sin archivos externos: audio táctico generado en tiempo real para clics/hovers.
   var audioCtx = null;
@@ -186,6 +202,9 @@
     get radio() {
       return window.DUtilsRadio;
     },
+    get fondo() {
+      return window.DUtilsFondo;
+    },
     tema: {
       actual: function () { return raiz.getAttribute("data-theme"); },
       alternar: alternarTema
@@ -198,6 +217,9 @@
     raiz.setAttribute("data-theme", nuevo);
     guardarLS(CLAVE_TEMA, nuevo);
     actualizarBotonTema();
+    if (window.DUtilsFondo && window.DUtilsFondo.actualizarTema) {
+      window.DUtilsFondo.actualizarTema(nuevo);
+    }
     if (sonidoActivo) Sonidos.accion();
   }
 
@@ -326,8 +348,12 @@
     if (sistemaColor && sistemaColor.addEventListener) {
       sistemaColor.addEventListener("change", function () {
         if (!leerLS(CLAVE_TEMA)) {
-          raiz.setAttribute("data-theme", temaPorDefecto());
+          var t = temaPorDefecto();
+          raiz.setAttribute("data-theme", t);
           actualizarBotonTema();
+          if (window.DUtilsFondo && window.DUtilsFondo.actualizarTema) {
+            window.DUtilsFondo.actualizarTema(t);
+          }
         }
       });
     }
@@ -432,10 +458,16 @@
       montarTopbar();
       delegarSonidos();
       registrarAtajos();
+      if (window.DUtilsFondo && window.DUtilsFondo.iniciar) {
+        window.DUtilsFondo.iniciar();
+      }
     });
   } else {
     montarTopbar();
     delegarSonidos();
     registrarAtajos();
+    if (window.DUtilsFondo && window.DUtilsFondo.iniciar) {
+      window.DUtilsFondo.iniciar();
+    }
   }
 })();

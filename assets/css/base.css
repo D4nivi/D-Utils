@@ -104,21 +104,31 @@
   display: none !important;
 }
 
+html {
+  background-color: var(--bg);
+  min-height: 100vh;
+}
+
 body {
   margin: 0;
   font: 16px/1.55 var(--fuente);
-  background-color: var(--bg);
-  background-image:
-    radial-gradient(ellipse 60% 40% at 20% 10%, var(--bg-glow-1) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 35% at 85% 75%, var(--bg-glow-2) 0%, transparent 55%),
-    linear-gradient(var(--bg-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
-  background-attachment: fixed;
+  background-color: transparent;
   color: var(--fg);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Fondo Dinámico Táctico (Canvas) ---------- */
+#dutils-fondo-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  display: block;
 }
 
 /* Enfoque accesible consistente */

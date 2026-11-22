@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Símbolos para copiar/pegar · D-Utils</title>
+<link rel="stylesheet" href="../assets/base.css">
+<script src="../assets/base.js"></script>
+<style>
+  main { max-width: 860px; margin: 0 auto; padding: 12px 24px 64px; }
+  nav { margin-bottom: 24px; }
+  nav a { font-family: var(--fuente-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+  .panel-dev {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 36px 32px;
+    backdrop-filter: blur(14px);
+    position: relative;
+    overflow: hidden;
+  }
+  .panel-dev::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-warn), transparent);
+  }
+  .dev-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .specs-box {
+    margin: 28px 0;
+    padding: 20px;
+    background: rgba(0,0,0,0.15);
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    font-family: var(--fuente-mono);
+    font-size: 0.85rem;
+  }
+  .specs-box h3 {
+    font-size: 0.9rem;
+    color: var(--accent-warn);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .specs-box ul {
+    margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="../index.html">← D-Utils // Centro de control</a></nav>
+
+  <div class="panel-dev">
+    <div class="dev-header">
+      <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
+      <span style="font-family: var(--fuente-mono); font-size: 0.8rem; color: var(--muted);">MOD_02 // GLIFOS &amp; SÍMBOLOS</span>
+    </div>
+
+    <h1>Símbolos para copiar/pegar</h1>
+    <p class="sub">Catálogo clasificado de glifos, flechas, caracteres estéticos y símbolos frecuentes para copiar al portapapeles con un solo clic.</p>
+
+    <div class="specs-box">
+      <h3>Planificación de características del módulo</h3>
+      <ul>
+        <li>Agrupación por categorías: Matemáticas, Flechas, Glifos estéticos / Anime, Monedas y Puntuación especial.</li>
+        <li>Buscador de símbolos en tiempo real por nombre o concepto.</li>
+        <li>Copiado instantáneo al portapapeles con feedback auditivo y visual "BUFFER_COPIED".</li>
+        <li>Historial local temporal de símbolos más utilizados.</li>
+      </ul>
+    </div>
+
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <a href="../index.html"><button type="button">Volver al catálogo</button></a>
+      <span class="note">Módulo en cola de desarrollo estático.</span>
+    </div>
+  </div>
+</main>
+</body>
+</html>

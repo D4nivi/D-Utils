@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Módulo en construcción · D-Utils</title>
+<link rel="stylesheet" href="assets/base.css">
+<script src="assets/base.js"></script>
+<style>
+  main { max-width: 860px; margin: 0 auto; padding: 12px 24px 64px; }
+  nav { margin-bottom: 24px; }
+  nav a { font-family: var(--fuente-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
+  .panel-dev {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 36px 32px;
+    backdrop-filter: blur(14px);
+    position: relative;
+    overflow: hidden;
+  }
+  .panel-dev::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-warn), transparent);
+  }
+  .dev-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="index.html">← D-Utils // Centro de control</a></nav>
+
+  <div class="panel-dev">
+    <div class="dev-header">
+      <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
+      <span style="font-family: var(--fuente-mono); font-size: 0.8rem; color: var(--muted);">SISTEMA // ESTADO DEV</span>
+    </div>
+
+    <h1 id="titulo-modulo">Módulo en construcción</h1>
+    <p id="desc-modulo" class="sub">Esta utilidad se encuentra actualmente en fase de diseño e implementación estática.</p>
+
+    <div style="margin: 28px 0; padding: 20px; background: rgba(0,0,0,0.15); border: 1px dashed var(--line); border-radius: 8px;">
+      <p style="margin: 0; font-family: var(--fuente-mono); font-size: 0.85rem; color: var(--muted);">
+        STATUS: STANDBY // Módulo planificado para su desarrollo progresivo en el repositorio.
+      </p>
+    </div>
+
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <a href="index.html"><button type="button">Volver al panel principal</button></a>
+    </div>
+  </div>
+</main>
+
+<script>
+"use strict";
+// Leer módulo opcional por query string ?m=...
+const params = new URLSearchParams(window.location.search);
+const mod = params.get("m");
+if (mod) {
+  const titulos = {
+    "simbolos": "Símbolos para copiar/pegar",
+    "ruleta": "Ruleta para sorteos",
+    "contador-palabras": "Contador de palabras",
+    "comparador-textos": "Comparador de textos",
+    "ocr": "OCR (Extracción de texto)",
+    "indexator": "Indexator"
+  };
+  if (titulos[mod]) {
+    document.getElementById("titulo-modulo").textContent = titulos[mod];
+    document.title = titulos[mod] + " · En construcción · D-Utils";
+  }
+}
+</script>
+</body>
+</html>

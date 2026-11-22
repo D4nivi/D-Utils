@@ -4,56 +4,1006 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>D-Utils</title>
+<title>D-Utils · Micro-utilidades tácticas de navegador</title>
 <link rel="stylesheet" href="assets/base.css">
 <script src="assets/base.js"></script>
 <style>
-  main { max-width: 720px; }
-  #buscador { width: 100%; padding: 10px 12px; margin: 0 0 16px; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
-  #buscador:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
-  a.tool { display: block; padding: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; color: inherit; }
-  a.tool:hover, a.tool:focus-visible { border-color: var(--accent); outline: none; }
-  a.tool strong { color: var(--accent); }
-  a.tool span { display: block; color: var(--muted); font-size: .875rem; }
-  #vacio { color: var(--muted); }
+  /* ---------- Layout de Escritorio ---------- */
+  .hero {
+    margin: 20px 0 28px;
+    padding: 24px 28px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    backdrop-filter: blur(14px);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle at top right, var(--bg-glow-1), transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-family: var(--fuente-mono);
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: var(--fg);
+    letter-spacing: -0.03em;
+    margin: 0 0 8px;
+  }
+  .hero-desc {
+    color: var(--muted);
+    font-size: 1.02rem;
+    max-width: 820px;
+    margin: 0;
+  }
+
+  /* ---------- Consola de Búsqueda y Filtros ---------- */
+  .control-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .search-wrapper:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+  #buscador {
+    width: 100%;
+    padding: 14px 105px 14px 48px;
+    background: transparent;
+    border: none;
+    color: var(--fg);
+    font-size: 0.95rem;
+    outline: none;
+  }
+  #buscador::placeholder {
+    color: var(--muted);
+    opacity: 0.85;
+  }
+  .search-kbd {
+    position: absolute;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    font-size: 0.72rem;
+    font-family: var(--fuente-mono);
+    color: var(--muted);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  /* Filtros rápidos */
+  .filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .filter-chip {
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-family: var(--fuente-mono);
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: all .15s ease;
+    backdrop-filter: blur(6px);
+  }
+  .filter-chip:hover {
+    border-color: var(--accent);
+    color: var(--fg);
+    transform: translateY(-1px);
+  }
+  .filter-chip.active {
+    background: var(--hud-tag-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  .meta-stats {
+    font-family: var(--fuente-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* ---------- Grid de Tarjetas Rectangulares Horizontales ---------- */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(580px, 1fr));
+    gap: 22px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tool-item {
+    display: block;
+    height: 100%;
+  }
+  .tool-item[hidden], [hidden] {
+    display: none !important;
+  }
+
+  /* Tarjeta rectangular (mayor ancho que alto) */
+  .tool-card {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    min-height: 200px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    backdrop-filter: blur(12px);
+    position: relative;
+    transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color .2s ease,
+                box-shadow .2s ease;
+  }
+  .tool-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--card-hover-border);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 16px var(--accent-glow);
+    text-decoration: none;
+  }
+  .tool-card:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow);
+    outline: none;
+  }
+
+  /* Preview Visual Táctica (Columna izquierda) */
+  .tool-preview {
+    flex: 0 0 210px;
+    background: radial-gradient(circle at center, rgba(var(--accent-rgb), 0.08) 0%, rgba(0, 0, 0, 0.25) 100%);
+    border-right: 1px solid var(--card-border);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow: hidden;
+  }
+  .tool-preview::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--bg-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+    background-size: 16px 16px;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .tool-preview svg {
+    width: 100%;
+    height: 100%;
+    max-height: 155px;
+    display: block;
+    position: relative;
+    z-index: 2;
+    transition: transform .3s ease;
+  }
+  .tool-card:hover .tool-preview svg {
+    transform: scale(1.04);
+  }
+
+  /* Retícula / visor HUD en la preview */
+  .preview-hud {
+    position: absolute;
+    inset: 8px;
+    pointer-events: none;
+    z-index: 3;
+    border: 1px dashed rgba(var(--accent-rgb), 0.2);
+    border-radius: 4px;
+  }
+  .preview-hud::before, .preview-hud::after {
+    content: "";
+    position: absolute;
+    width: 8px; height: 8px;
+    border-color: var(--accent);
+    border-style: solid;
+  }
+  .preview-hud::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .preview-hud::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  /* Contenido de la Tarjeta (Columna derecha) */
+  .tool-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 18px 22px;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .tool-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .tool-cat {
+    font-family: var(--fuente-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .tool-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--fg);
+    margin: 0;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tool-card:hover .tool-title {
+    color: var(--accent);
+  }
+
+  .tool-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.45;
+    margin: 0;
+    flex: 1;
+  }
+
+  /* Metadatos inferiores de la tarjeta */
+  .tool-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    margin-top: auto;
+  }
+  .tool-tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tool-tag-mini {
+    font-family: var(--fuente-mono);
+    font-size: 0.68rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .tool-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--fuente-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    transition: transform .15s ease;
+  }
+  .tool-card:hover .tool-action {
+    transform: translateX(3px);
+  }
+  .tool-card.en-construccion .tool-action {
+    color: var(--accent-warn);
+  }
+
+  /* ---------- Animaciones temáticas SVG de las Previews ---------- */
+  /* 1. Recorte */
+  @keyframes scan-box {
+    0%, 100% { stroke-dashoffset: 0; }
+    50% { stroke-dashoffset: 16; }
+  }
+  .anim-crop-border {
+    stroke-dasharray: 8 4;
+    animation: scan-box 4s linear infinite;
+  }
+
+  /* 2. Símbolos */
+  @keyframes glyph-pulse {
+    0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 2px transparent); }
+    50% { opacity: 1; filter: drop-shadow(0 0 8px var(--accent)); }
+  }
+  .anim-glyph {
+    animation: glyph-pulse 2.4s ease-in-out infinite;
+  }
+
+  /* 3. Ruleta: giro lento en reposo + física inercial en hover */
+  @keyframes giro-ruleta-lento {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .anim-wheel {
+    transform-origin: 80px 58px;
+    animation: giro-ruleta-lento 24s linear infinite;
+  }
+  @keyframes giro-ruleta-real {
+    0% {
+      transform: rotate(0deg);
+      animation-timing-function: cubic-bezier(0.08, 0.85, 0.2, 1);
+    }
+    90% {
+      transform: rotate(1800deg);
+    }
+    100% {
+      transform: rotate(1800deg);
+    }
+  }
+  .tool-card:hover .anim-wheel {
+    animation: giro-ruleta-real 3.2s infinite;
+  }
+
+  /* 4. Contador */
+  @keyframes wave-bar {
+    0%, 100% { height: 12px; }
+    50% { height: 32px; }
+  }
+  .anim-bar-1 { animation: wave-bar 1.2s ease-in-out infinite; }
+  .anim-bar-2 { animation: wave-bar 1.8s ease-in-out infinite 0.2s; }
+  .anim-bar-3 { animation: wave-bar 1.4s ease-in-out infinite 0.4s; }
+
+  /* 5. Comparador */
+  @keyframes scan-diff {
+    0%, 100% { transform: translateY(0); opacity: 0.2; }
+    50% { transform: translateY(50px); opacity: 0.9; }
+  }
+  .anim-diff-beam {
+    animation: scan-diff 2.5s ease-in-out infinite;
+  }
+
+  /* 6. OCR */
+  @keyframes laser-sweep {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(65px); }
+    100% { transform: translateY(0); }
+  }
+  .anim-ocr-beam {
+    animation: laser-sweep 2.8s ease-in-out infinite;
+  }
+
+  /* 7. Indexator */
+  @keyframes node-glow {
+    0%, 100% { fill: var(--accent); opacity: 0.4; }
+    50% { fill: var(--accent-sec); opacity: 1; }
+  }
+  .anim-node {
+    animation: node-glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Estado vacío */
+  #vacio {
+    display: none;
+    text-align: center;
+    padding: 64px 24px;
+    background: var(--card-bg);
+    border: 1px dashed var(--line);
+    border-radius: 12px;
+    margin: 32px 0;
+  }
+  #vacio.visible {
+    display: block;
+  }
+  .empty-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  /* Footer con telemetría */
+  .system-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 40px;
+    margin-top: 48px;
+    border-top: 1px solid var(--line);
+    font-family: var(--fuente-mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .system-shortcuts {
+    display: flex;
+    gap: 16px;
+  }
+  .shortcut-item kbd {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--fg);
+  }
 </style>
 </head>
 <body>
 <main>
-  <h1>D-Utils</h1>
-  <p class="sub">Herramientas pequeñas que se ejecutan en tu navegador.</p>
+  <!-- Hero Táctico -->
+  <section class="hero">
+    <div class="hero-tag">SYS.CORE // V2.0 · LOCAL RUNTIME</div>
+    <h1 class="hero-title">D-Utils · Colección Táctica</h1>
+    <p class="hero-desc">Micro-utilidades para flujos de trabajo rápidos y precisos. Cada herramienta se ejecuta de forma autónoma en tu navegador con total privacidad.</p>
+  </section>
 
-  <input id="buscador" type="search" placeholder="Buscar utilidad…" aria-label="Buscar utilidad" autocomplete="off">
+  <!-- Consola de Búsqueda y Filtros Rápidos -->
+  <section class="control-bar" aria-label="Buscador y filtros">
+    <div class="search-wrapper">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input id="buscador" type="search" placeholder="Buscar utilidad por nombre, palabras clave o tarea..." aria-label="Buscar utilidad" autocomplete="off" spellcheck="false">
+      <div class="search-kbd"><kbd>/</kbd> buscar</div>
+    </div>
 
-  <ul id="lista">
-    <li data-keywords="imagen foto recortar recorte fondo blanco margen jpg png">
-      <a class="tool" href="recortar/index.html"><strong>Recortar imágenes</strong><span>Quita el fondo blanco sobrante y deja un margen fijo.</span></a>
+    <div class="filter-row">
+      <div class="filter-group" role="tablist" aria-label="Filtros rápidos">
+        <button type="button" class="filter-chip active" data-filtro="todos">Todas [7]</button>
+        <button type="button" class="filter-chip" data-filtro="disponibles">Disponibles [1]</button>
+        <button type="button" class="filter-chip" data-filtro="construccion">En construcción [6]</button>
+        <button type="button" class="filter-chip" data-filtro="cat-imagen">Imagen [2]</button>
+        <button type="button" class="filter-chip" data-filtro="cat-texto">Texto [3]</button>
+        <button type="button" class="filter-chip" data-filtro="cat-utilidad">Utilidades [2]</button>
+      </div>
+
+      <div class="meta-stats">
+        <span id="contador-visibles">7 módulos disponibles</span>
+        <span>•</span>
+        <span>CLIENT-SIDE ONLY</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grid de Tarjetas Rectangulares Horizontales -->
+  <ul id="lista" class="tools-grid">
+
+    <!-- 1. RECORTAR IMÁGENES (Activa / Disponible) -->
+    <li class="tool-item"
+        data-estado="disponibles"
+        data-categoria="cat-imagen"
+        data-keywords="imagen foto recortar recorte fondo blanco margen lote batch jpg png transparente autocrop">
+      <a class="tool-card" href="recortar/index.html">
+        <div class="tool-preview">
+          <div class="preview-hud"></div>
+          <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Fondo de muestra -->
+            <rect x="25" y="15" width="110" height="90" rx="4" fill="rgba(255,255,255,0.06)" stroke="var(--line)" stroke-width="1"/>
+            <!-- Silueta centrada -->
+            <path d="M80 34 L104 68 H56 Z" fill="rgba(var(--accent-rgb), 0.22)" stroke="var(--accent)" stroke-width="1.5"/>
+            <circle cx="80" cy="54" r="8" fill="var(--accent-sec)" opacity="0.8"/>
+            <!-- Marco de recorte dinámico -->
+            <rect class="anim-crop-border" x="44" y="24" width="72" height="72" rx="2" stroke="var(--accent)" stroke-width="1.8"/>
+            <!-- Miras ópticas en esquinas -->
+            <path d="M40 28 V20 H48 M112 20 H120 V28 M120 92 V100 H112 M48 100 H40 V92" stroke="var(--accent-ok)" stroke-width="2"/>
+            <!-- Líneas de cota -->
+            <line x1="80" y1="20" x2="80" y2="24" stroke="var(--muted)" stroke-width="1"/>
+            <text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent-ok)" text-anchor="middle" font-weight="700">MARGEN 60PX</text>
+          </svg>
+        </div>
+        <div class="tool-content">
+          <div class="tool-header">
+            <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+            <span class="tool-cat">IMAGEN // MOD_01</span>
+          </div>
+          <div>
+            <h2 class="tool-title">Recortar imágenes</h2>
+            <p class="tool-desc">Quita el fondo blanco sobrante y deja un margen fijo exacto en lotes de imágenes. Soporte para arrastrar archivos o URLs con CORS.</p>
+          </div>
+          <div class="tool-footer">
+            <div class="tool-tags">
+              <span class="tool-tag-mini">100% LOCAL</span>
+              <span class="tool-tag-mini">ZIP BATCH</span>
+              <span class="tool-tag-mini">JPG/PNG</span>
+            </div>
+            <span class="tool-action">ABRIR MÓDULO →</span>
+          </div>
+        </div>
+      </a>
     </li>
-    <!-- Añade aquí cada nueva utilidad copiando el <li> de arriba.
-         data-keywords: palabras extra por las que quieras que se encuentre en el buscador. -->
+
+    <!-- 2. SÍMBOLOS PARA COPIAR / PEGAR (En construcción) -->
+    <li class="tool-item"
+        data-estado="construccion"
+        data-categoria="cat-texto"
+        data-keywords="simbolos caracteres texto glifos copiar pegar unicode flechas kaomoji emoticonos iconos portapapeles clipboard">
+      <a class="tool-card en-construccion" href="simbolos/index.html">
+        <div class="tool-preview">
+          <div class="preview-hud"></div>
+          <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Matriz de glifos en celdas HUD -->
+            <g opacity="0.35" stroke="var(--line)" stroke-width="0.8">
+              <rect x="25" y="20" width="32" height="32" rx="4"/>
+              <rect x="64" y="20" width="32" height="32" rx="4"/>
+              <rect x="103" y="20" width="32" height="32" rx="4"/>
+              <rect x="25" y="58" width="32" height="32" rx="4"/>
+              <rect x="64" y="58" width="32" height="32" rx="4"/>
+              <rect x="103" y="58" width="32" height="32" rx="4"/>
+            </g>
+            <!-- Glifos anime / cyberpunk -->
+            <text x="41" y="42" font-family="sans-serif" font-size="16" fill="var(--fg)" text-anchor="middle" opacity="0.7">✦</text>
+            <text x="80" y="42" font-family="sans-serif" font-size="16" fill="var(--accent)" text-anchor="middle" class="anim-glyph">⌘</text>
+            <text x="119" y="42" font-family="sans-serif" font-size="16" fill="var(--fg)" text-anchor="middle" opacity="0.7">⬡</text>
+            <text x="41" y="80" font-family="sans-serif" font-size="16" fill="var(--accent-sec)" text-anchor="middle">⚡</text>
+            <text x="80" y="80" font-family="sans-serif" font-size="16" fill="var(--accent-ok)" text-anchor="middle">刀</text>
+            <text x="119" y="80" font-family="sans-serif" font-size="16" fill="var(--fg)" text-anchor="middle" opacity="0.7">◈</text>
+            <!-- Banner holográfico de copiado -->
+            <rect x="42" y="96" width="76" height="16" rx="3" fill="var(--card)" stroke="var(--accent)" stroke-width="1"/>
+            <text x="80" y="107" font-family="monospace" font-size="7" fill="var(--accent)" text-anchor="middle" font-weight="700">BUFFER_COPIED</text>
+          </svg>
+        </div>
+        <div class="tool-content">
+          <div class="tool-header">
+            <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
+            <span class="tool-cat">TEXTO // MOD_02</span>
+          </div>
+          <div>
+            <h2 class="tool-title">Símbolos para copiar/pegar</h2>
+            <p class="tool-desc">Colección de símbolos técnicos, glifos estéticos y caracteres frecuentes listos para transferir al portapapeles con un solo toque.</p>
+          </div>
+          <div class="tool-footer">
+            <div class="tool-tags">
+              <span class="tool-tag-mini">PORTAPAPELES</span>
+              <span class="tool-tag-mini">UNICODE</span>
+              <span class="tool-tag-mini">GLIFOS</span>
+            </div>
+            <span class="tool-action">VER DETALLE →</span>
+          </div>
+        </div>
+      </a>
+    </li>
+
+    <!-- 3. RULETA PARA SORTEOS (En construcción) -->
+    <li class="tool-item"
+        data-estado="construccion"
+        data-categoria="cat-utilidad"
+        data-keywords="ruleta sorteos sorteo azar aleatorio nombres decisiones ganador premios arcade">
+      <a class="tool-card en-construccion" href="ruleta/index.html">
+        <div class="tool-preview">
+          <div class="preview-hud"></div>
+          <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Rueda segmentada arcade centrada en (80, 58) -->
+            <g class="anim-wheel">
+              <circle cx="80" cy="58" r="38" stroke="var(--line)" stroke-width="2.5" fill="var(--card)"/>
+              <!-- 8 sectores coloreados neón -->
+              <path d="M80 58 L80 20 A38 38 0 0 1 106.9 31.1 Z" fill="rgba(var(--accent-rgb), 0.35)" stroke="var(--accent)" stroke-width="0.8"/>
+              <path d="M80 58 L106.9 31.1 A38 38 0 0 1 118 58 Z" fill="rgba(var(--accent-sec-rgb), 0.28)" stroke="var(--accent-sec)" stroke-width="0.8"/>
+              <path d="M80 58 L118 58 A38 38 0 0 1 106.9 84.9 Z" fill="rgba(255, 184, 0, 0.28)" stroke="var(--accent-warn)" stroke-width="0.8"/>
+              <path d="M80 58 L106.9 84.9 A38 38 0 0 1 80 96 Z" fill="rgba(0, 255, 159, 0.28)" stroke="var(--accent-ok)" stroke-width="0.8"/>
+              <path d="M80 58 L80 96 A38 38 0 0 1 53.1 84.9 Z" fill="rgba(var(--accent-rgb), 0.25)" stroke="var(--accent)" stroke-width="0.8"/>
+              <path d="M80 58 L53.1 84.9 A38 38 0 0 1 42 58 Z" fill="rgba(var(--accent-sec-rgb), 0.28)" stroke="var(--accent-sec)" stroke-width="0.8"/>
+              <path d="M80 58 L42 58 A38 38 0 0 1 53.1 31.1 Z" fill="rgba(255, 184, 0, 0.28)" stroke="var(--accent-warn)" stroke-width="0.8"/>
+              <path d="M80 58 L53.1 31.1 A38 38 0 0 1 80 20 Z" fill="rgba(0, 255, 159, 0.28)" stroke="var(--accent-ok)" stroke-width="0.8"/>
+              <!-- Clavijas perimetrales -->
+              <circle cx="80" cy="20" r="1.5" fill="var(--fg)"/>
+              <circle cx="106.9" cy="31.1" r="1.5" fill="var(--fg)"/>
+              <circle cx="118" cy="58" r="1.5" fill="var(--fg)"/>
+              <circle cx="106.9" cy="84.9" r="1.5" fill="var(--fg)"/>
+              <circle cx="80" cy="96" r="1.5" fill="var(--fg)"/>
+              <circle cx="53.1" cy="84.9" r="1.5" fill="var(--fg)"/>
+              <circle cx="42" cy="58" r="1.5" fill="var(--fg)"/>
+              <circle cx="53.1" cy="31.1" r="1.5" fill="var(--fg)"/>
+              <!-- Núcleo central concéntrico -->
+              <circle cx="80" cy="58" r="11" fill="var(--card)" stroke="var(--line)" stroke-width="1.5"/>
+              <circle cx="80" cy="58" r="6" fill="var(--fg)"/>
+              <circle cx="80" cy="58" r="2" fill="var(--accent)"/>
+            </g>
+            <!-- Marcador táctico superior (apunta hacia abajo, hacia la ruleta) -->
+            <polygon points="74,12 86,12 80,22" fill="var(--accent-sec)"/>
+            <circle cx="80" cy="15" r="2" fill="#fff"/>
+            <text x="80" y="112" font-family="monospace" font-size="7" fill="var(--muted)" text-anchor="middle" font-weight="700">RNG_DECIDER // TACTICAL</text>
+          </svg>
+        </div>
+        <div class="tool-content">
+          <div class="tool-header">
+            <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
+            <span class="tool-cat">UTILIDAD // MOD_03</span>
+          </div>
+          <div>
+            <h2 class="tool-title">Ruleta para sorteos</h2>
+            <p class="tool-desc">Ruleta visual interactiva estilo arcade para sorteos justos, rifas y toma de decisiones aleatorias en vivo sin registros.</p>
+          </div>
+          <div class="tool-footer">
+            <div class="tool-tags">
+              <span class="tool-tag-mini">RNG ENGINE</span>
+              <span class="tool-tag-mini">ANIMACIÓN</span>
+              <span class="tool-tag-mini">SIN SESIÓN</span>
+            </div>
+            <span class="tool-action">VER DETALLE →</span>
+          </div>
+        </div>
+      </a>
+    </li>
+
+    <!-- 4. CONTADOR DE PALABRAS (En construcción) -->
+    <li class="tool-item"
+        data-estado="construccion"
+        data-categoria="cat-texto"
+        data-keywords="contador palabras caracteres texto longitud parrafos tiempo lectura frecuencia densidad analisis estadisticas wpm">
+      <a class="tool-card en-construccion" href="contador-palabras/index.html">
+        <div class="tool-preview">
+          <div class="preview-hud"></div>
+          <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Pantalla de análisis de texto -->
+            <rect x="24" y="18" width="112" height="84" rx="4" fill="var(--card)" stroke="var(--card-border)" stroke-width="1"/>
+            <!-- Líneas de texto sintéticas -->
+            <line x1="34" y1="32" x2="100" y2="32" stroke="var(--muted)" stroke-width="3" stroke-linecap="round"/>
+            <line x1="34" y1="42" x2="124" y2="42" stroke="var(--muted)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+            <line x1="34" y1="52" x2="80" y2="52" stroke="var(--muted)" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+            <!-- Cursor parpadeante -->
+            <line x1="85" y1="48" x2="85" y2="56" stroke="var(--accent)" stroke-width="2"/>
+            <!-- Barras de frecuencia / ecualizador métrico -->
+            <g transform="translate(34, 68)">
+              <rect class="anim-bar-1" x="0" y="8" width="8" height="18" rx="1" fill="var(--accent)"/>
+              <rect class="anim-bar-2" x="14" y="2" width="8" height="24" rx="1" fill="var(--accent-ok)"/>
+              <rect class="anim-bar-3" x="28" y="12" width="8" height="14" rx="1" fill="var(--accent-sec)"/>
+              <rect class="anim-bar-1" x="42" y="6" width="8" height="20" rx="1" fill="var(--accent)"/>
+            </g>
+            <!-- Panel digital con métricas -->
+            <rect x="88" y="66" width="42" height="26" rx="2" fill="rgba(var(--accent-rgb), 0.1)" stroke="var(--accent)" stroke-width="0.8"/>
+            <text x="109" y="77" font-family="monospace" font-size="6" fill="var(--accent)" text-anchor="middle" font-weight="700">WPM: 240</text>
+            <text x="109" y="86" font-family="monospace" font-size="6" fill="var(--fg)" text-anchor="middle">CHARS: 1.4K</text>
+          </svg>
+        </div>
+        <div class="tool-content">
+          <div class="tool-header">
+            <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
+            <span class="tool-cat">TEXTO // MOD_04</span>
+          </div>
+          <div>
+            <h2 class="tool-title">Contador de palabras</h2>
+            <p class="tool-desc">Métricas avanzadas de redacción: recuento de caracteres, palabras, párrafos, tiempo de lectura y distribución de frecuencias.</p>
+          </div>
+          <div class="tool-footer">
+            <div class="tool-tags">
+              <span class="tool-tag-mini">MÉTRICAS WPM</span>
+              <span class="tool-tag-mini">ANÁLISIS</span>
+              <span class="tool-tag-mini">FRECUENCIAS</span>
+            </div>
+            <span class="tool-action">VER DETALLE →</span>
+          </div>
+        </div>
+      </a>
+    </li>
+
+    <!-- 5. COMPARADOR DE TEXTOS (En construcción) -->
+    <li class="tool-item"
+        data-estado="construccion"
+        data-categoria="cat-texto"
+        data-keywords="comparador textos diferencias diff comparar codigo version texto cambios cambios resaltar lineas cotejo">
+      <a class="tool-card en-construccion" href="comparador-textos/index.html">
+        <div class="tool-preview">
+          <div class="preview-hud"></div>
+          <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Dos columnas tácticas (Diff) -->
+            <rect x="22" y="20" width="54" height="78" rx="3" fill="var(--card)" stroke="var(--line)" stroke-width="1"/>
+            <rect x="84" y="20" width="54" height="78" rx="3" fill="var(--card)" stroke="var(--line)" stroke-width="1"/>
+            <!-- Cabeceras de columnas -->
+            <rect x="22" y="20" width="54" height="12" rx="3" fill="rgba(255, 42, 133, 0.15)"/>
+            <text x="26" y="28" font-family="monospace" font-size="6" fill="var(--error)" font-weight="700">- ORIGINAL</text>
+            <rect x="84" y="20" width="54" height="12" rx="3" fill="rgba(0, 255, 159, 0.15)"/>
+            <text x="88" y="28" font-family="monospace" font-size="6" fill="var(--accent-ok)" font-weight="700">+ MODIFICADO</text>
+            <!-- Líneas de diff resaltadas -->
+            <line x1="28" y1="42" x2="68" y2="42" stroke="var(--muted)" stroke-width="2"/>
+            <rect x="26" y="48" width="46" height="8" fill="rgba(255, 42, 133, 0.25)"/>
+            <line x1="28" y1="52" x2="62" y2="52" stroke="var(--error)" stroke-width="2"/>
+            <line x1="28" y1="64" x2="70" y2="64" stroke="var(--muted)" stroke-width="2"/>
+
+            <line x1="90" y1="42" x2="130" y2="42" stroke="var(--muted)" stroke-width="2"/>
+            <rect x="88" y="48" width="46" height="8" fill="rgba(0, 255, 159, 0.25)"/>
+            <line x1="90" y1="52" x2="132" y2="52" stroke="var(--accent-ok)" stroke-width="2"/>
+            <line x1="90" y1="64" x2="124" y2="64" stroke="var(--muted)" stroke-width="2"/>
+            <!-- Haz de comparación sincronizada -->
+            <line class="anim-diff-beam" x1="20" y1="38" x2="140" y2="38" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="4 2"/>
+            <text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent)" text-anchor="middle" font-weight="700">DIFF_ENGINE // V1.0</text>
+          </svg>
+        </div>
+        <div class="tool-content">
+          <div class="tool-header">
+            <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
+            <span class="tool-cat">TEXTO // MOD_05</span>
+          </div>
+          <div>
+            <h2 class="tool-title">Comparador de textos</h2>
+            <p class="tool-desc">Inspección lado a lado y unificada para identificar inserciones, supresiones y discrepancias entre dos documentos o bloques de código.</p>
+          </div>
+          <div class="tool-footer">
+            <div class="tool-tags">
+              <span class="tool-tag-mini">DIFF VISUAL</span>
+              <span class="tool-tag-mini">LÍNEA A LÍNEA</span>
+              <span class="tool-tag-mini">SIN NUBE</span>
+            </div>
+            <span class="tool-action">VER DETALLE →</span>
+          </div>
+        </div>
+      </a>
+    </li>
+
+    <!-- 6. OCR (En construcción) -->
+    <li class="tool-item"
+        data-estado="construccion"
+        data-categoria="cat-imagen"
+        data-keywords="ocr reconocimiento texto imagen capturas escanear extraer letras optical character recognition fotos">
+      <a class="tool-card en-construccion" href="ocr/index.html">
+        <div class="tool-preview">
+          <div class="preview-hud"></div>
+          <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Documento a escanear -->
+            <rect x="30" y="18" width="100" height="84" rx="4" fill="var(--card)" stroke="var(--line)" stroke-width="1"/>
+            <!-- Imagen/gráfico en el documento -->
+            <rect x="40" y="26" width="34" height="26" rx="2" fill="rgba(var(--accent-rgb), 0.15)" stroke="var(--accent)" stroke-width="1"/>
+            <path d="M43 46 L50 36 L60 48 H43 Z" fill="var(--accent)" opacity="0.6"/>
+            <!-- Texto reconocido saliendo del escáner -->
+            <line x1="80" y1="30" x2="120" y2="30" stroke="var(--fg)" stroke-width="2"/>
+            <line x1="80" y1="38" x2="114" y2="38" stroke="var(--fg)" stroke-width="2"/>
+            <line x1="80" y1="46" x2="122" y2="46" stroke="var(--fg)" stroke-width="2"/>
+            <line x1="40" y1="62" x2="120" y2="62" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="40" y1="72" x2="108" y2="72" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="40" y1="82" x2="88" y2="82" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/>
+            <!-- Haz láser horizontal de barrido -->
+            <g class="anim-ocr-beam" transform="translate(0, 24)">
+              <line x1="26" y1="0" x2="134" y2="0" stroke="var(--accent-sec)" stroke-width="2"/>
+              <polygon points="26,-4 26,4 32,0" fill="var(--accent-sec)"/>
+              <polygon points="134,-4 134,4 128,0" fill="var(--accent-sec)"/>
+            </g>
+            <text x="80" y="114" font-family="monospace" font-size="7" fill="var(--accent-sec)" text-anchor="middle" font-weight="700">OPTICAL_SCAN // ACTIVE</text>
+          </svg>
+        </div>
+        <div class="tool-content">
+          <div class="tool-header">
+            <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
+            <span class="tool-cat">IMAGEN // MOD_06</span>
+          </div>
+          <div>
+            <h2 class="tool-title">OCR (Extracción de texto)</h2>
+            <p class="tool-desc">Convierte imágenes, capturas de pantalla y fotos en texto editable mediante algoritmos ópticos ejecutados íntegramente en tu navegador.</p>
+          </div>
+          <div class="tool-footer">
+            <div class="tool-tags">
+              <span class="tool-tag-mini">MOTOR OCR</span>
+              <span class="tool-tag-mini">CAPTURA A TEXTO</span>
+              <span class="tool-tag-mini">OFFLINE</span>
+            </div>
+            <span class="tool-action">VER DETALLE →</span>
+          </div>
+        </div>
+      </a>
+    </li>
+
+    <!-- 7. INDEXATOR (En construcción) -->
+    <li class="tool-item"
+        data-estado="construccion"
+        data-categoria="cat-utilidad"
+        data-keywords="indexator indexar organizador enlaces nodos grafo arbol enlaces carpetas estructura catalogador referencias">
+      <a class="tool-card en-construccion" href="indexator/index.html">
+        <div class="tool-preview">
+          <div class="preview-hud"></div>
+          <svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Grafo táctico de nodos -->
+            <g stroke="var(--accent)" stroke-width="1.2" opacity="0.6">
+              <line x1="80" y1="34" x2="44" y2="68"/>
+              <line x1="80" y1="34" x2="116" y2="68"/>
+              <line x1="44" y1="68" x2="80" y2="88"/>
+              <line x1="116" y1="68" x2="80" y2="88"/>
+              <line x1="80" y1="34" x2="80" y2="88"/>
+              <line x1="44" y1="68" x2="30" y2="92"/>
+              <line x1="116" y1="68" x2="130" y2="92"/>
+            </g>
+            <!-- Nodos con pulsos luminiscentes -->
+            <circle class="anim-node" cx="80" cy="34" r="7" fill="var(--accent)"/>
+            <circle cx="44" cy="68" r="6" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="116" cy="68" r="6" fill="var(--card)" stroke="var(--accent-sec)" stroke-width="2"/>
+            <circle cx="80" cy="88" r="8" fill="var(--card)" stroke="var(--accent-ok)" stroke-width="2.5"/>
+            <circle cx="30" cy="92" r="4" fill="var(--accent-warn)"/>
+            <circle cx="130" cy="92" r="4" fill="var(--accent-sec)"/>
+            <text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent-ok)" text-anchor="middle" font-weight="700">INDEX_NODES // TOPOLOGY</text>
+          </svg>
+        </div>
+        <div class="tool-content">
+          <div class="tool-header">
+            <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
+            <span class="tool-cat">UTILIDAD // MOD_07</span>
+          </div>
+          <div>
+            <h2 class="tool-title">Indexator</h2>
+            <p class="tool-desc">Herramienta de indexación, catalogación estructurada y visualización de recursos en nodos organizados para flujos de trabajo personales.</p>
+          </div>
+          <div class="tool-footer">
+            <div class="tool-tags">
+              <span class="tool-tag-mini">GRAFO DE DATOS</span>
+              <span class="tool-tag-mini">ORGANIZADOR</span>
+              <span class="tool-tag-mini">LOCAL</span>
+            </div>
+            <span class="tool-action">VER DETALLE →</span>
+          </div>
+        </div>
+      </a>
+    </li>
+
   </ul>
-  <p id="vacio" hidden>No hay ninguna utilidad que coincida.</p>
+
+  <!-- Panel de búsqueda sin resultados -->
+  <div id="vacio" role="alert">
+    <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <h3 style="margin-bottom: 6px;">No se encontraron utilidades</h3>
+    <p class="note">Intenta buscar por otro término o restablece los filtros activos.</p>
+    <button id="btnResetSearch" class="sec" style="margin-top: 14px;">Restablecer filtros</button>
+  </div>
+
+  <!-- Pie del sistema con telemetría y atajos -->
+  <footer class="system-footer">
+    <div>D-UTILS // 100% STATIC GITHUB PAGES · ZERO SERVERS</div>
+    <div class="system-shortcuts">
+      <span class="shortcut-item"><kbd>/</kbd> Buscar</span>
+      <span class="shortcut-item"><kbd>Esc</kbd> Limpiar</span>
+      <span class="shortcut-item"><kbd>T</kbd> Tema</span>
+      <span class="shortcut-item"><kbd>M</kbd> Sonido</span>
+    </div>
+  </footer>
 </main>
 
 <script>
 "use strict";
-// Búsqueda simple: ignora mayúsculas y tildes; todas las palabras escritas deben aparecer.
-const normalizar = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-const items = [...document.querySelectorAll("#lista > li")].map((li) => ({
-  li,
-  texto: normalizar(li.textContent + " " + (li.dataset.keywords || "")),
-}));
 
-document.getElementById("buscador").addEventListener("input", (e) => {
-  const palabras = normalizar(e.target.value).split(/\s+/).filter(Boolean);
+// Normalización estricta: ignora mayúsculas, tildes y diacríticos
+const normalizar = (s) => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+
+const inputBuscador = document.getElementById("buscador");
+const contenedorVacio = document.getElementById("vacio");
+const contadorVisibles = document.getElementById("contador-visibles");
+const chipsFiltro = [...document.querySelectorAll(".filter-chip")];
+const btnReset = document.getElementById("btnResetSearch");
+
+// Indexar elementos con su texto y metadatos
+const items = [...document.querySelectorAll("#lista > li")].map((li) => {
+  const estado = li.getAttribute("data-estado") || "";
+  const categoria = li.getAttribute("data-categoria") || "";
+  const keywords = li.getAttribute("data-keywords") || "";
+  const contenidoTexto = li.textContent || "";
+
+  return {
+    li,
+    estado,
+    categoria,
+    textoBusqueda: normalizar(contenidoTexto + " " + keywords)
+  };
+});
+
+let filtroActual = "todos";
+
+function aplicarFiltros() {
+  const consulta = normalizar(inputBuscador.value);
+  const palabras = consulta.split(/\s+/).filter(Boolean);
+
   let visibles = 0;
-  for (const { li, texto } of items) {
-    const ok = palabras.every((p) => texto.includes(p));
-    li.hidden = !ok;
-    if (ok) visibles++;
+
+  for (const item of items) {
+    // 1. Comprobar filtro rápido (estado o categoría)
+    let pasaFiltro = true;
+    if (filtroActual === "disponibles") {
+      pasaFiltro = item.estado === "disponibles";
+    } else if (filtroActual === "construccion") {
+      pasaFiltro = item.estado === "construccion";
+    } else if (filtroActual.startsWith("cat-")) {
+      pasaFiltro = item.categoria === filtroActual;
+    }
+
+    // 2. Comprobar palabras del buscador
+    let pasaTexto = true;
+    if (palabras.length > 0) {
+      pasaTexto = palabras.every((p) => item.textoBusqueda.includes(p));
+    }
+
+    const esVisible = pasaFiltro && pasaTexto;
+    item.li.hidden = !esVisible;
+    if (esVisible) visibles++;
   }
-  document.getElementById("vacio").hidden = visibles > 0;
+
+  // Actualizar contador e interfaz de resultado vacío
+  contadorVisibles.textContent = `${visibles} de ${items.length} módulos disponibles`;
+  contenedorVacio.classList.toggle("visible", visibles === 0);
+}
+
+// Eventos del buscador
+inputBuscador.addEventListener("input", () => {
+  aplicarFiltros();
+  if (window.DUtils && window.DUtils.audio) {
+    window.DUtils.audio.tecleo();
+  }
+});
+
+// Eventos de los filtros rápidos
+chipsFiltro.forEach((chip) => {
+  chip.addEventListener("click", () => {
+    chipsFiltro.forEach((c) => c.classList.remove("active"));
+    chip.classList.add("active");
+    filtroActual = chip.getAttribute("data-filtro") || "todos";
+    aplicarFiltros();
+    if (window.DUtils && window.DUtils.audio) {
+      window.DUtils.audio.accion();
+    }
+  });
+});
+
+// Botón de restablecer
+btnReset.addEventListener("click", () => {
+  inputBuscador.value = "";
+  filtroActual = "todos";
+  chipsFiltro.forEach((c) => c.classList.remove("active"));
+  const chipTodos = chipsFiltro.find((c) => c.getAttribute("data-filtro") === "todos");
+  if (chipTodos) chipTodos.classList.add("active");
+  aplicarFiltros();
+  inputBuscador.focus();
+  if (window.DUtils && window.DUtils.audio) {
+    window.DUtils.audio.accion();
+  }
 });
 </script>
 </body>

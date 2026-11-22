@@ -1,11 +1,9 @@
 /* =========================================================
-   D-Utils · estilos comunes a todas las páginas
+   D-Utils · Estilos comunes y estética táctica (Cyberpunk / HUD)
    ========================================================= */
 
 /* ---------- Fuente ----------
-   Rubik (variable, alojada en assets/fonts). Para cambiarla, ver README.
-   Se declara con el nombre "Rubik"; los navegadores solo descargan los
-   archivos que necesitan según los caracteres de la página. */
+   Rubik (variable, alojada en assets/fonts). */
 @font-face {
   font-family: "Rubik";
   font-style: normal;
@@ -23,75 +21,380 @@
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
-/* ---------- Temas ----------
-   El tema lo fija assets/base.js con el atributo data-theme en <html>. */
+/* ---------- Variables de tema ---------- */
 :root {
   --fuente: "Rubik", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --bg: #fafaf8;
-  --fg: #1d1d1b;
-  --muted: #6b6b66;
-  --line: #dcdcd6;
-  --accent: #1f5f4a;
+  --fuente-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+
+  /* Tema claro: Laboratorio táctico / Clean Sci-Fi */
+  --bg: #f3f6fa;
+  --fg: #0d1624;
+  --muted: #53647b;
+  --line: #d1dbe7;
+  --accent: #0077b6;
+  --accent-rgb: 0, 119, 182;
+  --accent-glow: rgba(0, 119, 182, 0.25);
+  --accent-sec: #e02167;
+  --accent-sec-rgb: 224, 33, 103;
+  --accent-ok: #028a5e;
+  --accent-warn: #c26900;
   --on-accent: #ffffff;
   --card: #ffffff;
-  --error: #c0504d;
+  --card-bg: rgba(255, 255, 255, 0.88);
+  --card-border: rgba(13, 22, 36, 0.12);
+  --card-hover-border: rgba(0, 119, 182, 0.55);
+  --error: #d92d20;
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(13, 22, 36, 0.04);
+  --bg-dots: rgba(0, 119, 182, 0.06);
+  --bg-glow-1: rgba(0, 119, 182, 0.06);
+  --bg-glow-2: rgba(224, 33, 103, 0.035);
+
+  --hud-tag-bg: rgba(0, 119, 182, 0.08);
+  --hud-tag-border: rgba(0, 119, 182, 0.22);
+  --hud-warn-bg: rgba(194, 105, 0, 0.1);
+  --hud-warn-border: rgba(194, 105, 0, 0.28);
+  --hud-ok-bg: rgba(2, 138, 94, 0.1);
+  --hud-ok-border: rgba(2, 138, 94, 0.28);
+
   color-scheme: light;
 }
+
 :root[data-theme="dark"] {
-  --bg: #161615;
-  --fg: #ecece8;
-  --muted: #9a9a93;
-  --line: #33332f;
-  --accent: #6fc2a5;
-  --on-accent: #102019;
-  --card: #1e1e1c;
-  --error: #e07a77;
+  /* Tema oscuro: Cyberpunk táctico / Mecha HUD */
+  --bg: #090d16;
+  --fg: #e6edf8;
+  --muted: #7f93ad;
+  --line: #1c2738;
+  --accent: #00f0ff;
+  --accent-rgb: 0, 240, 255;
+  --accent-glow: rgba(0, 240, 255, 0.35);
+  --accent-sec: #ff2a85;
+  --accent-sec-rgb: 255, 42, 133;
+  --accent-ok: #00ff9f;
+  --accent-warn: #ffb800;
+  --on-accent: #050b14;
+  --card: #101726;
+  --card-bg: rgba(13, 20, 34, 0.82);
+  --card-border: rgba(0, 240, 255, 0.16);
+  --card-hover-border: rgba(0, 240, 255, 0.7);
+  --error: #ff3366;
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(0, 240, 255, 0.035);
+  --bg-dots: rgba(0, 240, 255, 0.08);
+  --bg-glow-1: rgba(0, 240, 255, 0.1);
+  --bg-glow-2: rgba(255, 42, 133, 0.07);
+
+  --hud-tag-bg: rgba(0, 240, 255, 0.08);
+  --hud-tag-border: rgba(0, 240, 255, 0.25);
+  --hud-warn-bg: rgba(255, 184, 0, 0.12);
+  --hud-warn-border: rgba(255, 184, 0, 0.32);
+  --hud-ok-bg: rgba(0, 255, 159, 0.12);
+  --hud-ok-border: rgba(0, 255, 159, 0.32);
+
   color-scheme: dark;
 }
 
-/* ---------- Base ---------- */
-* { box-sizing: border-box; }
+/* ---------- Base & Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
-  font: 16px/1.5 var(--fuente);
-  background: var(--bg);
+  font: 16px/1.55 var(--fuente);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 20% 10%, var(--bg-glow-1) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 75%, var(--bg-glow-2) 0%, transparent 55%),
+    linear-gradient(var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+  background-attachment: fixed;
+  color: var(--fg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enfoque accesible consistente */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8px 32px 72px;
+}
+
+/* Navegación táctica de retorno en páginas de herramientas */
+nav {
+  margin-bottom: 24px;
+}
+nav a {
+  font-family: var(--fuente-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  transition: transform .15s ease, color .15s ease;
+}
+nav a:hover {
+  text-decoration: none;
+  transform: translateX(-3px);
   color: var(--fg);
 }
-main { max-width: 860px; margin: 0 auto; padding: 8px 16px 64px; }
-a { color: var(--accent); }
-h1 { font-size: 1.5rem; margin: 8px 0 4px; }
-p.sub { color: var(--muted); margin: 0 0 24px; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color .15s ease;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+h1 { font-size: 1.75rem; margin: 8px 0 6px; }
+p.sub { color: var(--muted); margin: 0 0 24px; font-size: 0.95rem; }
 .note { font-size: .8125rem; color: var(--muted); margin: 6px 0 0; }
 
-input, textarea, button { font-family: inherit; font-size: inherit; }
-button {
-  padding: 9px 16px; border-radius: 8px;
-  border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent);
-  cursor: pointer;
+input, textarea, button, select {
+  font-family: inherit;
+  font-size: inherit;
 }
-button.sec { background: transparent; color: var(--accent); }
-button:disabled { opacity: .5; cursor: default; }
 
-/* ---------- Barra superior con el interruptor de tema ---------- */
-.topbar { display: flex; align-items: center; padding: 12px 16px; }
-.switch {
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 4px 8px 4px 4px; background: transparent; border: 0; border-radius: 999px;
-  color: var(--muted); font-size: .875rem;
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .15s ease, background-color .15s ease, border-color .15s ease;
 }
-.switch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:hover:not(:disabled) {
+  box-shadow: 0 0 12px var(--accent-glow);
+  transform: translateY(-1px);
+}
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+button.sec {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--line);
+}
+button.sec:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--hud-tag-bg);
+}
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ---------- Barra superior (Topbar) ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-family: var(--fuente-mono);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-decoration: none;
+}
+.topbar-brand:hover {
+  text-decoration: none;
+  color: var(--accent);
+}
+.topbar-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Interruptor de tema */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 10px 4px 5px;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: .8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: border-color .15s ease, color .15s ease;
+}
+.switch:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
 .switch-track {
-  position: relative; width: 44px; height: 24px; border-radius: 999px;
-  background: var(--line); transition: background .2s;
+  position: relative;
+  width: 38px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background .2s ease;
 }
 .switch-thumb {
-  position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%;
-  background: var(--bg); border: 1px solid var(--muted);
-  transition: transform .2s;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--muted);
+  transition: transform .2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.switch[aria-checked="true"] .switch-track { background: var(--accent); }
-.switch[aria-checked="true"] .switch-thumb { transform: translateX(20px); border-color: var(--on-accent); }
+.switch[aria-checked="true"] .switch-track {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+.switch[aria-checked="true"] .switch-thumb {
+  transform: translateX(18px);
+  border-color: var(--on-accent);
+  background: var(--on-accent);
+}
+
+/* Botón de sonido táctico */
+.sound-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: .8125rem;
+  font-family: var(--fuente-mono);
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: border-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.sound-btn:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+.sound-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+.sound-btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* ---------- Badges y Chips Tácticos HUD ---------- */
+.hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-family: var(--fuente-mono);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+.hud-badge-ok {
+  background: var(--hud-ok-bg);
+  border-color: var(--hud-ok-border);
+  color: var(--accent-ok);
+}
+.hud-badge-warn {
+  background: var(--hud-warn-bg);
+  border-color: var(--hud-warn-border);
+  color: var(--accent-warn);
+}
+.hud-badge-tag {
+  background: var(--hud-tag-bg);
+  border-color: var(--hud-tag-border);
+  color: var(--accent);
+}
+
+/* Punto de pulso estilo radar */
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.hud-badge-ok .pulse-dot {
+  background: var(--accent-ok);
+  box-shadow: 0 0 8px var(--accent-ok);
+  animation: radar-pulse 2s infinite ease-in-out;
+}
+.hud-badge-warn .pulse-dot {
+  background: var(--accent-warn);
+  box-shadow: 0 0 6px var(--accent-warn);
+}
+
+@keyframes radar-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .switch-track, .switch-thumb { transition: none; }
+  .switch-track, .switch-thumb, button, .pulse-dot {
+    transition: none !important;
+    animation: none !important;
+  }
 }

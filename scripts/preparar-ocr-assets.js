@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
-const assetsDir = path.join(rootDir, 'ocr', 'assets');
+const assetsDir = path.join(rootDir, 'pages', 'ocr', 'assets');
 const coreDir = path.join(assetsDir, 'core');
 const tessdataFastDir = path.join(assetsDir, 'tessdata', 'fast');
 const tessdataBestDir = path.join(assetsDir, 'tessdata', 'best');

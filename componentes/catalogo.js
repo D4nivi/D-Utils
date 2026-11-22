@@ -8,7 +8,7 @@
     {
       id: "recortar",
       titulo: "Recortar imágenes",
-      url: "pages/recortar/index.html",
+      url: "pages/recortar/",
       estado: "disponibles",
       badgeClase: "hud-badge-ok",
       badgeTexto: "DISPONIBLE",
@@ -23,7 +23,7 @@
     {
       id: "simbolos",
       titulo: "Símbolos para copiar/pegar",
-      url: "pages/simbolos/index.html",
+      url: "pages/simbolos/",
       estado: "construccion",
       badgeClase: "hud-badge-warn",
       badgeTexto: "EN CONSTRUCCIÓN",
@@ -38,7 +38,7 @@
     {
       id: "ruleta",
       titulo: "Ruleta para sorteos",
-      url: "pages/ruleta/index.html",
+      url: "pages/ruleta/",
       estado: "construccion",
       badgeClase: "hud-badge-warn",
       badgeTexto: "EN CONSTRUCCIÓN",
@@ -53,7 +53,7 @@
     {
       id: "contador-palabras",
       titulo: "Contador de palabras",
-      url: "pages/contador-palabras/index.html",
+      url: "pages/contador-palabras/",
       estado: "disponibles",
       badgeClase: "hud-badge-ok",
       badgeTexto: "DISPONIBLE",
@@ -68,7 +68,7 @@
     {
       id: "comparador-textos",
       titulo: "Comparador de textos",
-      url: "pages/comparador-textos/index.html",
+      url: "pages/comparador-textos/",
       estado: "construccion",
       badgeClase: "hud-badge-warn",
       badgeTexto: "EN CONSTRUCCIÓN",
@@ -83,7 +83,7 @@
     {
       id: "ocr",
       titulo: "OCR (Extracción de texto)",
-      url: "pages/ocr/index.html",
+      url: "pages/ocr/",
       estado: "disponibles",
       badgeClase: "hud-badge-ok",
       badgeTexto: "DISPONIBLE",
@@ -98,7 +98,7 @@
     {
       id: "indexator",
       titulo: "Indexator",
-      url: "pages/indexator/index.html",
+      url: "pages/indexator/",
       estado: "disponibles",
       badgeClase: "hud-badge-ok",
       badgeTexto: "DISPONIBLE",
@@ -130,12 +130,17 @@
         return '<span class="tool-tag-mini">' + t + '</span>';
       }).join("");
 
+      var urlDestino = item.url;
+      if (typeof location !== "undefined" && location.protocol === "file:") {
+        urlDestino = item.url.replace(/\/?$/, "/index.html");
+      }
+
       return (
         '<li class="tool-item"' +
             ' data-estado="' + item.estado + '"' +
             ' data-categoria="' + item.categoria + '"' +
             ' data-keywords="' + item.keywords + '">' +
-          '<a class="tool-card' + esConstruccion + '" href="' + item.url + '">' +
+          '<a class="tool-card' + esConstruccion + '" href="' + urlDestino + '">' +
             '<div class="tool-preview">' +
               '<div class="preview-hud"></div>' +
               svgIcono +

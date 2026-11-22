@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>D-Utils · Micro-utilidades tácticas de navegador</title>
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/portada.css">
-<link rel="stylesheet" href="assets/css/animaciones.css">
-<script src="assets/base.js"></script>
+<link rel="stylesheet" href="assets/css/base.css?v=2.1">
+<link rel="stylesheet" href="assets/css/portada.css?v=2.1">
+<link rel="stylesheet" href="assets/css/animaciones.css?v=2.1">
+<script src="assets/base.js?v=2.1"></script>
 </head>
 <body>
 <main>
@@ -77,18 +77,23 @@
 </main>
 
 <!-- Scripts de componentes modulares -->
-<script src="componentes/iconos.js"></script>
-<script src="componentes/temas.js"></script>
-<script src="componentes/fondo.js"></script>
-<script src="componentes/radio.js"></script>
-<script src="componentes/catalogo.js"></script>
-<script src="componentes/buscador.js"></script>
+<script src="componentes/iconos.js?v=2.1"></script>
+<script src="componentes/temas.js?v=2.1"></script>
+<script src="componentes/fondo.js?v=2.1"></script>
+<script src="componentes/radio.js?v=2.1"></script>
+<script src="componentes/catalogo.js?v=2.1"></script>
+<script src="componentes/buscador.js?v=2.1"></script>
 <script>
 "use strict";
-document.addEventListener("DOMContentLoaded", function () {
-  window.DUtilsRenderizarCatalogo("lista");
-  window.DUtilsInicializarBuscador();
-});
+function iniciarPortada() {
+  if (window.DUtilsRenderizarCatalogo) window.DUtilsRenderizarCatalogo("lista");
+  if (window.DUtilsInicializarBuscador) window.DUtilsInicializarBuscador();
+}
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", iniciarPortada);
+} else {
+  iniciarPortada();
+}
 </script>
 </body>
 </html>

@@ -82,6 +82,22 @@
   animation: node-glow 2s ease-in-out infinite alternate;
 }
 
+/* ---------- Variaciones dinámicas según tema visual ---------- */
+[data-theme="cartoon"] .tool-card:hover {
+  animation: cartoon-bounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes cartoon-bounce {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.02) rotate(-0.6deg); }
+  100% { transform: translateY(-4px) scale(1.015) rotate(0deg); }
+}
+
+[data-theme="gatos"] .tool-card:hover {
+  transform: translateY(-5px) scale(1.012);
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 /* Accesibilidad: reducción de movimiento */
 @media (prefers-reduced-motion: reduce) {
   .anim-crop-border,
@@ -90,7 +106,8 @@
   .anim-bar-1, .anim-bar-2, .anim-bar-3,
   .anim-diff-beam,
   .anim-ocr-beam,
-  .anim-node {
+  .anim-node,
+  [data-theme="cartoon"] .tool-card:hover {
     animation: none !important;
   }
 }

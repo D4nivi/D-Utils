@@ -6,83 +6,485 @@
 <meta name="robots" content="noindex">
 <title>Contador de palabras · D-Utils</title>
 <link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="contador.css">
 <script src="../assets/base.js"></script>
-<style>
-  main { max-width: 860px; margin: 0 auto; padding: 12px 24px 64px; }
-  nav { margin-bottom: 24px; }
-  nav a { font-family: var(--fuente-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
-  .panel-dev {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 36px 32px;
-    backdrop-filter: blur(14px);
-    position: relative;
-    overflow: hidden;
-  }
-  .panel-dev::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-warn), transparent);
-  }
-  .dev-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .specs-box {
-    margin: 28px 0;
-    padding: 20px;
-    background: rgba(0,0,0,0.15);
-    border: 1px dashed var(--line);
-    border-radius: 8px;
-    font-family: var(--fuente-mono);
-    font-size: 0.85rem;
-  }
-  .specs-box h3 {
-    font-size: 0.9rem;
-    color: var(--accent-warn);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .specs-box ul {
-    margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.7;
-  }
-</style>
+<script src="../componentes/iconos.js"></script>
+<script src="contador.js"></script>
 </head>
 <body>
 <main>
   <nav><a href="../index.html">← D-Utils // Centro de control</a></nav>
 
-  <div class="panel-dev">
-    <div class="dev-header">
-      <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
-      <span style="font-family: var(--fuente-mono); font-size: 0.8rem; color: var(--muted);">MOD_04 // ANÁLISIS DE TEXTO</span>
+  <div class="meta-header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+      <span class="meta-code">MOD_04 // ANÁLISIS DE TEXTO</span>
+    </div>
+    <span class="meta-code">PROCESAMIENTO 100% LOCAL</span>
+  </div>
+
+  <h1>Contador de palabras</h1>
+  <p class="sub">Analizador métrico de redacción en tiempo real con tiempos estimados de lectura, locución y densidad léxica.</p>
+
+  <div class="contador-layout">
+    <!-- Columna Izquierda: Área de escritura amplia y barra de acciones -->
+    <div class="col-escritura">
+      <div class="barra-acciones" role="toolbar" aria-label="Acciones de texto">
+        <div class="acciones-grupo">
+          <button type="button" class="btn-tactico" id="btn-pegar" title="Pegar texto desde el portapapeles">
+            <span class="btn-icono" data-icono="pegar"></span>
+            <span>Pegar</span>
+          </button>
+          <label class="btn-tactico" title="Cargar archivo de texto (.txt o .md)">
+            <span class="btn-icono" data-icono="subir"></span>
+            <span>Subir .txt/.md</span>
+            <input type="file" id="input-archivo" accept=".txt,.md,text/plain,text/markdown" hidden>
+          </label>
+          <button type="button" class="btn-tactico" id="btn-copiar" title="Copiar texto al portapapeles">
+            <span class="btn-icono" data-icono="copiar"></span>
+            <span id="label-copiar">Copiar</span>
+          </button>
+          <button type="button" class="btn-tactico btn-tactico-peligro" id="btn-borrar" title="Borrar todo el texto">
+            <span class="btn-icono" data-icono="borrar"></span>
+            <span>Borrar</span>
+          </button>
+        </div>
+        <div class="toast-feedback" id="toast-feedback" aria-live="polite"></div>
+      </div>
+
+      <div class="editor-contenedor" id="editor-drop-zone">
+        <textarea
+          id="editor-texto"
+          placeholder="Escribe o pega tu texto aquí para comenzar el análisis métrico en tiempo real... (También puedes arrastrar archivos .txt o .md)"
+          spellcheck="true"
+          aria-label="Área de escritura de texto"
+          autofocus
+        ></textarea>
+        <div class="editor-pie">
+          <span class="editor-pista">
+            <span class="editor-dot"></span> Procesamiento en vivo · Privacidad 100% garantizada
+          </span>
+          <span class="editor-cuenta-pie" id="editor-pie-info">0 caracteres</span>
+        </div>
+      </div>
     </div>
 
-    <h1>Contador de palabras</h1>
-    <p class="sub">Analizador métrico de texto en tiempo real con estadísticas de longitud, tiempos estimados y densidades léxicas.</p>
+    <!-- Columna Derecha: Panel de métricas organizado y alineado horizontalmente -->
+    <div class="col-metricas">
+      <!-- 1. KPI Hero Principal: Palabras -->
+      <div class="panel-card panel-hero">
+        <div class="hero-header">
+          <span class="hero-etiqueta">Palabras</span>
+        </div>
+        <div class="hero-valor" id="val-palabras">0</div>
+        <div class="hero-pie" id="val-resumen-paginas">0.0 páginas estimadas (~275 palabras/pág.)</div>
+      </div>
 
-    <div class="specs-box">
-      <h3>Planificación de características del módulo</h3>
-      <ul>
-        <li>Conteo en vivo de palabras, caracteres (con y sin espacios), frases, párrafos y líneas.</li>
-        <li>Tiempo estimado de lectura en silencio y tiempo estimado de locución (WPM configurable).</li>
-        <li>Distribución de palabras más frecuentes y palabras clave (excluyendo palabras vacías / stopwords en español).</li>
-        <li>Medidor de legibilidad y longitud promedio de oraciones.</li>
-      </ul>
-    </div>
+      <!-- 2. Métricas obligatorias organizadas en bloques compactos y legibles -->
+      <div class="panel-card">
+        <div class="panel-titulo">Métricas de estructura</div>
+        <div class="grid-metricas">
+          <div class="metrica-tile">
+            <span class="metrica-nombre">Caracteres</span>
+            <span class="metrica-valor" id="val-caracteres">0</span>
+          </div>
+          <div class="metrica-tile">
+            <span class="metrica-nombre">Caracteres sin espacios</span>
+            <span class="metrica-valor" id="val-sin-espacios">0</span>
+          </div>
+          <div class="metrica-tile">
+            <span class="metrica-nombre">Espacios</span>
+            <span class="metrica-valor" id="val-espacios">0</span>
+          </div>
+          <div class="metrica-tile">
+            <span class="metrica-nombre">Oraciones</span>
+            <span class="metrica-valor" id="val-oraciones">0</span>
+          </div>
+          <div class="metrica-tile">
+            <span class="metrica-nombre">Líneas</span>
+            <span class="metrica-valor" id="val-lineas">0</span>
+          </div>
+          <div class="metrica-tile">
+            <span class="metrica-nombre">Líneas no vacías</span>
+            <span class="metrica-valor" id="val-lineas-no-vacias">0</span>
+          </div>
+          <div class="metrica-tile metrica-tile-ancho">
+            <span class="metrica-nombre">Páginas</span>
+            <span class="metrica-valor metrica-valor-destacado" id="val-paginas">0.0</span>
+          </div>
+        </div>
+      </div>
 
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <a href="../index.html"><button type="button">Volver al catálogo</button></a>
-      <span class="note">Módulo en cola de desarrollo estático.</span>
+      <!-- 3. Tiempos estimados (Lectura y Habla) -->
+      <div class="panel-card">
+        <div class="panel-titulo">Tiempos estimados</div>
+        <div class="grid-tiempos">
+          <div class="tiempo-tile">
+            <div class="tiempo-icono-caja" data-icono="reloj"></div>
+            <div class="tiempo-info">
+              <span class="metrica-nombre">Tiempo de lectura</span>
+              <span class="tiempo-valor" id="val-tiempo-lectura">0 min 0 s</span>
+              <span class="tiempo-sub">~200 palabras/min</span>
+            </div>
+          </div>
+          <div class="tiempo-tile">
+            <div class="tiempo-icono-caja" data-icono="habla"></div>
+            <div class="tiempo-info">
+              <span class="metrica-nombre">Tiempo de habla</span>
+              <span class="tiempo-valor" id="val-tiempo-habla">0 min 0 s</span>
+              <span class="tiempo-sub">~135 palabras/min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Palabras clave (Top frecuencias y porcentaje de densidad) -->
+      <div class="panel-card panel-claves">
+        <div class="claves-cabecera">
+          <span class="hero-etiqueta">Palabras clave</span>
+          <div class="selector-segmentado" role="radiogroup" aria-label="Tipo de palabra clave">
+            <button type="button" class="btn-segmento activo" id="btn-modo-unigrama" data-modo="unigrama" role="radio" aria-checked="true">Palabras</button>
+            <button type="button" class="btn-segmento" id="btn-modo-bigrama" data-modo="bigrama" role="radio" aria-checked="false">Bigramas</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="switch-contenedor" title="Filtrar palabras funcionales, artículos y preposiciones habituales">
+            <input type="checkbox" class="switch-input" id="check-stopwords" checked>
+            <span class="switch-cuerpo"></span>
+            <span>Filtrar palabras vacías</span>
+          </label>
+        </div>
+
+        <div class="lista-claves" id="lista-claves" role="region" aria-live="polite">
+          <div class="vacio-box">Escribe o pega texto para ver la densidad léxica</div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
+
+<script>
+(function () {
+  "use strict";
+
+  // Elementos del DOM
+  var editor = document.getElementById("editor-texto");
+  var dropZone = document.getElementById("editor-drop-zone");
+  var inputArchivo = document.getElementById("input-archivo");
+  var btnPegar = document.getElementById("btn-pegar");
+  var btnCopiar = document.getElementById("btn-copiar");
+  var labelCopiar = document.getElementById("label-copiar");
+  var btnBorrar = document.getElementById("btn-borrar");
+  var toastFeedback = document.getElementById("toast-feedback");
+
+  // Métricas
+  var elPalabras = document.getElementById("val-palabras");
+  var elResumenPaginas = document.getElementById("val-resumen-paginas");
+  var elCaracteres = document.getElementById("val-caracteres");
+  var elSinEspacios = document.getElementById("val-sin-espacios");
+  var elEspacios = document.getElementById("val-espacios");
+  var elOraciones = document.getElementById("val-oraciones");
+  var elLineas = document.getElementById("val-lineas");
+  var elLineasNoVacias = document.getElementById("val-lineas-no-vacias");
+  var elPaginas = document.getElementById("val-paginas");
+  var elTiempoLectura = document.getElementById("val-tiempo-lectura");
+  var elTiempoHabla = document.getElementById("val-tiempo-habla");
+  var elPieInfo = document.getElementById("editor-pie-info");
+  var listaClaves = document.getElementById("lista-claves");
+
+  // Controles de palabras clave
+  var btnModoUnigrama = document.getElementById("btn-modo-unigrama");
+  var btnModoBigrama = document.getElementById("btn-modo-bigrama");
+  var checkStopwords = document.getElementById("check-stopwords");
+
+  var estado = {
+    modoClaves: "unigrama",
+    filtrarStopwords: true
+  };
+
+  var toastTimer = null;
+
+  function mostrarFeedback(mensaje, conExito) {
+    if (toastTimer) clearTimeout(toastTimer);
+    toastFeedback.textContent = mensaje;
+    toastFeedback.style.color = conExito === false ? "var(--error)" : "var(--accent-ok)";
+    toastFeedback.classList.add("visible");
+    toastTimer = setTimeout(function () {
+      toastFeedback.classList.remove("visible");
+    }, 2400);
+  }
+
+  function reproducirAudio(tipo) {
+    if (window.DUtils && window.DUtils.audio && typeof window.DUtils.audio[tipo] === "function") {
+      window.DUtils.audio[tipo]();
+    }
+  }
+
+  // Carga y actualización de iconos centralizados
+  function actualizarIconos() {
+    if (!window.DUtilsIconos) {
+      setTimeout(actualizarIconos, 60);
+      return;
+    }
+    var tema = document.documentElement.getAttribute("data-theme") || "tactico";
+    var slots = document.querySelectorAll("[data-icono]");
+    for (var i = 0; i < slots.length; i++) {
+      var idIcono = slots[i].getAttribute("data-icono");
+      var svg = window.DUtilsIconos.obtener ? window.DUtilsIconos.obtener(idIcono, tema) : (window.DUtilsIconos[idIcono] || "");
+      if (svg) {
+        slots[i].innerHTML = svg;
+      }
+    }
+  }
+
+  // Renderizado reactivo de palabras clave
+  function renderizarClaves(claves, numPalabras) {
+    if (!claves || claves.length === 0) {
+      if (numPalabras === 0) {
+        listaClaves.innerHTML = '<div class="vacio-box">Escribe o pega texto para ver la densidad léxica</div>';
+      } else {
+        listaClaves.innerHTML = '<div class="vacio-box">No se encontraron términos que coincidan con los filtros</div>';
+      }
+      return;
+    }
+
+    var html = "";
+    for (var i = 0; i < claves.length; i++) {
+      var item = claves[i];
+      html +=
+        '<div class="fila-kw">' +
+          '<div class="fila-kw-barra" style="width: ' + item.proporcionVisual + '%;"></div>' +
+          '<span class="fila-kw-termino">' + escaparHTML(item.termino) + '</span>' +
+          '<div class="fila-kw-metricas">' +
+            '<span class="kw-frecuencia">' + item.frecuencia + '×</span>' +
+            '<span class="kw-porcentaje">' + item.porcentaje + '</span>' +
+          '</div>' +
+        '</div>';
+    }
+    listaClaves.innerHTML = html;
+  }
+
+  function escaparHTML(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Análisis y actualización de métricas en pantalla
+  function procesarTexto() {
+    var texto = editor.value;
+    if (!window.DUtilsContador) {
+      setTimeout(procesarTexto, 60);
+      return;
+    }
+
+    var resultados = window.DUtilsContador.analizar(texto, {
+      modoClaves: estado.modoClaves,
+      filtrarStopwords: estado.filtrarStopwords
+    });
+
+    elPalabras.textContent = resultados.palabras.toLocaleString("es-ES");
+    elResumenPaginas.textContent = resultados.paginas + " páginas estimadas (~275 palabras/pág.)";
+
+    elCaracteres.textContent = resultados.caracteres.toLocaleString("es-ES");
+    elSinEspacios.textContent = resultados.caracteresSinEspacios.toLocaleString("es-ES");
+    elEspacios.textContent = resultados.espacios.toLocaleString("es-ES");
+    elOraciones.textContent = resultados.oraciones.toLocaleString("es-ES");
+    elLineas.textContent = resultados.lineas.toLocaleString("es-ES");
+    elLineasNoVacias.textContent = resultados.lineasNoVacias.toLocaleString("es-ES");
+    elPaginas.textContent = resultados.paginas;
+
+    elTiempoLectura.textContent = resultados.tiempoLectura;
+    elTiempoHabla.textContent = resultados.tiempoHabla;
+
+    elPieInfo.textContent = resultados.caracteres.toLocaleString("es-ES") + " caracteres";
+
+    renderizarClaves(resultados.palabrasClave, resultados.palabras);
+  }
+
+  // Acciones rápidas
+  btnPegar.addEventListener("click", function () {
+    reproducirAudio("click");
+    if (navigator.clipboard && navigator.clipboard.readText) {
+      navigator.clipboard.readText().then(function (clip) {
+        if (clip) {
+          editor.value = clip;
+          procesarTexto();
+          editor.focus();
+          mostrarFeedback("Texto pegado desde el portapapeles", true);
+        } else {
+          mostrarFeedback("El portapapeles está vacío", false);
+        }
+      }).catch(function () {
+        editor.focus();
+        mostrarFeedback("Usa Ctrl+V / Cmd+V para pegar", false);
+      });
+    } else {
+      editor.focus();
+      mostrarFeedback("Usa Ctrl+V / Cmd+V para pegar", false);
+    }
+  });
+
+  btnCopiar.addEventListener("click", function () {
+    var txt = editor.value;
+    if (!txt) {
+      mostrarFeedback("No hay texto para copiar", false);
+      reproducirAudio("click");
+      return;
+    }
+    reproducirAudio("accion");
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () {
+        mostrarFeedback("¡Texto copiado al portapapeles!", true);
+        labelCopiar.textContent = "¡Copiado!";
+        setTimeout(function () {
+          labelCopiar.textContent = "Copiar";
+        }, 1800);
+      }).catch(function () {
+        copiarFallback(txt);
+      });
+    } else {
+      copiarFallback(txt);
+    }
+  });
+
+  function copiarFallback(txt) {
+    editor.select();
+    try {
+      document.execCommand("copy");
+      mostrarFeedback("¡Texto copiado al portapapeles!", true);
+      labelCopiar.textContent = "¡Copiado!";
+      setTimeout(function () {
+        labelCopiar.textContent = "Copiar";
+      }, 1800);
+    } catch (e) {
+      mostrarFeedback("Error al copiar texto", false);
+    }
+  }
+
+  btnBorrar.addEventListener("click", function () {
+    if (!editor.value) return;
+    editor.value = "";
+    procesarTexto();
+    editor.focus();
+    reproducirAudio("click");
+    mostrarFeedback("Texto borrado", true);
+  });
+
+  // Carga de archivos .txt y .md
+  inputArchivo.addEventListener("change", function (e) {
+    var archivo = e.target.files && e.target.files[0];
+    if (!archivo) return;
+    cargarArchivoTexto(archivo);
+    inputArchivo.value = "";
+  });
+
+  function cargarArchivoTexto(archivo) {
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+      editor.value = ev.target.result;
+      procesarTexto();
+      editor.focus();
+      reproducirAudio("accion");
+      mostrarFeedback("Archivo cargado: " + archivo.name, true);
+    };
+    reader.onerror = function () {
+      mostrarFeedback("Error al leer el archivo", false);
+    };
+    reader.readAsText(archivo);
+  }
+
+  // Drag & drop de archivos sobre la caja de escritura
+  dropZone.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    dropZone.classList.add("drag-over");
+  });
+
+  dropZone.addEventListener("dragleave", function (e) {
+    if (!dropZone.contains(e.relatedTarget)) {
+      dropZone.classList.remove("drag-over");
+    }
+  });
+
+  dropZone.addEventListener("drop", function (e) {
+    e.preventDefault();
+    dropZone.classList.remove("drag-over");
+
+    if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      var archivo = e.dataTransfer.files[0];
+      cargarArchivoTexto(archivo);
+    } else if (e.dataTransfer && e.dataTransfer.getData) {
+      var txtDrop = e.dataTransfer.getData("text");
+      if (txtDrop) {
+        editor.value = txtDrop;
+        procesarTexto();
+        reproducirAudio("accion");
+        mostrarFeedback("Texto soltado en el editor", true);
+      }
+    }
+  });
+
+  // Conmutador de modo de palabras clave (Palabras vs Bigramas)
+  btnModoUnigrama.addEventListener("click", function () {
+    if (estado.modoClaves === "unigrama") return;
+    estado.modoClaves = "unigrama";
+    btnModoUnigrama.classList.add("activo");
+    btnModoUnigrama.setAttribute("aria-checked", "true");
+    btnModoBigrama.classList.remove("activo");
+    btnModoBigrama.setAttribute("aria-checked", "false");
+    reproducirAudio("click");
+    procesarTexto();
+  });
+
+  btnModoBigrama.addEventListener("click", function () {
+    if (estado.modoClaves === "bigrama") return;
+    estado.modoClaves = "bigrama";
+    btnModoBigrama.classList.add("activo");
+    btnModoBigrama.setAttribute("aria-checked", "true");
+    btnModoUnigrama.classList.remove("activo");
+    btnModoUnigrama.setAttribute("aria-checked", "false");
+    reproducirAudio("click");
+    procesarTexto();
+  });
+
+  // Switch de palabras vacías
+  checkStopwords.addEventListener("change", function () {
+    estado.filtrarStopwords = checkStopwords.checked;
+    reproducirAudio("click");
+    procesarTexto();
+  });
+
+  // Eventos de entrada en el editor
+  editor.addEventListener("input", function () {
+    procesarTexto();
+  });
+
+  // Observador de cambio de tema para refrescar iconos dinámicos
+  var observerTema = new MutationObserver(function (mutations) {
+    mutations.forEach(function (m) {
+      if (m.type === "attributes" && m.attributeName === "data-theme") {
+        actualizarIconos();
+      }
+    });
+  });
+  observerTema.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  // Inicialización
+  document.addEventListener("DOMContentLoaded", function () {
+    actualizarIconos();
+    procesarTexto();
+  });
+
+  // Si los scripts cargan después de DOMContentLoaded
+  if (document.readyState === "interactive" || document.readyState === "complete") {
+    actualizarIconos();
+    procesarTexto();
+  }
+})();
+</script>
 </body>
 </html>

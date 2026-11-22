@@ -58,8 +58,9 @@
   display: flex;
   align-items: center;
   background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
+  border: var(--card-border-width, 1px) solid var(--card-border);
+  border-radius: var(--radio-card, 10px);
+  box-shadow: var(--sombra-card, none);
   backdrop-filter: blur(10px);
   transition: border-color .15s ease, box-shadow .15s ease;
 }
@@ -120,13 +121,13 @@
 }
 .filter-chip {
   padding: 5px 14px;
-  border-radius: 999px;
+  border-radius: var(--radio-borde, 999px);
   font-size: 0.78rem;
   font-family: var(--fuente-mono);
   font-weight: 600;
   color: var(--muted);
   background: var(--card-bg);
-  border: 1px solid var(--line);
+  border: var(--card-border-width, 1px) solid var(--line);
   cursor: pointer;
   transition: all .15s ease;
   backdrop-filter: blur(6px);
@@ -177,8 +178,9 @@
   height: 100%;
   min-height: 200px;
   background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
+  border: var(--card-border-width, 1px) solid var(--card-border);
+  border-radius: var(--radio-card, 12px);
+  box-shadow: var(--sombra-card, none);
   overflow: hidden;
   text-decoration: none;
   color: inherit;
@@ -191,7 +193,7 @@
 .tool-card:hover {
   transform: translateY(-3px);
   border-color: var(--card-hover-border);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 16px var(--accent-glow);
+  box-shadow: var(--sombra-hover, 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 16px var(--accent-glow));
   text-decoration: none;
 }
 .tool-card:focus-visible {

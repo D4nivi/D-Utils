@@ -21,48 +21,13 @@
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
-/* ---------- Variables de tema ---------- */
-:root {
+/* ---------- Variables de tema y skins ---------- */
+:root,
+:root[data-theme="tactico"] {
   --fuente: "Rubik", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --fuente-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
 
-  /* Tema claro: Laboratorio táctico / Clean Sci-Fi */
-  --bg: #f3f6fa;
-  --fg: #0d1624;
-  --muted: #53647b;
-  --line: #d1dbe7;
-  --accent: #0077b6;
-  --accent-rgb: 0, 119, 182;
-  --accent-glow: rgba(0, 119, 182, 0.25);
-  --accent-sec: #e02167;
-  --accent-sec-rgb: 224, 33, 103;
-  --accent-ok: #028a5e;
-  --accent-warn: #c26900;
-  --on-accent: #ffffff;
-  --card: #ffffff;
-  --card-bg: rgba(255, 255, 255, 0.88);
-  --card-border: rgba(13, 22, 36, 0.12);
-  --card-hover-border: rgba(0, 119, 182, 0.55);
-  --error: #d92d20;
-
-  /* Fondos atmosféricos */
-  --bg-grid: rgba(13, 22, 36, 0.04);
-  --bg-dots: rgba(0, 119, 182, 0.06);
-  --bg-glow-1: rgba(0, 119, 182, 0.06);
-  --bg-glow-2: rgba(224, 33, 103, 0.035);
-
-  --hud-tag-bg: rgba(0, 119, 182, 0.08);
-  --hud-tag-border: rgba(0, 119, 182, 0.22);
-  --hud-warn-bg: rgba(194, 105, 0, 0.1);
-  --hud-warn-border: rgba(194, 105, 0, 0.28);
-  --hud-ok-bg: rgba(2, 138, 94, 0.1);
-  --hud-ok-border: rgba(2, 138, 94, 0.28);
-
-  color-scheme: light;
-}
-
-:root[data-theme="dark"] {
-  /* Tema oscuro: Cyberpunk táctico / Mecha HUD */
+  /* Tema 1: Cyberpunk táctico / Mecha HUD (Oscuro por defecto) */
   --bg: #090d16;
   --fg: #e6edf8;
   --muted: #7f93ad;
@@ -81,6 +46,13 @@
   --card-hover-border: rgba(0, 240, 255, 0.7);
   --error: #ff3366;
 
+  /* Radios y bordes */
+  --radio-borde: 999px;
+  --radio-card: 12px;
+  --card-border-width: 1px;
+  --sombra-card: none;
+  --sombra-hover: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 16px var(--accent-glow);
+
   /* Fondos atmosféricos */
   --bg-grid: rgba(0, 240, 255, 0.035);
   --bg-dots: rgba(0, 240, 255, 0.08);
@@ -93,6 +65,135 @@
   --hud-warn-border: rgba(255, 184, 0, 0.32);
   --hud-ok-bg: rgba(0, 255, 159, 0.12);
   --hud-ok-border: rgba(0, 255, 159, 0.32);
+
+  color-scheme: dark;
+}
+
+:root[data-theme="laboratorio"] {
+  /* Tema 2: Clean Sci-Fi / Laboratorio claro */
+  --bg: #f3f6fa;
+  --fg: #0d1624;
+  --muted: #53647b;
+  --line: #d1dbe7;
+  --accent: #0077b6;
+  --accent-rgb: 0, 119, 182;
+  --accent-glow: rgba(0, 119, 182, 0.25);
+  --accent-sec: #e02167;
+  --accent-sec-rgb: 224, 33, 103;
+  --accent-ok: #028a5e;
+  --accent-warn: #c26900;
+  --on-accent: #ffffff;
+  --card: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.88);
+  --card-border: rgba(13, 22, 36, 0.12);
+  --card-hover-border: rgba(0, 119, 182, 0.55);
+  --error: #d92d20;
+
+  /* Radios y bordes */
+  --radio-borde: 999px;
+  --radio-card: 12px;
+  --card-border-width: 1px;
+  --sombra-card: none;
+  --sombra-hover: 0 10px 24px rgba(13, 22, 36, 0.1), 0 0 14px var(--accent-glow);
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(13, 22, 36, 0.04);
+  --bg-dots: rgba(0, 119, 182, 0.06);
+  --bg-glow-1: rgba(0, 119, 182, 0.06);
+  --bg-glow-2: rgba(224, 33, 103, 0.035);
+
+  --hud-tag-bg: rgba(0, 119, 182, 0.08);
+  --hud-tag-border: rgba(0, 119, 182, 0.22);
+  --hud-warn-bg: rgba(194, 105, 0, 0.1);
+  --hud-warn-border: rgba(194, 105, 0, 0.28);
+  --hud-ok-bg: rgba(2, 138, 94, 0.1);
+  --hud-ok-border: rgba(2, 138, 94, 0.28);
+
+  color-scheme: light;
+}
+
+:root[data-theme="cartoon"] {
+  /* Tema 3: Estilo Cómic Pop-Art */
+  --bg: #fffbf0;
+  --fg: #181818;
+  --muted: #645e54;
+  --line: #181818;
+  --accent: #ff477e;
+  --accent-rgb: 255, 71, 126;
+  --accent-glow: rgba(255, 71, 126, 0.35);
+  --accent-sec: #00d2d3;
+  --accent-sec-rgb: 0, 210, 211;
+  --accent-ok: #10ac84;
+  --accent-warn: #ff9f43;
+  --on-accent: #ffffff;
+  --card: #ffffff;
+  --card-bg: #ffffff;
+  --card-border: #181818;
+  --card-hover-border: #ff477e;
+  --error: #ee5253;
+
+  /* Bordes cómic marcados y sombras pop en bloque */
+  --radio-borde: 14px;
+  --radio-card: 16px;
+  --card-border-width: 2.5px;
+  --sombra-card: 4px 4px 0 #181818;
+  --sombra-hover: 7px 7px 0 #ff477e;
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(24, 24, 24, 0.04);
+  --bg-dots: rgba(255, 71, 126, 0.08);
+  --bg-glow-1: rgba(255, 71, 126, 0.08);
+  --bg-glow-2: rgba(0, 210, 211, 0.06);
+
+  --hud-tag-bg: #fff3b0;
+  --hud-tag-border: #181818;
+  --hud-warn-bg: #ffeaa7;
+  --hud-warn-border: #181818;
+  --hud-ok-bg: #c7ecee;
+  --hud-ok-border: #181818;
+
+  color-scheme: light;
+}
+
+:root[data-theme="gatos"] {
+  /* Tema 4: Michis / Acogedor felino pastel */
+  --bg: #211c27;
+  --fg: #fde8f0;
+  --muted: #bda3b5;
+  --line: #42354a;
+  --accent: #ff85a2;
+  --accent-rgb: 255, 133, 162;
+  --accent-glow: rgba(255, 133, 162, 0.35);
+  --accent-sec: #c084fc;
+  --accent-sec-rgb: 192, 132, 252;
+  --accent-ok: #6ee7b7;
+  --accent-warn: #fcd34d;
+  --on-accent: #211c27;
+  --card: #2d2435;
+  --card-bg: rgba(45, 36, 53, 0.88);
+  --card-border: rgba(255, 133, 162, 0.24);
+  --card-hover-border: #ff85a2;
+  --error: #fb7185;
+
+  /* Curvas suaves y sombras difuminadas acogedoras */
+  --radio-borde: 20px;
+  --radio-card: 20px;
+  --card-border-width: 1.5px;
+  --sombra-card: 0 4px 18px rgba(0, 0, 0, 0.28);
+  --sombra-hover: 0 8px 26px rgba(255, 133, 162, 0.28);
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(255, 133, 162, 0.04);
+  --bg-dots: rgba(255, 133, 162, 0.08);
+  --bg-glow-1: rgba(255, 133, 162, 0.1);
+  --bg-glow-2: rgba(192, 132, 252, 0.08);
+
+  --hud-tag-bg: rgba(255, 133, 162, 0.12);
+  --hud-tag-border: rgba(255, 133, 162, 0.3);
+  --hud-warn-bg: rgba(252, 211, 77, 0.14);
+  --hud-warn-border: rgba(252, 211, 77, 0.35);
+  --hud-ok-bg: rgba(110, 231, 183, 0.14);
+  --hud-ok-border: rgba(110, 231, 183, 0.35);
 
   color-scheme: dark;
 }
@@ -268,81 +369,175 @@ button:disabled {
   gap: 10px;
 }
 
-/* Interruptor de tema */
-.switch {
+/* ---------- Selector de Temas Visuales (Topbar) ---------- */
+.topbar-theme-slot {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 4px 10px 4px 5px;
+}
+
+.theme-picker {
+  position: relative;
+  display: inline-flex;
+}
+
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px 5px 9px;
   background: var(--card-bg);
   border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--muted);
+  border-radius: var(--radio-borde, 999px);
+  color: var(--fg);
   font-size: .8125rem;
-  font-weight: 500;
+  font-family: var(--fuente-mono);
+  font-weight: 600;
   cursor: pointer;
   backdrop-filter: blur(8px);
-  transition: border-color .15s ease, color .15s ease;
+  transition: border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .12s ease;
 }
-.switch:hover {
+
+.theme-btn:hover {
   border-color: var(--accent);
-  color: var(--fg);
+  box-shadow: 0 0 10px var(--accent-glow);
 }
-.switch-track {
-  position: relative;
-  width: 38px;
-  height: 20px;
-  border-radius: 999px;
-  background: var(--line);
-  transition: background .2s ease;
+
+.theme-btn:active {
+  transform: scale(0.97);
 }
-.switch-thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--muted);
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  transition: transform .2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .2s ease, border-color .2s ease;
+
+.theme-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  color: var(--accent);
+  flex-shrink: 0;
 }
-.switch[aria-checked="true"] .switch-track {
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent-glow);
+
+.theme-btn-icon svg {
+  width: 15px;
+  height: 15px;
 }
-.switch[aria-checked="true"] .switch-thumb {
-  transform: translateX(18px);
-  border-color: var(--on-accent);
-  background: var(--on-accent);
+
+.theme-btn-label {
+  letter-spacing: 0.02em;
 }
-.switch-icon {
-  grid-area: 1 / 1;
+
+.theme-btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 10px;
   height: 10px;
-  pointer-events: none;
-  transition: opacity .2s ease, transform .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--muted);
+  transition: transform .2s ease;
 }
-.switch-icon-sun {
-  color: var(--accent-warn);
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
+
+.theme-btn-arrow svg {
+  width: 10px;
+  height: 10px;
 }
-.switch-icon-moon {
+
+.theme-btn[aria-expanded="true"] .theme-btn-arrow {
+  transform: rotate(180deg);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 250px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radio-card, 12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 1000;
+  backdrop-filter: blur(16px);
+  animation: theme-pop .18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.theme-dropdown.open {
+  display: flex;
+}
+
+@keyframes theme-pop {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.theme-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fg);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--fuente);
+  transition: background-color .12s ease, border-color .12s ease;
+}
+
+.theme-opt:hover, .theme-opt:focus-visible {
+  background: var(--hud-tag-bg);
+  border-color: var(--line);
+  outline: none;
+}
+
+.theme-opt.active {
+  background: var(--hud-tag-bg);
+  border-color: var(--accent);
+}
+
+.theme-opt-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.theme-opt-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--accent);
-  opacity: 0;
-  transform: scale(0.3) rotate(-90deg);
+  flex-shrink: 0;
 }
-.switch[aria-checked="true"] .switch-icon-sun {
-  opacity: 0;
-  transform: scale(0.3) rotate(90deg);
+
+.theme-opt-icon svg {
+  width: 16px;
+  height: 16px;
 }
-.switch[aria-checked="true"] .switch-icon-moon {
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
+
+.theme-opt-text {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.theme-opt-name {
+  font-size: .8125rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.theme-opt-desc {
+  font-size: .6875rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Botón de sonido táctico */
@@ -415,6 +610,8 @@ button:disabled {
   transition: border-color .15s ease, background-color .15s ease;
 }
 
+:root[data-theme="tactico"] .radio-display,
+:root[data-theme="gatos"] .radio-display,
 :root[data-theme="dark"] .radio-display {
   background: rgba(0, 0, 0, 0.28);
 }

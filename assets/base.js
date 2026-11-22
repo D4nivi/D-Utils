@@ -27,13 +27,14 @@
   }
 
   // ---------- 1. GESTIÓN DEL TEMA (inmediato en <head>) ----------
-  var sistemaColor = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
-  function temaPorDefecto() {
-    return sistemaColor && sistemaColor.matches ? "dark" : "light";
+  function normalizarTemaInicial(t) {
+    if (t === "dark") return "tactico";
+    if (t === "light") return "laboratorio";
+    return t || "tactico";
   }
 
-  var temaGuardado = leerLS(CLAVE_TEMA);
-  raiz.setAttribute("data-theme", temaGuardado || temaPorDefecto());
+  var temaGuardado = normalizarTemaInicial(leerLS(CLAVE_TEMA));
+  raiz.setAttribute("data-theme", temaGuardado);
 
   // Favicon (relativo a assets/)
   try {
@@ -51,13 +52,32 @@
       var scriptIconos = document.createElement("script");
       scriptIconos.src = new URL("../componentes/iconos.js", base).href;
       scriptIconos.onload = function () {
-        actualizarBotonTema();
         actualizarBotonSonido();
+        if (window.DUtilsTemas && window.DUtilsTemas.actualizarIconos) {
+          window.DUtilsTemas.actualizarIconos();
+        }
         if (window.DUtilsRadio && window.DUtilsRadio.actualizarIconos) {
           window.DUtilsRadio.actualizarIconos();
         }
       };
       document.head.appendChild(scriptIconos);
+    } catch (e) {
+      /* fallback si URL falla */
+    }
+  }
+
+  // Asegura la disponibilidad del selector de temas desde componentes/temas.js
+  if (typeof window !== "undefined" && !window.DUtilsTemas) {
+    try {
+      var scriptTemas = document.createElement("script");
+      scriptTemas.src = new URL("../componentes/temas.js", base).href;
+      scriptTemas.onload = function () {
+        var host = document.getElementById("tema-host");
+        if (host && window.DUtilsTemas && window.DUtilsTemas.montar) {
+          window.DUtilsTemas.montar(host);
+        }
+      };
+      document.head.appendChild(scriptTemas);
     } catch (e) {
       /* fallback si URL falla */
     }
@@ -206,42 +226,25 @@
       return window.DUtilsFondo;
     },
     tema: {
-      actual: function () { return raiz.getAttribute("data-theme"); },
-      alternar: alternarTema
+      actual: function () { return raiz.getAttribute("data-theme") || "tactico"; },
+      fijar: function (id) {
+        if (window.DUtilsTemas && window.DUtilsTemas.fijarTema) {
+          window.DUtilsTemas.fijarTema(id, true);
+        } else {
+          raiz.setAttribute("data-theme", id);
+          guardarLS(CLAVE_TEMA, id);
+        }
+      },
+      siguiente: function () {
+        if (window.DUtilsTemas && window.DUtilsTemas.siguienteTema) {
+          window.DUtilsTemas.siguienteTema();
+        }
+      }
     }
   };
 
-  function alternarTema() {
-    var actual = raiz.getAttribute("data-theme");
-    var nuevo = actual === "dark" ? "light" : "dark";
-    raiz.setAttribute("data-theme", nuevo);
-    guardarLS(CLAVE_TEMA, nuevo);
-    actualizarBotonTema();
-    if (window.DUtilsFondo && window.DUtilsFondo.actualizarTema) {
-      window.DUtilsFondo.actualizarTema(nuevo);
-    }
-    if (sonidoActivo) Sonidos.accion();
-  }
-
   // ---------- 4. MONTAJE DE LA INTERFAZ SUPERIOR (TOPBAR) ----------
-  var botonTemaEl = null;
   var botonSonidoEl = null;
-
-  function actualizarBotonTema() {
-    if (!botonTemaEl) return;
-    var esOscuro = raiz.getAttribute("data-theme") === "dark";
-    botonTemaEl.setAttribute("aria-checked", String(esOscuro));
-    var label = botonTemaEl.querySelector(".switch-label");
-    if (label) label.textContent = esOscuro ? "Modo oscuro" : "Modo claro";
-
-    var thumb = botonTemaEl.querySelector(".switch-thumb");
-    if (thumb && !thumb.querySelector(".switch-icon") && window.DUtilsIconos) {
-      var sol = window.DUtilsIconos.sol || "";
-      var luna = window.DUtilsIconos.luna || "";
-      if (sol) thumb.insertAdjacentHTML("beforeend", sol);
-      if (luna) thumb.insertAdjacentHTML("beforeend", luna);
-    }
-  }
 
   function actualizarBotonSonido() {
     if (!botonSonidoEl) return;
@@ -312,51 +315,23 @@
       alternarSonido();
     });
 
-    // Botón switch de tema
-    botonTemaEl = document.createElement("button");
-    botonTemaEl.type = "button";
-    botonTemaEl.className = "switch";
-    botonTemaEl.setAttribute("role", "switch");
-    botonTemaEl.setAttribute("aria-label", "Alternar modo claro y oscuro");
-    var iconoSol = (window.DUtilsIconos && window.DUtilsIconos.sol) || "";
-    var iconoLuna = (window.DUtilsIconos && window.DUtilsIconos.luna) || "";
-    botonTemaEl.innerHTML =
-      '<span class="switch-track">' +
-        '<span class="switch-thumb">' +
-          iconoSol +
-          iconoLuna +
-        '</span>' +
-      '</span>' +
-      '<span class="switch-label">Modo oscuro</span>';
-
-    botonTemaEl.addEventListener("click", function () {
-      alternarTema();
-    });
+    // Slot receptor para el componente modular de selección de temas
+    var slotTema = document.createElement("div");
+    slotTema.className = "topbar-theme-slot";
+    slotTema.id = "tema-host";
+    if (window.DUtilsTemas && window.DUtilsTemas.montar) {
+      window.DUtilsTemas.montar(slotTema);
+    }
 
     contenedorControles.appendChild(botonSonidoEl);
-    contenedorControles.appendChild(botonTemaEl);
+    contenedorControles.appendChild(slotTema);
 
     barra.appendChild(enlaceInicio);
     barra.appendChild(contenedorControles);
 
     document.body.insertBefore(barra, document.body.firstChild);
 
-    actualizarBotonTema();
     actualizarBotonSonido();
-
-    // Detectar cambios en el tema del sistema
-    if (sistemaColor && sistemaColor.addEventListener) {
-      sistemaColor.addEventListener("change", function () {
-        if (!leerLS(CLAVE_TEMA)) {
-          var t = temaPorDefecto();
-          raiz.setAttribute("data-theme", t);
-          actualizarBotonTema();
-          if (window.DUtilsFondo && window.DUtilsFondo.actualizarTema) {
-            window.DUtilsFondo.actualizarTema(t);
-          }
-        }
-      });
-    }
   }
 
   // ---------- 5. DELEGACIÓN GLOBAL DE SONIDOS INTERACTIVOS ----------
@@ -443,10 +418,12 @@
         return;
       }
 
-      // Atajo [ T ]: alternar tema
+      // Atajo [ T ]: siguiente tema visual
       if (e.key === "t" || e.key === "T") {
         e.preventDefault();
-        alternarTema();
+        if (window.DUtilsTemas && window.DUtilsTemas.siguienteTema) {
+          window.DUtilsTemas.siguienteTema();
+        }
         return;
       }
     });

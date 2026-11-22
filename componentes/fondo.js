@@ -58,6 +58,7 @@
 
   // Detección de tema
   var esOscuro = true;
+  var temaActualId = "tactico";
 
   // Reducción de movimiento accesible
   var mediaReducirMovimiento = null;
@@ -118,12 +119,11 @@
   var puntosDeformados = [];
 
   function actualizarTemaActual(nuevoTema) {
-    if (nuevoTema) {
-      esOscuro = nuevoTema === "dark";
-    } else {
-      var attr = document.documentElement.getAttribute("data-theme");
-      esOscuro = attr ? attr === "dark" : true;
-    }
+    var t = nuevoTema || document.documentElement.getAttribute("data-theme") || "tactico";
+    if (t === "dark") t = "tactico";
+    if (t === "light") t = "laboratorio";
+    temaActualId = t;
+    esOscuro = (t === "tactico" || t === "gatos");
   }
 
   function crearOEncontrarCanvas() {
@@ -165,7 +165,10 @@
 
   function dibujarNebulosas() {
     // Fondo base del tema
-    var colorFondo = esOscuro ? "#090d16" : "#f3f6fa";
+    var colorFondo = "#090d16";
+    if (temaActualId === "laboratorio") colorFondo = "#f3f6fa";
+    else if (temaActualId === "cartoon") colorFondo = "#fffbf0";
+    else if (temaActualId === "gatos") colorFondo = "#211c27";
     ctx.fillStyle = colorFondo;
     ctx.fillRect(0, 0, ancho, alto);
 
@@ -189,13 +192,24 @@
 
       var grad = ctx.createRadialGradient(nx, ny, 0, nx, ny, radio);
 
-      if (esOscuro) {
-        // Tema oscuro: brillo de neón ambiental profundo
+      if (temaActualId === "gatos") {
+        // Michis: resplandores cálidos pastel (rosas, melocotón, lavanda)
+        var hueMishi = (hue + 120) % 360;
+        grad.addColorStop(0.0, "hsla(" + hueMishi + ", 85%, 68%, 0.14)");
+        grad.addColorStop(0.45, "hsla(" + ((hueMishi + 20) % 360) + ", 80%, 62%, 0.06)");
+        grad.addColorStop(1.0, "hsla(" + hueMishi + ", 85%, 68%, 0)");
+      } else if (temaActualId === "cartoon") {
+        // Cartoon: destellos vivos pop-art
+        grad.addColorStop(0.0, "hsla(" + hue + ", 95%, 65%, 0.08)");
+        grad.addColorStop(0.5, "hsla(" + ((hue + 30) % 360) + ", 90%, 70%, 0.03)");
+        grad.addColorStop(1.0, "hsla(" + hue + ", 95%, 65%, 0)");
+      } else if (esOscuro) {
+        // Tema táctico oscuro: brillo de neón ambiental profundo
         grad.addColorStop(0.0, "hsla(" + hue + ", 95%, 52%, 0.12)");
         grad.addColorStop(0.45, "hsla(" + ((hue + 15) % 360) + ", 90%, 46%, 0.05)");
         grad.addColorStop(1.0, "hsla(" + hue + ", 95%, 50%, 0)");
       } else {
-        // Tema claro: atmósfera etérea de laboratorio táctico (sutil para preservar legibilidad)
+        // Tema laboratorio claro: atmósfera etérea de laboratorio táctico (sutil para preservar legibilidad)
         grad.addColorStop(0.0, "hsla(" + hue + ", 85%, 58%, 0.055)");
         grad.addColorStop(0.5, "hsla(" + ((hue + 12) % 360) + ", 80%, 64%, 0.022)");
         grad.addColorStop(1.0, "hsla(" + hue + ", 85%, 60%, 0)");
@@ -266,7 +280,10 @@
     }
 
     // 2. Trazado de líneas de la rejilla
-    var colorLinea = esOscuro ? "rgba(0, 240, 255, 0.04)" : "rgba(13, 22, 36, 0.045)";
+    var colorLinea = "rgba(0, 240, 255, 0.04)";
+    if (temaActualId === "laboratorio") colorLinea = "rgba(13, 22, 36, 0.045)";
+    else if (temaActualId === "cartoon") colorLinea = "rgba(24, 24, 24, 0.05)";
+    else if (temaActualId === "gatos") colorLinea = "rgba(255, 133, 162, 0.06)";
     ctx.lineWidth = 1;
     ctx.strokeStyle = colorLinea;
 
@@ -298,15 +315,14 @@
     if (CONFIG.haloCursor && actividadRaton > 0.02) {
       var rHalo = CONFIG.radioHalo;
       var gradHalo = ctx.createRadialGradient(mx, my, 0, mx, my, rHalo);
-      if (esOscuro) {
-        gradHalo.addColorStop(0.0, "rgba(0, 240, 255, " + (0.09 * actividadRaton) + ")");
-        gradHalo.addColorStop(0.5, "rgba(0, 240, 255, " + (0.03 * actividadRaton) + ")");
-        gradHalo.addColorStop(1.0, "rgba(0, 240, 255, 0)");
-      } else {
-        gradHalo.addColorStop(0.0, "rgba(0, 119, 182, " + (0.07 * actividadRaton) + ")");
-        gradHalo.addColorStop(0.5, "rgba(0, 119, 182, " + (0.02 * actividadRaton) + ")");
-        gradHalo.addColorStop(1.0, "rgba(0, 119, 182, 0)");
-      }
+      var colorHaloRgb = "0, 240, 255";
+      if (temaActualId === "laboratorio") colorHaloRgb = "0, 119, 182";
+      else if (temaActualId === "cartoon") colorHaloRgb = "255, 71, 126";
+      else if (temaActualId === "gatos") colorHaloRgb = "255, 133, 162";
+
+      gradHalo.addColorStop(0.0, "rgba(" + colorHaloRgb + ", " + (0.09 * actividadRaton) + ")");
+      gradHalo.addColorStop(0.5, "rgba(" + colorHaloRgb + ", " + (0.03 * actividadRaton) + ")");
+      gradHalo.addColorStop(1.0, "rgba(" + colorHaloRgb + ", 0)");
       ctx.fillStyle = gradHalo;
       ctx.beginPath();
       ctx.arc(mx, my, rHalo, 0, Math.PI * 2);

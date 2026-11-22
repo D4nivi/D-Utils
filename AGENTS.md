@@ -19,18 +19,25 @@ There is no package manager, build step, bundler, linter, or test suite.
   - `portada.css`: desktop layout, card grid, search bar, and filter chips.
   - `animaciones.css`: preview animations and keyframes.
 - `assets/base.js` stays in `<head>` **without** `defer`: sets `data-theme` before
-  first paint to avoid theme flash, injects topbar skeleton/slots (theme switch, FX Web Audio API,
-  host de radio), y gestiona atajos de teclado (`/`, `Esc`, `T`, `M`, `R`).
-  Do NOT add full components here; extract them to `componentes/`.
-- `componentes/` holds client-side JS modules only. All feature widgets and tools
-  must live here, never bloated into `base.js`:
+  first paint to avoid theme flash, injects topbar skeleton/slots (selector de temas `#tema-host`,
+  FX Web Audio API, host de radio), y gestiona atajos de teclado (`/`, `Esc`, `T`, `M`, `R`).
+  Do NOT add full components here; extract shared ones to `componentes/` and tool-specific ones to `<folder>/`.
+- `componentes/` holds reusable client-side JS modules shared across multiple pages/tabs only.
+  Modules specific to a single tool do NOT belong here:
+  - `temas.js`: registro y selector accesible de temas visuales (`window.DUtilsTemas`).
+    Los temas (`tactico`, `laboratorio`, `cartoon`, `gatos`, etc.) definen la estética completa y
+    reemplazan el antiguo modo binario claro/oscuro.
   - `catalogo.js`: central array of tools and card renderer (`window.DUtilsCatalogo`).
   - `iconos.js`: inline SVG illustrations and UI icons dictionary (`window.DUtilsIconos`).
+    Soporta variantes por tema mediante `window.DUtilsIconos.obtener(id, tema)`.
     All icons belong here; never hardcode SVGs in other scripts.
+  - `fondo.js`: fondo dinámico y nebulosas en canvas adaptables al tema (`window.DUtilsFondo`).
   - `radio.js`: reproductor de radio táctica integrada (`window.DUtilsRadio`).
   - `buscador.js`: accent-insensitive search, filter chips, and empty state.
-- Each tool is a self-contained `<folder>/index.html`. Every tool page must load
-  `assets/css/base.css` and `assets/base.js` (adjust `../` by folder depth).
+- Each tool is a self-contained `<folder>/`:
+  - Main view: `<folder>/index.html`. Loads `assets/css/base.css` and `assets/base.js` (adjust `../` by folder depth).
+  - Tool-specific styles: extract into `<folder>/<tool>.css` (e.g. `contador-palabras/contador.css`) instead of embedding full `<style>` blocks in `index.html`.
+  - Tool-specific modules: extract into `<folder>/<tool>.js` (e.g. `contador-palabras/contador.js`) instead of bloating `componentes/` (which is reserved for cross-page utilities).
 - Finished tools use the status label **"Disponible"** (`data-estado="disponibles"`).
   Pending tools link to their folder's placeholder or `en-construccion.html`.
 
@@ -46,8 +53,9 @@ There is no package manager, build step, bundler, linter, or test suite.
   so do not replace it with JSZip.
 - **Component modularity**: New components must NOT be implemented in full inside
   `assets/base.js`. `base.js` only handles shared base wiring, slots, theme, and global hotkeys.
-  Extract all component logic, widgets, and state into dedicated files in `componentes/`
-  (e.g., `componentes/<nombre>.js`). In case of doubt, ask the user before proceeding.
+  Extract shared reusable components into `componentes/` (e.g. `componentes/<nombre>.js`),
+  while single-tool logic and dedicated styles must live in their respective folder
+  (e.g. `<tool>/<tool>.js` and `<tool>/<tool>.css`). In case of doubt, ask the user before proceeding.
 - **Icon centralization**: ALL icons and SVGs must go in `componentes/iconos.js`
   under `window.DUtilsIconos`. Never hardcode inline SVGs in `base.js` or other component files.
   In case of doubt, ask the user before proceeding.

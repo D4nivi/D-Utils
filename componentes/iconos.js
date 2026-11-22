@@ -210,6 +210,200 @@
         '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>' +
         '<line x1="23" y1="9" x2="17" y2="15"></line>' +
         '<line x1="17" y1="9" x2="23" y2="15"></line>' +
-      '</svg>'
+      '</svg>',
+
+    // Iconos de Temas Visuales (Selector en Topbar)
+    "temaTactico":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<circle cx="12" cy="12" r="8"/>' +
+        '<path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>' +
+        '<circle cx="12" cy="12" r="2" fill="currentColor"/>' +
+      '</svg>',
+
+    "temaLab":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M10 2v7.5L4.5 19.5A2 2 0 0 0 6.2 22h11.6a2 2 0 0 0 1.7-2.5L14 9.5V2h-4z"/>' +
+        '<line x1="8.5" y1="2" x2="15.5" y2="2"/>' +
+        '<circle cx="10" cy="17" r="1" fill="currentColor"/>' +
+        '<circle cx="14" cy="15" r="1" fill="currentColor"/>' +
+      '</svg>',
+
+    "temaCartoon":
+      '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">' +
+        '<polygon points="12 2 15 8.5 22 9.5 17 14.5 18.5 21.5 12 18 5.5 21.5 7 14.5 2 9.5 9 8.5 12 2"/>' +
+      '</svg>',
+
+    "temaGatos":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M12 6c-4.4 0-8 3.4-8 7.5 0 4.1 3.6 7.5 8 7.5s8-3.4 8-7.5c0-4.1-3.6-7.5-8-7.5z"/>' +
+        '<polygon points="4,11 2,4 9,6" fill="currentColor"/>' +
+        '<polygon points="20,11 22,4 15,6" fill="currentColor"/>' +
+        '<circle cx="9" cy="13.5" r="1.5" fill="currentColor"/>' +
+        '<circle cx="15" cy="13.5" r="1.5" fill="currentColor"/>' +
+        '<path d="M10.5 16.5c1 .5 2 .5 3 0"/>' +
+      '</svg>',
+
+    "chevronAbajo":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polyline points="6 9 12 15 18 9"/>' +
+      '</svg>',
+
+    // Iconos de acciones para el analizador de texto y herramientas
+    "pegar":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>' +
+        '<rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>' +
+      '</svg>',
+
+    "subir":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>' +
+        '<polyline points="17 8 12 3 7 8"/>' +
+        '<line x1="12" y1="3" x2="12" y2="15"/>' +
+      '</svg>',
+
+    "copiar":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>' +
+        '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>' +
+      '</svg>',
+
+    "borrar":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polyline points="3 6 5 6 21 6"/>' +
+        '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>' +
+        '<line x1="10" y1="11" x2="10" y2="17"/>' +
+        '<line x1="14" y1="11" x2="14" y2="17"/>' +
+      '</svg>',
+
+    "reloj":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<circle cx="12" cy="12" r="10"/>' +
+        '<polyline points="12 6 12 12 16 14"/>' +
+      '</svg>',
+
+    "habla":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>' +
+        '<path d="M19 10v2a7 7 0 0 1-14 0v-2"/>' +
+        '<line x1="12" y1="19" x2="12" y2="22"/>' +
+      '</svg>',
+
+    "check":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polyline points="20 6 9 17 4 12"/>' +
+      '</svg>',
+
+    // Variaciones temáticas específicas para el tema "cartoon"
+    "cartoon": {
+      "recortar":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="25" y="16" width="110" height="88" rx="14" fill="#ffffff" stroke="#181818" stroke-width="3"/>' +
+          '<rect x="42" y="28" width="76" height="64" rx="10" fill="#fff3b0" stroke="#ff477e" stroke-width="3" stroke-dasharray="8 6"/>' +
+          '<!-- Tijera estilo cartoon con ojos -->' +
+          '<g transform="translate(68, 46)">' +
+            '<circle cx="-10" cy="-6" r="8" fill="#ff477e" stroke="#181818" stroke-width="2"/>' +
+            '<circle cx="-10" cy="14" r="8" fill="#ff477e" stroke="#181818" stroke-width="2"/>' +
+            '<circle cx="-10" cy="-6" r="3" fill="#ffffff"/>' +
+            '<circle cx="-10" cy="14" r="3" fill="#ffffff"/>' +
+            '<path d="M-4 -2 L24 16 M-4 10 L24 -8" stroke="#181818" stroke-width="3" stroke-linecap="round"/>' +
+            '<circle cx="6" cy="4" r="2.5" fill="#ffd600" stroke="#181818" stroke-width="1.5"/>' +
+          '</g>' +
+          '<rect x="45" y="86" width="70" height="14" rx="7" fill="#ff477e" stroke="#181818" stroke-width="2"/>' +
+          '<text x="80" y="96" font-family="sans-serif" font-size="8" fill="#ffffff" text-anchor="middle" font-weight="900">¡CORTE POP!</text>' +
+        '</svg>',
+
+      "ruleta":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<circle cx="80" cy="58" r="40" fill="#ff9f43" stroke="#181818" stroke-width="3"/>' +
+          '<g class="anim-wheel">' +
+            '<circle cx="80" cy="58" r="36" fill="#ffd600" stroke="#181818" stroke-width="2"/>' +
+            '<path d="M80 58 L80 22 A36 36 0 0 1 116 58 Z" fill="#ff477e" stroke="#181818" stroke-width="2"/>' +
+            '<path d="M80 58 L116 58 A36 36 0 0 1 80 94 Z" fill="#00d2d3" stroke="#181818" stroke-width="2"/>' +
+            '<path d="M80 58 L80 94 A36 36 0 0 1 44 58 Z" fill="#10ac84" stroke="#181818" stroke-width="2"/>' +
+            '<circle cx="80" cy="58" r="9" fill="#181818"/>' +
+            '<circle cx="80" cy="58" r="5" fill="#ffffff"/>' +
+          '</g>' +
+          '<!-- Flecha estilo dibujo animado -->' +
+          '<polygon points="73,12 87,12 80,24" fill="#ff477e" stroke="#181818" stroke-width="2"/>' +
+          '<text x="80" y="112" font-family="sans-serif" font-size="8" fill="#181818" text-anchor="middle" font-weight="900">★ GIRA LA RULETA ★</text>' +
+        '</svg>',
+
+      "contador-palabras":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="26" y="16" width="108" height="88" rx="14" fill="#ffffff" stroke="#181818" stroke-width="3"/>' +
+          '<rect x="36" y="26" width="88" height="40" rx="8" fill="#fff3b0" stroke="#181818" stroke-width="2"/>' +
+          '<line x1="44" y1="36" x2="114" y2="36" stroke="#ff477e" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="44" y1="46" x2="98" y2="46" stroke="#00d2d3" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="44" y1="56" x2="80" y2="56" stroke="#10ac84" stroke-width="3" stroke-linecap="round"/>' +
+          '<rect x="38" y="74" width="84" height="22" rx="6" fill="#ff477e" stroke="#181818" stroke-width="2"/>' +
+          '<text x="80" y="89" font-family="sans-serif" font-size="9" fill="#ffffff" text-anchor="middle" font-weight="900">1.250 PALABRAS</text>' +
+        '</svg>'
+    },
+
+    // Variaciones temáticas específicas para el tema "gatos" (Michis)
+    "gatos": {
+      "recortar":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="25" y="16" width="110" height="88" rx="16" fill="rgba(255,255,255,0.08)" stroke="var(--line)" stroke-width="1.5"/>' +
+          '<rect class="anim-crop-border" x="42" y="24" width="76" height="72" rx="12" stroke="var(--accent)" stroke-width="2"/>' +
+          '<!-- Caja de gatito con orejas -->' +
+          '<path d="M60 52 L66 40 L74 48 L86 48 L94 40 L100 52 Z" fill="var(--accent)" opacity="0.9"/>' +
+          '<circle cx="72" cy="58" r="2.5" fill="#ffffff"/>' +
+          '<circle cx="88" cy="58" r="2.5" fill="#ffffff"/>' +
+          '<polygon points="80,62 78,60 82,60" fill="var(--accent-sec)"/>' +
+          '<!-- Patitas asomándose -->' +
+          '<ellipse cx="64" cy="74" rx="6" ry="4" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>' +
+          '<ellipse cx="96" cy="74" rx="6" ry="4" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>' +
+          '<text x="80" y="110" font-family="sans-serif" font-size="8" fill="var(--accent)" text-anchor="middle" font-weight="700">♥ RECORTE MISHI ♥</text>' +
+        '</svg>',
+
+      "ruleta":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<g class="anim-wheel">' +
+            '<circle cx="80" cy="58" r="38" stroke="var(--line)" stroke-width="2" fill="var(--card)"/>' +
+            '<path d="M80 58 L80 20 A38 38 0 0 1 106.9 31.1 Z" fill="rgba(255,133,162,0.4)" stroke="var(--accent)" stroke-width="0.8"/>' +
+            '<path d="M80 58 L106.9 31.1 A38 38 0 0 1 118 58 Z" fill="rgba(192,132,252,0.35)" stroke="var(--accent-sec)" stroke-width="0.8"/>' +
+            '<path d="M80 58 L118 58 A38 38 0 0 1 106.9 84.9 Z" fill="rgba(252,211,77,0.35)" stroke="var(--accent-warn)" stroke-width="0.8"/>' +
+            '<path d="M80 58 L106.9 84.9 A38 38 0 0 1 80 96 Z" fill="rgba(110,231,183,0.35)" stroke="var(--accent-ok)" stroke-width="0.8"/>' +
+            '<path d="M80 58 L80 96 A38 38 0 0 1 53.1 84.9 Z" fill="rgba(255,133,162,0.4)" stroke="var(--accent)" stroke-width="0.8"/>' +
+            '<path d="M80 58 L53.1 84.9 A38 38 0 0 1 42 58 Z" fill="rgba(192,132,252,0.35)" stroke="var(--accent-sec)" stroke-width="0.8"/>' +
+            '<path d="M80 58 L42 58 A38 38 0 0 1 53.1 31.1 Z" fill="rgba(252,211,77,0.35)" stroke="var(--accent-warn)" stroke-width="0.8"/>' +
+            '<path d="M80 58 L53.1 31.1 A38 38 0 0 1 80 20 Z" fill="rgba(110,231,183,0.35)" stroke="var(--accent-ok)" stroke-width="0.8"/>' +
+            '<circle cx="80" cy="58" r="10" fill="var(--card)" stroke="var(--line)" stroke-width="1.5"/>' +
+            '<!-- Huellita central -->' +
+            '<circle cx="80" cy="59" r="3" fill="var(--accent)"/>' +
+            '<circle cx="77" cy="55" r="1.2" fill="var(--accent)"/>' +
+            '<circle cx="80" cy="54" r="1.2" fill="var(--accent)"/>' +
+            '<circle cx="83" cy="55" r="1.2" fill="var(--accent)"/>' +
+          '</g>' +
+          '<!-- Marcador en forma de pececito apuntando hacia abajo -->' +
+          '<path d="M80 22 L75 12 L85 12 Z" fill="var(--accent)"/>' +
+          '<text x="80" y="112" font-family="sans-serif" font-size="8" fill="var(--accent)" text-anchor="middle" font-weight="700">♥ RULETA DE PREMIOS ♥</text>' +
+        '</svg>',
+
+      "contador-palabras":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="25" y="16" width="110" height="88" rx="16" fill="rgba(255,255,255,0.08)" stroke="var(--line)" stroke-width="1.5"/>' +
+          '<rect x="36" y="24" width="88" height="52" rx="10" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>' +
+          '<line x1="46" y1="38" x2="114" y2="38" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" opacity="0.8"/>' +
+          '<line x1="46" y1="48" x2="100" y2="48" stroke="var(--accent-sec)" stroke-width="2" stroke-linecap="round" opacity="0.8"/>' +
+          '<line x1="46" y1="58" x2="84" y2="58" stroke="var(--accent-ok)" stroke-width="2" stroke-linecap="round" opacity="0.8"/>' +
+          '<circle cx="106" cy="58" r="4" fill="var(--accent)"/>' +
+          '<circle cx="102" cy="52" r="1.5" fill="var(--accent)"/>' +
+          '<circle cx="106" cy="50" r="1.5" fill="var(--accent)"/>' +
+          '<circle cx="110" cy="52" r="1.5" fill="var(--accent)"/>' +
+          '<rect x="42" y="82" width="76" height="16" rx="8" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>' +
+          '<text x="80" y="93" font-family="sans-serif" font-size="8" fill="var(--accent)" text-anchor="middle" font-weight="700">♥ CONTEO MISHI ♥</text>' +
+        '</svg>'
+    }
+  };
+
+  // Helper para obtener ilustraciones vectoriales sensibles al tema activo (con fallback)
+  window.DUtilsIconos.obtener = function (id, tema) {
+    if (tema && window.DUtilsIconos[tema] && window.DUtilsIconos[tema][id]) {
+      return window.DUtilsIconos[tema][id];
+    }
+    return window.DUtilsIconos[id] || "";
   };
 })();

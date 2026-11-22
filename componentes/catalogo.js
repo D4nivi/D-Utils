@@ -54,16 +54,16 @@
       id: "contador-palabras",
       titulo: "Contador de palabras",
       url: "contador-palabras/index.html",
-      estado: "construccion",
-      badgeClase: "hud-badge-warn",
-      badgeTexto: "EN CONSTRUCCIÓN",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
       categoria: "cat-texto",
       categoriaTexto: "TEXTO // MOD_04",
-      descripcion: "Métricas avanzadas de redacción: recuento de caracteres, palabras, párrafos, tiempo de lectura y distribución de frecuencias.",
-      tags: ["MÉTRICAS WPM", "ANÁLISIS", "FRECUENCIAS"],
-      accionTexto: "VER DETALLE →",
+      descripcion: "Métricas avanzadas de redacción en tiempo real: palabras, caracteres, tiempos estimados, lectura/habla y densidad léxica.",
+      tags: ["KPI HERO", "LECTURA/HABLA", "DENSIDAD"],
+      accionTexto: "ABRIR MÓDULO →",
       icono: "contador-palabras",
-      keywords: "contador palabras caracteres texto longitud parrafos tiempo lectura frecuencia densidad analisis estadisticas wpm"
+      keywords: "contador palabras caracteres texto longitud parrafos tiempo lectura frecuencia densidad analisis estadisticas wpm bigramas stopwords oraciones lineas paginas habla"
     },
     {
       id: "comparador-textos",
@@ -117,8 +117,14 @@
     var contenedor = document.getElementById(contenedorId || "lista");
     if (!contenedor) return;
 
+    var temaActual = (window.DUtilsTemas && window.DUtilsTemas.temaActual)
+      ? window.DUtilsTemas.temaActual()
+      : (document.documentElement.getAttribute("data-theme") || "tactico");
+
     var html = window.DUtilsCatalogo.map(function (item) {
-      var svgIcono = (window.DUtilsIconos && window.DUtilsIconos[item.icono]) || "";
+      var svgIcono = (window.DUtilsIconos && window.DUtilsIconos.obtener)
+        ? window.DUtilsIconos.obtener(item.icono, temaActual)
+        : ((window.DUtilsIconos && window.DUtilsIconos[item.icono]) || "");
       var esConstruccion = item.estado === "construccion" ? " en-construccion" : "";
       var tagsHtml = item.tags.map(function (t) {
         return '<span class="tool-tag-mini">' + t + '</span>';
@@ -155,4 +161,16 @@
 
     contenedor.innerHTML = html;
   };
+
+  // Re-renderizado reactivo automático cuando cambia el tema visual
+  if (typeof window !== "undefined") {
+    window.addEventListener("dutils:tema-cambiado", function () {
+      if (document.getElementById("lista")) {
+        window.DUtilsRenderizarCatalogo("lista");
+        if (window.DUtilsInicializarBuscador) {
+          window.DUtilsInicializarBuscador();
+        }
+      }
+    });
+  }
 })();

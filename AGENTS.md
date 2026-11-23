@@ -35,6 +35,7 @@ There is no package manager, build step, bundler, linter, or test suite.
   - `fondo.js`: fondo dinámico y nebulosas en canvas adaptables al tema (`window.DUtilsFondo`).
   - `radio.js`: reproductor de radio táctica integrada (`window.DUtilsRadio`).
   - `buscador.js`: accent-insensitive search, filter chips, and empty state.
+  - `footer.js`: pie del sistema táctico y atajos interactivos (`window.DUtilsFooter`).
 - Each tool is a self-contained `pages/<folder>/`:
   - Main view: `pages/<folder>/index.html`. Loads `../../assets/css/base.css` and `../../assets/base.js`.
   - Tool-specific styles: extract into `pages/<folder>/<tool>.css` (e.g. `pages/contador-palabras/contador.css`) instead of embedding full `<style>` blocks in `index.html`.

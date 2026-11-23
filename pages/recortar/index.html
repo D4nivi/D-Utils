@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -7,6 +7,7 @@
 <title>Recortar imágenes · D-Utils</title>
 <link rel="stylesheet" href="../../assets/css/base.css">
 <script src="../../assets/base.js"></script>
+<script src="../../componentes/footer.js"></script>
 <style>
   main { max-width: 920px; }
   #drop { border:2px dashed var(--line); border-radius:12px; padding:36px 16px; text-align:center; background:var(--card); cursor:pointer; transition:border-color .15s; }
@@ -60,6 +61,9 @@
     <span id="estado"></span>
   </div>
   <div id="resultados"></div>
+
+  <!-- Pie del sistema con telemetría y atajos -->
+  <div id="footer-host"></div>
 </main>
 
 <script>

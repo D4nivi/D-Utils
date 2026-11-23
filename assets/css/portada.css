@@ -369,26 +369,4 @@
   margin-bottom: 12px;
 }
 
-/* Footer con telemetría */
-.system-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 40px;
-  margin-top: 48px;
-  border-top: 1px solid var(--line);
-  font-family: var(--fuente-mono);
-  font-size: 0.78rem;
-  color: var(--muted);
-}
-.system-shortcuts {
-  display: flex;
-  gap: 16px;
-}
-.shortcut-item kbd {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 2px 6px;
-  border-radius: 3px;
-  color: var(--fg);
-}
+/* Footer con telemetría táctica (Estilos globales centralizados en base.css) */

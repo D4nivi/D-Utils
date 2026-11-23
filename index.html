@@ -63,17 +63,8 @@
     <button id="btnResetSearch" class="sec" style="margin-top: 14px;">Restablecer filtros</button>
   </div>
 
-  <!-- Pie del sistema con telemetría y atajos -->
-  <footer class="system-footer">
-    <div>D-UTILS // 100% STATIC GITHUB PAGES · ZERO SERVERS</div>
-    <div class="system-shortcuts">
-      <span class="shortcut-item"><kbd>/</kbd> Buscar</span>
-      <span class="shortcut-item"><kbd>Esc</kbd> Limpiar</span>
-      <span class="shortcut-item"><kbd>T</kbd> Tema</span>
-      <span class="shortcut-item"><kbd>M</kbd> SFX</span>
-      <span class="shortcut-item"><kbd>R</kbd> Radio</span>
-    </div>
-  </footer>
+  <!-- Pie del sistema con telemetría y atajos (Host del componente footer) -->
+  <div id="footer-host"></div>
 </main>
 
 <!-- Scripts de componentes modulares -->
@@ -83,6 +74,7 @@
 <script src="componentes/radio.js?v=2.1"></script>
 <script src="componentes/catalogo.js?v=2.1"></script>
 <script src="componentes/buscador.js?v=2.1"></script>
+<script src="componentes/footer.js?v=2.1"></script>
 <script>
 "use strict";
 function iniciarPortada() {

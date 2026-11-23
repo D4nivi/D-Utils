@@ -134,6 +134,22 @@
     }
   }
 
+  // Asegura la disponibilidad del pie de página táctico desde componentes/footer.js
+  if (typeof window !== "undefined" && !window.DUtilsFooter) {
+    try {
+      var scriptFooter = document.createElement("script");
+      scriptFooter.src = new URL("../componentes/footer.js", base).href;
+      scriptFooter.onload = function () {
+        if (window.DUtilsFooter && window.DUtilsFooter.montar) {
+          window.DUtilsFooter.montar();
+        }
+      };
+      document.head.appendChild(scriptFooter);
+    } catch (e) {
+      /* fallback si URL falla */
+    }
+  }
+
   // ---------- 2. MOTOR DE AUDIO SINTÉTICO (Web Audio API) ----------
   // Sin archivos externos: audio táctico generado en tiempo real para clics/hovers.
   var audioCtx = null;
@@ -242,6 +258,9 @@
     },
     get fondo() {
       return window.DUtilsFondo;
+    },
+    get footer() {
+      return window.DUtilsFooter;
     },
     tema: {
       actual: function () { return raiz.getAttribute("data-theme") || "tactico"; },
@@ -442,6 +461,9 @@
       if (window.DUtilsFondo && window.DUtilsFondo.iniciar) {
         window.DUtilsFondo.iniciar();
       }
+      if (window.DUtilsFooter && window.DUtilsFooter.montar) {
+        window.DUtilsFooter.montar();
+      }
     });
   } else {
     montarTopbar();
@@ -449,6 +471,9 @@
     registrarAtajos();
     if (window.DUtilsFondo && window.DUtilsFondo.iniciar) {
       window.DUtilsFondo.iniciar();
+    }
+    if (window.DUtilsFooter && window.DUtilsFooter.montar) {
+      window.DUtilsFooter.montar();
     }
   }
 })();

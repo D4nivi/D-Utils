@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -6,81 +6,133 @@
 <meta name="robots" content="noindex">
 <title>Ruleta para sorteos · D-Utils</title>
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="ruleta-componente.css">
+<link rel="stylesheet" href="ruleta-pagina.css">
 <script src="../../assets/base.js"></script>
-<style>
-  main { max-width: 860px; margin: 0 auto; padding: 12px 24px 64px; }
-  nav { margin-bottom: 24px; }
-  nav a { font-family: var(--fuente-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
-  .panel-dev {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 36px 32px;
-    backdrop-filter: blur(14px);
-    position: relative;
-    overflow: hidden;
-  }
-  .panel-dev::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-warn), transparent);
-  }
-  .dev-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .specs-box {
-    margin: 28px 0;
-    padding: 20px;
-    background: rgba(0,0,0,0.15);
-    border: 1px dashed var(--line);
-    border-radius: 8px;
-    font-family: var(--fuente-mono);
-    font-size: 0.85rem;
-  }
-  .specs-box h3 {
-    font-size: 0.9rem;
-    color: var(--accent-warn);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .specs-box ul {
-    margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.7;
-  }
-</style>
+<script src="../../componentes/iconos.js"></script>
+<script src="ruleta.js"></script>
 </head>
 <body>
-<main>
+<main class="ruleta-main">
+  <!-- Navegación y encabezado HUD -->
   <nav><a href="../../index.html">← D-Utils // Centro de control</a></nav>
 
-  <div class="panel-dev">
-    <div class="dev-header">
-      <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
-      <span style="font-family: var(--fuente-mono); font-size: 0.8rem; color: var(--muted);">MOD_03 // RNG DECIDER</span>
+  <header class="ruleta-header">
+    <div class="meta-header">
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+        <span class="meta-code">MOD_03 // RULETA DECIDER</span>
+      </div>
+      <span class="meta-code">MOTOR RNG 100% LOCAL</span>
     </div>
 
     <h1>Ruleta para sorteos</h1>
-    <p class="sub">Ruleta interactiva personalizable para sorteos justos, toma de decisiones y elecciones aleatorias con animación física y sin backend.</p>
+    <p class="sub">
+      Ruleta interactiva personalizable para sorteos, rifas, división de equipos y elecciones aleatorias 50/50 o con probabilidades ponderadas exactas.
+    </p>
+  </header>
 
-    <div class="specs-box">
-      <h3>Planificación de características del módulo</h3>
-      <ul>
-        <li>Configuración de opciones por texto simple (una por línea) o importación directa.</li>
-        <li>Física de rotación suave con aceleración, fricción y desaceleración progresiva en Canvas.</li>
-        <li>Efectos sonoros de clic por cada división y fanfarria sintética para la opción ganadora.</li>
-        <li>Opción de eliminar el elemento ganador para rondas sucesivas de eliminación.</li>
-      </ul>
-    </div>
+  <!-- Grid de dos paneles: Ruleta (Izq) y Configuración (Der) -->
+  <div class="ruleta-grid">
+    <!-- Panel Izquierdo: Ruleta y Botón Let it ride -->
+    <section class="ruleta-panel-ruleta" aria-label="Visualizador de la ruleta">
+      <div class="ruleta-canvas-box">
+        <div id="marcador-top" class="ruleta-marcador-top" data-icono="marcadorRuleta" aria-hidden="true"></div>
+        <canvas id="canvas-ruleta" class="ruleta-canvas" width="440" height="440" aria-label="Ruleta de opciones"></canvas>
+      </div>
 
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <a href="../../index.html"><button type="button">Volver al catálogo</button></a>
-      <span class="note">Módulo en cola de desarrollo estático.</span>
+      <div class="ruleta-acciones-giro">
+        <button type="button" id="btn-let-it-ride" class="btn-let-it-ride" title="Girar la ruleta">
+          <span>Let it ride</span>
+        </button>
+        <div id="ruleta-estado-giro" class="ruleta-estado-giro" role="status" aria-live="polite">Listo para girar</div>
+      </div>
+    </section>
+
+    <!-- Panel Derecho: Configuración de Datos y Probabilidades -->
+    <section class="ruleta-panel-datos" aria-label="Panel de configuración de opciones">
+      <!-- Selector de Modo (Slider) -->
+      <div class="slider-modo-container" role="tablist" aria-label="Selección de modo de ruleta">
+        <button type="button" id="btn-modo-normal" class="btn-tab-modo activo" role="tab" aria-selected="true">
+          Modo normal
+        </button>
+        <button type="button" id="btn-modo-avanzado" class="btn-tab-modo" role="tab" aria-selected="false">
+          Modo avanzado
+        </button>
+      </div>
+
+      <!-- Barra de Acciones Globales: Mezclar, Limpiar, Ordenar a la izquierda del todo -->
+      <div class="barra-acciones-datos">
+        <div class="grupo-botones-acciones">
+          <button type="button" id="btn-mezclar" class="btn-tactico" title="Mezclar aleatoriamente el orden de las opciones">
+            <span class="btn-icono" data-icono="mezclar"></span>
+            <span>Mezclar</span>
+          </button>
+          <button type="button" id="btn-limpiar" class="btn-tactico" title="Borrar todas las opciones">
+            <span class="btn-icono" data-icono="borrar"></span>
+            <span>Limpiar</span>
+          </button>
+          <button type="button" id="btn-ordenar" class="btn-tactico" title="Ordenar alfanuméricamente las opciones">
+            <span class="btn-icono" data-icono="ordenar"></span>
+            <span>Ordenar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modo Normal: Textarea simple -->
+      <div id="modo-normal-contenedor" class="modo-normal-wrap">
+        <label for="textarea-nombres" class="modo-normal-label">
+          Introduce un nombre u opción por línea:
+        </label>
+        <textarea id="textarea-nombres" class="ruleta-textarea" placeholder="Escribe aquí las opciones, una por línea…&#10;Ejemplo:&#10;Juan&#10;María&#10;Carlos&#10;Lucía" spellcheck="false"></textarea>
+        <div class="info-pie-textarea">
+          <span id="info-total-nombres">0 opciones cargadas</span>
+          <span>Probabilidades equitativas automáticas</span>
+        </div>
+      </div>
+
+      <!-- Modo Avanzado: Filas con input, probabilidad y papelera -->
+      <div id="modo-avanzado-contenedor" class="modo-avanzado-wrap" style="display: none;">
+        <div id="lista-opciones-avanzadas" class="lista-filas-avanzadas" role="list" aria-label="Lista de opciones configurables"></div>
+
+        <button type="button" id="btn-anadir-fila" class="btn-anadir-fila" title="Añadir una nueva opción a la ruleta">
+          <span class="btn-icono" data-icono="mas"></span>
+          <span>Añadir opción</span>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- GIF animado de salto al pulsar Let it ride -->
+  <div id="gif-salto-contenedor" class="ruleta-gif-salto" aria-hidden="true">
+    <img src="assets/let-it-ride.gif" alt="" class="gif-salto-img">
+  </div>
+
+  <!-- Popup Modal de Resultado Ganador -->
+  <div id="modal-ganador" class="ruleta-modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="ruleta-modal-card">
+      <button type="button" id="btn-modal-cerrar" class="btn-cerrar-modal" title="Cerrar ventana" aria-label="Cerrar">
+        <span class="btn-icono" data-icono="cerrar"></span>
+      </button>
+
+      <div class="modal-ganador-icono" data-icono="trofeo"></div>
+      <div class="modal-ganador-subtitulo">Resultado del sorteo</div>
+      <div id="modal-ganador-nombre" class="modal-ganador-nombre">Ganador</div>
+
+      <div class="modal-acciones-grid">
+        <button type="button" id="btn-modal-girar-otra" class="btn-modal-accion btn-modal-girar-otra">
+          <span class="btn-icono" data-icono="girar"></span>
+          <span>Girar otra vez</span>
+        </button>
+        <button type="button" id="btn-modal-girar-quitar" class="btn-modal-accion btn-modal-girar-quitar">
+          <span class="btn-icono" data-icono="borrar"></span>
+          <span>Girar y quitar ganador</span>
+        </button>
+        <button type="button" id="btn-modal-reiniciar" class="btn-modal-accion btn-modal-reiniciar">
+          <span class="btn-icono" data-icono="reiniciar"></span>
+          <span>Reiniciar</span>
+        </button>
+      </div>
     </div>
   </div>
 </main>

@@ -39,16 +39,16 @@
       id: "ruleta",
       titulo: "Ruleta para sorteos",
       url: "pages/ruleta/",
-      estado: "construccion",
-      badgeClase: "hud-badge-warn",
-      badgeTexto: "EN CONSTRUCCIÓN",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
       categoria: "cat-utilidad",
       categoriaTexto: "UTILIDAD // MOD_03",
       descripcion: "Ruleta visual interactiva estilo arcade para sorteos justos, rifas y toma de decisiones aleatorias en vivo sin registros.",
-      tags: ["RNG ENGINE", "ANIMACIÓN", "SIN SESIÓN"],
-      accionTexto: "VER DETALLE →",
+      tags: ["RNG ENGINE", "ANIMACIÓN", "PROBABILIDAD"],
+      accionTexto: "ABRIR MÓDULO →",
       icono: "ruleta",
-      keywords: "ruleta sorteos sorteo azar aleatorio nombres decisiones ganador premios arcade wheel spinner"
+      keywords: "ruleta sorteos sorteo azar aleatorio nombres decisiones ganador premios arcade wheel spinner probabilidad"
     },
     {
       id: "contador-palabras",

@@ -309,6 +309,54 @@
         '<line x1="7" y1="12" x2="17" y2="12"/>' +
       '</svg>',
 
+    "mezclar":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polyline points="16 3 21 3 21 8"/>' +
+        '<line x1="4" y1="20" x2="21" y2="3"/>' +
+        '<polyline points="21 16 21 21 16 21"/>' +
+        '<line x1="15" y1="15" x2="21" y2="21"/>' +
+        '<line x1="4" y1="4" x2="9" y2="9"/>' +
+      '</svg>',
+
+    "ordenar":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M11 5h10M11 9h7M11 13h4"/>' +
+        '<path d="M3 17l3 3 3-3"/>' +
+        '<path d="M6 18V4"/>' +
+      '</svg>',
+
+    "mas":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<line x1="12" y1="5" x2="12" y2="19"/>' +
+        '<line x1="5" y1="12" x2="19" y2="12"/>' +
+      '</svg>',
+
+    "girar":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/>' +
+      '</svg>',
+
+    "trofeo":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>' +
+        '<path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>' +
+        '<path d="M4 22h16"/>' +
+        '<path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"/>' +
+        '<path d="M6 4h12v5a6 6 0 0 1-12 0V4z"/>' +
+      '</svg>',
+
+    "cerrar":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<line x1="18" y1="6" x2="6" y2="18"/>' +
+        '<line x1="6" y1="6" x2="18" y2="18"/>' +
+      '</svg>',
+
+    "marcadorRuleta":
+      '<svg viewBox="0 0 24 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<polygon points="3,2 21,2 12,26" fill="var(--accent-sec)" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linejoin="round"/>' +
+        '<circle cx="12" cy="8" r="3" fill="#ffffff"/>' +
+      '</svg>',
+
     // Variaciones temáticas específicas para el tema "cartoon"
     "cartoon": {
       "recortar":

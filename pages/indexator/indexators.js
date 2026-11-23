@@ -341,36 +341,7 @@
   ];
 
   /* =========================================================
-     3. EJEMPLO DE PRUEBA
-     ========================================================= */
-
-  var NOTA_EJEMPLO =
-    "# Notas de arquitectura\n" +
-    "Etiquetas: #desarrollo #arquitectura\n" +
-    "---\n" +
-    "## Fundamentos de diseño de sistemas\n" +
-    "Conceptos clave de desacoplamiento, patrones tácticos y mantenibilidad a largo plazo.\n" +
-    "\n" +
-    "### Principio de responsabilidad única\n" +
-    "Cada componente debe responder ante un único actor o caso de uso.\n" +
-    "\n" +
-    "### Acoplamiento y cohesión\n" +
-    "Minimizar dependencias cruzadas entre dominios y favorecer interfaces explícitas.\n" +
-    "\n" +
-    "#### Inversión de dependencias\n" +
-    "Los módulos de alto nivel no deben depender de detalles de bajo nivel.\n" +
-    "\n" +
-    "## Estrategias de persistencia y caché\n" +
-    "Uso de almacenamiento local sin dependencias externas y bases de datos integradas.\n" +
-    "\n" +
-    "### Manejo de transacciones en lote\n" +
-    "Consolidación de escrituras para evitar cuellos de botella en operaciones masivas.\n" +
-    "\n" +
-    "## Métricas de rendimiento y optimización\n" +
-    "Análisis de tiempos de respuesta y profiling de procesos críticos.\n";
-
-  /* =========================================================
-     4. CONTROLADOR DE INTERFAZ DE USUARIO (UI)
+     3. CONTROLADOR DE INTERFAZ DE USUARIO (UI)
      ========================================================= */
 
   function inicializarUI() {
@@ -707,6 +678,5 @@
     delIndex: delIndex,
     addIndex: addIndex,
     PRESETS_DEFECTO: PRESETS_DEFECTO,
-    NOTA_EJEMPLO: NOTA_EJEMPLO
   };
 })();

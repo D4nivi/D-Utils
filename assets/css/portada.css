@@ -251,15 +251,21 @@
   border: 1px dashed var(--line);
   border-radius: 12px;
   margin: 32px 0;
+  font-family: var(--fuente);
 }
 #vacio.visible {
   display: block;
 }
 .empty-icon {
-  width: 48px;
-  height: 48px;
-  color: var(--muted);
+  font-size: 2.2rem;
+  line-height: 1;
   margin-bottom: 12px;
+  opacity: 0.85;
+}
+#vacio h3,
+#vacio p,
+#vacio button {
+  font-family: var(--fuente);
 }
 
 /* Footer con telemetría táctica (Estilos globales centralizados en base.css) */

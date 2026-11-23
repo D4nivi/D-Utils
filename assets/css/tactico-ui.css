@@ -544,6 +544,11 @@
   color: var(--fg);
 }
 
+.estado-vacio .btn-tactico,
+.estado-vacio button {
+  margin-top: 18px;
+}
+
 /* ---------- Notificación Toast HUD (Inferior) ---------- */
 .hud-toast {
   position: fixed;

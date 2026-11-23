@@ -1,0 +1,179 @@
+/* =========================================================
+   D-Utils · Variables de tema y skins visuales
+   ========================================================= */
+
+:root,
+:root[data-theme="tactico"] {
+  --fuente: "Rubik", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fuente-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+
+  /* Tema 1: Cyberpunk táctico / Mecha HUD (Oscuro por defecto) */
+  --bg: #090d16;
+  --fg: #e6edf8;
+  --muted: #7f93ad;
+  --line: #1c2738;
+  --accent: #00f0ff;
+  --accent-rgb: 0, 240, 255;
+  --accent-glow: rgba(0, 240, 255, 0.35);
+  --accent-sec: #ff2a85;
+  --accent-sec-rgb: 255, 42, 133;
+  --accent-ok: #00ff9f;
+  --accent-warn: #ffb800;
+  --on-accent: #050b14;
+  --card: #101726;
+  --card-bg: rgba(13, 20, 34, 0.82);
+  --card-border: rgba(0, 240, 255, 0.16);
+  --card-hover-border: rgba(0, 240, 255, 0.7);
+  --error: #ff3366;
+
+  /* Radios y bordes */
+  --radio-borde: 999px;
+  --radio-card: 12px;
+  --card-border-width: 1px;
+  --sombra-card: none;
+  --sombra-hover: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 16px var(--accent-glow);
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(0, 240, 255, 0.035);
+  --bg-dots: rgba(0, 240, 255, 0.08);
+  --bg-glow-1: rgba(0, 240, 255, 0.1);
+  --bg-glow-2: rgba(255, 42, 133, 0.07);
+
+  --hud-tag-bg: rgba(0, 240, 255, 0.08);
+  --hud-tag-border: rgba(0, 240, 255, 0.25);
+  --hud-warn-bg: rgba(255, 184, 0, 0.12);
+  --hud-warn-border: rgba(255, 184, 0, 0.32);
+  --hud-ok-bg: rgba(0, 255, 159, 0.12);
+  --hud-ok-border: rgba(0, 255, 159, 0.32);
+
+  color-scheme: dark;
+}
+
+:root[data-theme="laboratorio"] {
+  /* Tema 2: Clean Sci-Fi / Laboratorio claro */
+  --bg: #f3f6fa;
+  --fg: #0d1624;
+  --muted: #53647b;
+  --line: #d1dbe7;
+  --accent: #0077b6;
+  --accent-rgb: 0, 119, 182;
+  --accent-glow: rgba(0, 119, 182, 0.25);
+  --accent-sec: #e02167;
+  --accent-sec-rgb: 224, 33, 103;
+  --accent-ok: #028a5e;
+  --accent-warn: #c26900;
+  --on-accent: #ffffff;
+  --card: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.88);
+  --card-border: rgba(13, 22, 36, 0.12);
+  --card-hover-border: rgba(0, 119, 182, 0.55);
+  --error: #d92d20;
+
+  /* Radios y bordes */
+  --radio-borde: 999px;
+  --radio-card: 12px;
+  --card-border-width: 1px;
+  --sombra-card: none;
+  --sombra-hover: 0 10px 24px rgba(13, 22, 36, 0.1), 0 0 14px var(--accent-glow);
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(13, 22, 36, 0.04);
+  --bg-dots: rgba(0, 119, 182, 0.06);
+  --bg-glow-1: rgba(0, 119, 182, 0.06);
+  --bg-glow-2: rgba(224, 33, 103, 0.035);
+
+  --hud-tag-bg: rgba(0, 119, 182, 0.08);
+  --hud-tag-border: rgba(0, 119, 182, 0.22);
+  --hud-warn-bg: rgba(194, 105, 0, 0.1);
+  --hud-warn-border: rgba(194, 105, 0, 0.28);
+  --hud-ok-bg: rgba(2, 138, 94, 0.1);
+  --hud-ok-border: rgba(2, 138, 94, 0.28);
+
+  color-scheme: light;
+}
+
+:root[data-theme="cartoon"] {
+  /* Tema 3: Estilo Cómic Pop-Art */
+  --bg: #fffbf0;
+  --fg: #181818;
+  --muted: #645e54;
+  --line: #181818;
+  --accent: #ff477e;
+  --accent-rgb: 255, 71, 126;
+  --accent-glow: rgba(255, 71, 126, 0.35);
+  --accent-sec: #00d2d3;
+  --accent-sec-rgb: 0, 210, 211;
+  --accent-ok: #10ac84;
+  --accent-warn: #ff9f43;
+  --on-accent: #ffffff;
+  --card: #ffffff;
+  --card-bg: #ffffff;
+  --card-border: #181818;
+  --card-hover-border: #ff477e;
+  --error: #ee5253;
+
+  /* Bordes cómic marcados y sombras pop en bloque */
+  --radio-borde: 14px;
+  --radio-card: 16px;
+  --card-border-width: 2.5px;
+  --sombra-card: 4px 4px 0 #181818;
+  --sombra-hover: 7px 7px 0 #ff477e;
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(24, 24, 24, 0.04);
+  --bg-dots: rgba(255, 71, 126, 0.08);
+  --bg-glow-1: rgba(255, 71, 126, 0.08);
+  --bg-glow-2: rgba(0, 210, 211, 0.06);
+
+  --hud-tag-bg: #fff3b0;
+  --hud-tag-border: #181818;
+  --hud-warn-bg: #ffeaa7;
+  --hud-warn-border: #181818;
+  --hud-ok-bg: #c7ecee;
+  --hud-ok-border: #181818;
+
+  color-scheme: light;
+}
+
+:root[data-theme="gatos"] {
+  /* Tema 4: Michis / Acogedor felino pastel */
+  --bg: #211c27;
+  --fg: #fde8f0;
+  --muted: #bda3b5;
+  --line: #42354a;
+  --accent: #ff85a2;
+  --accent-rgb: 255, 133, 162;
+  --accent-glow: rgba(255, 133, 162, 0.35);
+  --accent-sec: #c084fc;
+  --accent-sec-rgb: 192, 132, 252;
+  --accent-ok: #6ee7b7;
+  --accent-warn: #fcd34d;
+  --on-accent: #211c27;
+  --card: #2d2435;
+  --card-bg: rgba(45, 36, 53, 0.88);
+  --card-border: rgba(255, 133, 162, 0.24);
+  --card-hover-border: #ff85a2;
+  --error: #fb7185;
+
+  /* Curvas suaves y sombras difuminadas acogedoras */
+  --radio-borde: 20px;
+  --radio-card: 20px;
+  --card-border-width: 1.5px;
+  --sombra-card: 0 4px 18px rgba(0, 0, 0, 0.28);
+  --sombra-hover: 0 8px 26px rgba(255, 133, 162, 0.28);
+
+  /* Fondos atmosféricos */
+  --bg-grid: rgba(255, 133, 162, 0.04);
+  --bg-dots: rgba(255, 133, 162, 0.08);
+  --bg-glow-1: rgba(255, 133, 162, 0.1);
+  --bg-glow-2: rgba(192, 132, 252, 0.08);
+
+  --hud-tag-bg: rgba(255, 133, 162, 0.12);
+  --hud-tag-border: rgba(255, 133, 162, 0.3);
+  --hud-warn-bg: rgba(252, 211, 77, 0.14);
+  --hud-warn-border: rgba(252, 211, 77, 0.35);
+  --hud-ok-bg: rgba(110, 231, 183, 0.14);
+  --hud-ok-border: rgba(110, 231, 183, 0.35);
+
+  color-scheme: dark;
+}

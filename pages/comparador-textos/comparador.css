@@ -61,32 +61,6 @@
   gap: 12px;
 }
 
-.btn-tactico {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--fuente-mono);
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 7px 14px;
-  border-radius: 6px;
-  border: 1px solid var(--line);
-  background: var(--card);
-  color: var(--fg);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.btn-tactico:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-1px);
-}
-
-.btn-tactico:active {
-  transform: translateY(0);
-}
-
 /* Estado de cálculo (para textos > 50k chars) */
 .indicador-calculando {
   display: none;

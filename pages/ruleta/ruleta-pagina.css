@@ -11,41 +11,8 @@
   padding: 12px 24px 64px;
 }
 
-.ruleta-main nav {
-  margin-bottom: 20px;
-}
-
-.ruleta-main nav a {
-  font-family: var(--fuente-mono);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--muted);
-  transition: color 0.15s ease;
-}
-
-.ruleta-main nav a:hover {
-  color: var(--accent);
-}
-
 .ruleta-header {
   margin-bottom: 28px;
-}
-
-.ruleta-header .meta-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.ruleta-header .meta-code {
-  font-family: var(--fuente-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  color: var(--muted);
 }
 
 .ruleta-header h1 {

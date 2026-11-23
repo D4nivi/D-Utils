@@ -1,0 +1,272 @@
+/* =========================================================
+   D-Utils · Barra superior (Topbar), Temas y Sonido
+   Acompaña a la inyección de assets/base.js y componentes/temas.js
+   ========================================================= */
+
+/* ---------- Barra superior (Topbar) ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-family: var(--fuente-mono);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.topbar-brand:hover {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.topbar-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- Selector de Temas Visuales (Topbar) ---------- */
+.topbar-theme-slot {
+  display: inline-flex;
+  align-items: center;
+}
+
+.theme-picker {
+  position: relative;
+  display: inline-flex;
+}
+
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px 5px 9px;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radio-borde, 999px);
+  color: var(--fg);
+  font-size: .8125rem;
+  font-family: var(--fuente-mono);
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .12s ease;
+}
+
+.theme-btn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.theme-btn:active {
+  transform: scale(0.97);
+}
+
+.theme-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.theme-btn-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.theme-btn-label {
+  letter-spacing: 0.02em;
+}
+
+.theme-btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 10px;
+  height: 10px;
+  color: var(--muted);
+  transition: transform .2s ease;
+}
+
+.theme-btn-arrow svg {
+  width: 10px;
+  height: 10px;
+}
+
+.theme-btn[aria-expanded="true"] .theme-btn-arrow {
+  transform: rotate(180deg);
+}
+
+.theme-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 250px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radio-card, 12px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 1000;
+  backdrop-filter: blur(16px);
+  animation: theme-pop .18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.theme-dropdown.open {
+  display: flex;
+}
+
+@keyframes theme-pop {
+  from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.theme-opt {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fg);
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--fuente);
+  transition: background-color .12s ease, border-color .12s ease;
+}
+
+.theme-opt:hover, .theme-opt:focus-visible {
+  background: var(--hud-tag-bg);
+  border-color: var(--line);
+  outline: none;
+}
+
+.theme-opt.active {
+  background: var(--hud-tag-bg);
+  border-color: var(--accent);
+}
+
+.theme-opt-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.theme-opt-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.theme-opt-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.theme-opt-text {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.theme-opt-name {
+  font-size: .8125rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.theme-opt-desc {
+  font-size: .6875rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Botón de sonido táctico ---------- */
+.sound-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: .8125rem;
+  font-family: var(--fuente-mono);
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: border-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+
+.sound-btn:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+}
+
+.sound-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.sound-btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* ---------- Media Queries para Topbar ---------- */
+@media (max-width: 900px) {
+  .topbar {
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .topbar-controls {
+    gap: 6px;
+  }
+}

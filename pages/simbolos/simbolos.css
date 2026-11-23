@@ -9,36 +9,9 @@
   padding: 10px 24px 80px;
 }
 
-/* ---------- Navegación ---------- */
-.simbolos-main nav {
-  margin-bottom: 20px;
-}
-
-.simbolos-main nav a {
-  font-family: var(--fuente-mono);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--accent);
-  transition: opacity .15s ease;
-}
-
-.simbolos-main nav a:hover {
-  opacity: 0.8;
-}
-
 /* ---------- Encabezado HUD ---------- */
 .simbolos-header {
   margin-bottom: 24px;
-}
-
-.meta-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 14px;
 }
 
 .meta-header-left {
@@ -46,13 +19,6 @@
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
-}
-
-.meta-code {
-  font-family: var(--fuente-mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-  letter-spacing: 0.05em;
 }
 
 /* Botón Símbolos LaTeX */

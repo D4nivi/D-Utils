@@ -46,6 +46,7 @@ There is no package manager, build step, bundler, linter, or test suite.
 
 - UI text, code comments, identifiers, and commit messages are in **Spanish**.
   Keep new code consistent with that.
+- **Commits de Git**: NUNCA hacer un commit (`git commit`) de forma automática ni por iniciativa propia; solo crear commits cuando el usuario lo solicite explícitamente en su mensaje.
 - Style with CSS variables in `base.css` (`--bg`, `--fg`, `--muted`, `--accent`,
   `--card`, `--line`, `--error`, `--accent-glow`, etc.). Do not hard-code theme colors.
 - Completed tools are always labeled **"Disponible"** (never "Lista").

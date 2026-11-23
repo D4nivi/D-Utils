@@ -1,88 +1,214 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Comparador de textos · D-Utils</title>
-<link rel="stylesheet" href="../../assets/css/base.css">
-<script src="../../assets/base.js"></script>
-<style>
-  main { max-width: 860px; margin: 0 auto; padding: 12px 24px 64px; }
-  nav { margin-bottom: 24px; }
-  nav a { font-family: var(--fuente-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
-  .panel-dev {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 36px 32px;
-    backdrop-filter: blur(14px);
-    position: relative;
-    overflow: hidden;
-  }
-  .panel-dev::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-warn), transparent);
-  }
-  .dev-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .specs-box {
-    margin: 28px 0;
-    padding: 20px;
-    background: rgba(0,0,0,0.15);
-    border: 1px dashed var(--line);
-    border-radius: 8px;
-    font-family: var(--fuente-mono);
-    font-size: 0.85rem;
-  }
-  .specs-box h3 {
-    font-size: 0.9rem;
-    color: var(--accent-warn);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .specs-box ul {
-    margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.7;
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Comparador de textos · D-Utils</title>
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../componentes/bloque-texto.css">
+  <link rel="stylesheet" href="comparador.css">
+  <script src="../../assets/base.js"></script>
+  <script src="../../componentes/iconos.js"></script>
+  <script src="../../componentes/bloque-texto.js"></script>
+  <script src="comparador-core.js"></script>
+  <script src="comparador.js"></script>
 </head>
+
 <body>
-<main>
-  <nav><a href="../../index.html">← D-Utils // Centro de control</a></nav>
+  <main class="comparador-main">
+    <!-- Navegación y encabezado HUD -->
+    <nav><a href="../../index.html">← D-Utils // Centro de control</a></nav>
 
-  <div class="panel-dev">
-    <div class="dev-header">
-      <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
-      <span style="font-family: var(--fuente-mono); font-size: 0.8rem; color: var(--muted);">MOD_05 // DIFF ENGINE</span>
+  <header class="comparador-header">
+    <div class="meta-header">
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+        <span class="meta-code">MOD_05 // COMPARADOR DIFF EN 2 NIVELES</span>
+      </div>
+
+      <h1>Comparador de textos</h1>
+      <p class="sub">
+        Inspección visual lado a lado con diff de dos niveles (líneas y caracteres). Detecta adiciones, supresiones y
+        modificaciones con total privacidad sin enviar tus textos a ningún servidor.
+      </p>
+    </header>
+
+    <!-- Barra de opciones y controles superiores -->
+    <section class="barra-opciones-diff" aria-label="Opciones de comparación">
+      <div class="grupo-checkboxes">
+        <label class="opcion-check" for="chk-mayusculas">
+          <input type="checkbox" id="chk-mayusculas">
+          <span>Ignorar mayúsculas/minúsculas</span>
+        </label>
+
+        <label class="opcion-check" for="chk-espacios-finales">
+          <input type="checkbox" id="chk-espacios-finales">
+          <span>Ignorar espacios en blanco al final de línea</span>
+        </label>
+      </div>
+
+      <div class="acciones-barra-diff">
+        <div id="indicador-calculando" class="indicador-calculando" role="status" aria-live="polite">
+          <div class="spinner-tactico"></div>
+          <span>Calculando…</span>
+        </div>
+
+        <button type="button" id="btn-intercambiar" class="btn-tactico"
+          title="Intercambia el texto original con el modificado">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="17 1 21 5 17 9"></polyline>
+            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+            <polyline points="7 23 3 19 7 15"></polyline>
+            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+          </svg>
+          <span>Intercambiar textos</span>
+        </button>
+
+        <button type="button" id="btn-limpiar-ambos" class="btn-tactico" title="Borrar el texto de ambos paneles">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Limpiar</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- FILA 1 (ENTRADA): Dos editores BloqueTexto -->
+    <section class="grid-paneles-comparador" aria-label="Paneles de edición de texto">
+      <!-- Entrada Izquierda: Original -->
+      <div id="editor-original-host"></div>
+
+      <!-- Entrada Derecha: Modificado -->
+      <div id="editor-modificado-host"></div>
+    </section>
+
+    <!-- Banner de textos idénticos (solo cuando son iguales y no vacíos) -->
+    <div id="banner-identicos" class="banner-identicos" role="status" aria-live="polite">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="9 12 11 14 15 10"></polyline>
+      </svg>
+      <span>Los textos son idénticos.</span>
     </div>
 
-    <h1>Comparador de textos</h1>
-    <p class="sub">Herramienta de detección de diferencias línea a línea y carácter a carácter entre dos versiones de texto o código.</p>
+    <!-- CONTENEDOR DE RESULTADOS Y RESUMEN (oculto si están vacíos o si son idénticos) -->
+    <div id="seccion-resultados-diff" style="display: none;">
+      <!-- FILA 2 (RESULTADO): Dos paneles de solo lectura con scroll sincronizado -->
+      <section class="grid-paneles-comparador" aria-label="Paneles de resultados con diferencias">
+        <!-- Resultado Izquierdo: Original con marcas rojas (Eliminado / Modificado) -->
+        <div class="panel-resultado-col">
+          <div class="panel-resultado-header">
+            <div class="resultado-titulo-lado">
+              <span>Diferencias en origen (Rojo = Eliminado / Modificado)</span>
+            </div>
+          </div>
+          <div id="resultado-original" class="panel-resultado-scroll" tabindex="0"
+            aria-label="Texto original con eliminaciones resaltadas"></div>
+        </div>
 
-    <div class="specs-box">
-      <h3>Planificación de características del módulo</h3>
-      <ul>
-        <li>Vista lado a lado (Side-by-side) y vista unificada (Inline diff).</li>
-        <li>Resaltado de adiciones en verde cian y eliminaciones en magenta con soporte de scroll sincronizado.</li>
-        <li>Opciones para ignorar espacios en blanco superfluos o mayúsculas y minúsculas.</li>
-        <li>Procesamiento 100% en el navegador sin enviar información a servidores externos.</li>
-      </ul>
-    </div>
+        <!-- Resultado Derecho: Modificado con marcas verdes (Añadido / Modificado) -->
+        <div class="panel-resultado-col">
+          <div class="panel-resultado-header">
+            <div class="resultado-titulo-lado">
+              <span>Diferencias en destino (Verde = Añadido / Modificado)</span>
+            </div>
+          </div>
+          <div id="resultado-modificado" class="panel-resultado-scroll" tabindex="0"
+            aria-label="Texto modificado con adiciones resaltadas"></div>
+        </div>
+      </section>
 
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <a href="../../index.html"><button type="button">Volver al catálogo</button></a>
-      <span class="note">Módulo en cola de desarrollo estático.</span>
+      <!-- Leyenda de colores -->
+      <section class="seccion-leyenda" aria-label="Leyenda visual de colores de diff">
+        <div class="item-leyenda">
+          <span class="muestra-leyenda muestra-del"></span>
+          <span>Texto eliminado</span>
+        </div>
+        <div class="item-leyenda">
+          <span class="muestra-leyenda muestra-ins"></span>
+          <span>Texto añadido</span>
+        </div>
+        <div class="item-leyenda">
+          <span class="muestra-leyenda muestra-mod-del"></span>
+          <span>Modificado (Lado original)</span>
+        </div>
+        <div class="item-leyenda">
+          <span class="muestra-leyenda muestra-mod-ins"></span>
+          <span>Modificado (Lado nuevo)</span>
+        </div>
+      </section>
+
+      <!-- SECCIÓN DE ESTADÍSTICAS -->
+      <section class="seccion-estadisticas" aria-label="Estadísticas de diferencias y composición">
+        <!-- Resumen de diferencias -->
+        <div>
+          <h2 style="font-size: 1.1rem; margin-bottom: 12px; font-family: var(--fuente-mono);">
+            Resumen de diferencias detectadas
+          </h2>
+          <div class="kpi-row-diff" role="region" aria-live="polite">
+            <div class="kpi-card-diff mod">
+              <span class="kpi-etiqueta-diff">Líneas modificadas</span>
+              <span id="kpi-lineas-mod" class="kpi-valor-diff">0</span>
+            </div>
+            <div class="kpi-card-diff del">
+              <span class="kpi-etiqueta-diff">Líneas eliminadas</span>
+              <span id="kpi-lineas-del" class="kpi-valor-diff">0</span>
+            </div>
+            <div class="kpi-card-diff ins">
+              <span class="kpi-etiqueta-diff">Líneas añadidas</span>
+              <span id="kpi-lineas-ins" class="kpi-valor-diff">0</span>
+            </div>
+            <div class="kpi-card-diff del">
+              <span class="kpi-etiqueta-diff">Chars. eliminados</span>
+              <span id="kpi-chars-del" class="kpi-valor-diff">0</span>
+            </div>
+            <div class="kpi-card-diff ins">
+              <span class="kpi-etiqueta-diff">Chars. añadidos</span>
+              <span id="kpi-chars-ins" class="kpi-valor-diff">0</span>
+            </div>
+            <div class="kpi-card-diff mod">
+              <span class="kpi-etiqueta-diff">Chars. modificados</span>
+              <span id="kpi-chars-mod" class="kpi-valor-diff">0</span>
+            </div>
+            <div class="kpi-card-diff similitud">
+              <span class="kpi-etiqueta-diff">Similitud global</span>
+              <span id="kpi-similitud" class="kpi-valor-diff">100%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Composición detallada de cada texto -->
+        <div class="tabla-composicion-wrapper">
+          <div class="tabla-composicion-header">
+            <h3>Composición y métricas de cada texto</h3>
+            <p>Calculado sobre el texto original sin alterar, desglosado mediante propiedades y categorías Unicode
+              oficiales.</p>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="tabla-composicion" aria-label="Tabla de composición métrica de ambos textos">
+              <thead>
+                <tr>
+                  <th scope="col">Métrica Unicode</th>
+                  <th scope="col" class="col-num">Original (A)</th>
+                  <th scope="col" class="col-num">Modificado (B)</th>
+                  <th scope="col" class="col-num">Diferencia (Δ)</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-composicion-body">
+                <!-- Renderizado dinámico desde comparador.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </div>
-  </div>
-</main>
+  </main>
 </body>
+
 </html>

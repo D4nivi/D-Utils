@@ -69,16 +69,16 @@
       id: "comparador-textos",
       titulo: "Comparador de textos",
       url: "pages/comparador-textos/",
-      estado: "construccion",
-      badgeClase: "hud-badge-warn",
-      badgeTexto: "EN CONSTRUCCIÓN",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
       categoria: "cat-texto",
       categoriaTexto: "TEXTO // MOD_05",
-      descripcion: "Inspección lado a lado y unificada para identificar inserciones, supresiones y discrepancias entre dos documentos o bloques de código.",
-      tags: ["DIFF VISUAL", "LÍNEA A LÍNEA", "SIN NUBE"],
-      accionTexto: "VER DETALLE →",
+      descripcion: "Inspección lado a lado con diff en dos niveles (líneas y caracteres) para identificar inserciones, supresiones y modificaciones.",
+      tags: ["DIFF 2 NIVELES", "SIN NUBE", "UNICODE"],
+      accionTexto: "ABRIR MÓDULO →",
       icono: "comparador-textos",
-      keywords: "comparador textos diferencias diff comparar codigo version texto cambios cambios resaltar lineas cotejo"
+      keywords: "comparador textos diferencias diff comparar codigo version texto cambios cambios resaltar lineas cotejo myers lcs"
     },
     {
       id: "ocr",

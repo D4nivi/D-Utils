@@ -1,0 +1,532 @@
+/* =========================================================
+   D-Utils · Comparador de Textos · Estilos de la Herramienta
+   Diseño táctico adaptativo con variables CSS globales
+   ========================================================= */
+
+/* Contenedor principal de la herramienta */
+.comparador-main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 12px 24px 64px;
+}
+
+/* Encabezado y subtexto */
+.comparador-header {
+  margin-bottom: 20px;
+}
+
+/* Barra superior de opciones y acciones rápidas */
+.barra-opciones-diff {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.grupo-checkboxes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.opcion-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fuente-mono);
+  font-size: 0.82rem;
+  color: var(--fg);
+  cursor: pointer;
+  user-select: none;
+}
+
+.opcion-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.acciones-barra-diff {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-tactico {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--fuente-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--fg);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-tactico:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.btn-tactico:active {
+  transform: translateY(0);
+}
+
+/* Estado de cálculo (para textos > 50k chars) */
+.indicador-calculando {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fuente-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.indicador-calculando.visible {
+  display: inline-flex;
+}
+
+.spinner-tactico {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: girar-spinner 0.6s linear infinite;
+}
+
+@keyframes girar-spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* Grid de paneles: Fila Superior (Entradas) y Fila Inferior (Resultados) */
+.grid-paneles-comparador {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 900px) {
+  .grid-paneles-comparador {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Paneles de resultado de solo lectura */
+.panel-resultado-col {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.panel-resultado-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid var(--card-border);
+  font-family: var(--fuente-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.resultado-titulo-lado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Ajuste de altura por defecto y capacidad de expansión vertical */
+.comparador-main .editor-contenedor textarea {
+  height: 260px;
+  min-height: 260px;
+  max-height: 1200px;
+  resize: vertical;
+}
+
+.panel-resultado-scroll {
+  height: 260px;
+  min-height: 260px;
+  max-height: 1200px;
+  resize: vertical;
+  overflow-y: auto;
+  overflow-x: auto;
+  background: var(--bg);
+  font-family: var(--fuente-mono);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  tab-size: 4;
+  white-space: pre;
+}
+
+/* Líneas del Diff en resultados */
+.diff-line {
+  display: flex;
+  min-width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.diff-gutter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  width: 54px;
+  min-width: 54px;
+  padding: 0 8px 0 4px;
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--muted);
+  user-select: none;
+  font-size: 0.75rem;
+  border-right: 1px solid var(--line);
+}
+
+.diff-gutter-symbol {
+  width: 10px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.diff-content {
+  flex: 1;
+  padding: 0 10px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Colores y marcas de diferencia */
+/* 1. Línea igual */
+.diff-line-igual {
+  background: transparent;
+}
+
+/* 2. Línea eliminada (panel izquierdo) */
+.diff-line-del {
+  background: rgba(255, 60, 90, 0.12);
+}
+.diff-line-del .diff-gutter {
+  background: rgba(255, 60, 90, 0.22);
+  color: #ff4766;
+}
+.diff-line-del .diff-content {
+  color: var(--fg);
+}
+
+/* 3. Línea añadida (panel derecho) */
+.diff-line-ins {
+  background: rgba(30, 215, 96, 0.12);
+}
+.diff-line-ins .diff-gutter {
+  background: rgba(30, 215, 96, 0.22);
+  color: #1ed760;
+}
+.diff-line-ins .diff-content {
+  color: var(--fg);
+}
+
+/* 4. Línea modificada (fondo tenue en ambos lados) */
+.diff-line-mod-izq {
+  background: rgba(255, 100, 100, 0.08);
+}
+.diff-line-mod-izq .diff-gutter {
+  background: rgba(255, 100, 100, 0.16);
+  color: #ff6464;
+}
+
+.diff-line-mod-der {
+  background: rgba(30, 215, 96, 0.08);
+}
+.diff-line-mod-der .diff-gutter {
+  background: rgba(30, 215, 96, 0.16);
+  color: #20e065;
+}
+
+/* 5. Línea padding (hueco vacío para alinear líneas) */
+.diff-line-pad {
+  background: rgba(128, 128, 128, 0.04);
+}
+.diff-line-pad .diff-gutter {
+  background: rgba(128, 128, 128, 0.06);
+  color: transparent;
+}
+.diff-line-pad .diff-content {
+  user-select: none;
+}
+
+/* Marcas de caracteres en Nivel 2 */
+/* Eliminado puro (rojo + subrayado) */
+.diff-char-del {
+  background: rgba(255, 60, 90, 0.35);
+  text-decoration: underline;
+  text-decoration-color: #ff3c5a;
+  border-radius: 2px;
+}
+
+/* Añadido puro (verde + subrayado) */
+.diff-char-ins {
+  background: rgba(30, 215, 96, 0.35);
+  text-decoration: underline;
+  text-decoration-color: #1ed760;
+  border-radius: 2px;
+}
+
+/* Modificado izquierda (tono rojo más suave + subrayado ondulado o discontinuo) */
+.diff-char-mod-del {
+  background: rgba(255, 80, 120, 0.28);
+  text-decoration: underline dashed #ff4766 2px;
+  border-radius: 2px;
+}
+
+/* Modificado derecha (tono verde más suave + subrayado ondulado o discontinuo) */
+.diff-char-mod-ins {
+  background: rgba(30, 225, 110, 0.28);
+  text-decoration: underline dashed #1ed760 2px;
+  border-radius: 2px;
+}
+
+/* Espacio y saltos de línea visibles */
+.diff-espacio-visible {
+  display: inline-block;
+  opacity: 0.6;
+}
+.diff-eol-visible {
+  display: inline-block;
+  opacity: 0.55;
+  font-size: 0.8em;
+  padding: 0 2px;
+}
+
+/* Degradación de diff complejo */
+.diff-badge-degradado {
+  display: inline-block;
+  font-size: 0.68rem;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(255, 180, 0, 0.2);
+  color: #ffb400;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* Banner de Textos Idénticos */
+.banner-identicos {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(30, 215, 96, 0.12);
+  border: 1px solid rgba(30, 215, 96, 0.4);
+  border-radius: 10px;
+  color: #1ed760;
+  font-family: var(--fuente-mono);
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(30, 215, 96, 0.08);
+}
+
+.banner-identicos.visible {
+  display: flex;
+}
+
+/* Leyenda de Colores */
+.seccion-leyenda {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding: 12px 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  margin-bottom: 28px;
+}
+
+.item-leyenda {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fuente-mono);
+  font-size: 0.8rem;
+  color: var(--fg);
+}
+
+.muestra-leyenda {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--line);
+}
+
+.muestra-del {
+  background: rgba(255, 60, 90, 0.4);
+  border-color: #ff3c5a;
+}
+.muestra-ins {
+  background: rgba(30, 215, 96, 0.4);
+  border-color: #1ed760;
+}
+.muestra-mod-del {
+  background: rgba(255, 80, 120, 0.28);
+  border-bottom: 2px dashed #ff4766;
+}
+.muestra-mod-ins {
+  background: rgba(30, 225, 110, 0.28);
+  border-bottom: 2px dashed #1ed760;
+}
+
+/* Bloque de Estadísticas */
+.seccion-estadisticas {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.kpi-row-diff {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.kpi-card-diff {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 12px 16px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card-diff::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+}
+
+.kpi-card-diff.del::before { background: #ff3c5a; }
+.kpi-card-diff.ins::before { background: #1ed760; }
+.kpi-card-diff.mod::before { background: #ffb400; }
+.kpi-card-diff.similitud::before { background: var(--accent); }
+
+.kpi-etiqueta-diff {
+  font-family: var(--fuente-mono);
+  font-size: 0.82rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.kpi-valor-diff {
+  font-family: var(--fuente-mono);
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--fg);
+  margin-top: 2px;
+}
+
+/* Tabla comparativa de composición */
+.tabla-composicion-wrapper {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tabla-composicion-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--card-border);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.tabla-composicion-header h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  font-family: var(--fuente-mono);
+}
+
+.tabla-composicion-header p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.tabla-composicion {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--fuente-mono);
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.tabla-composicion th,
+.tabla-composicion td {
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabla-composicion th {
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+}
+
+.tabla-composicion tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla-composicion tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.col-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.delta-positivo {
+  color: #1ed760;
+  font-weight: 700;
+}
+
+.delta-negativo {
+  color: #ff3c5a;
+  font-weight: 700;
+}
+
+.delta-cero {
+  color: var(--muted);
+}

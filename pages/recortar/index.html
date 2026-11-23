@@ -6,13 +6,13 @@
 <meta name="robots" content="noindex">
 <title>Recortar imágenes · D-Utils</title>
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../componentes/dropzone.css">
 <script src="../../assets/base.js"></script>
+<script src="../../componentes/iconos.js"></script>
+<script src="../../componentes/dropzone.js"></script>
 <script src="../../componentes/footer.js"></script>
 <style>
   main { max-width: 920px; }
-  #drop { border:2px dashed var(--line); border-radius:12px; padding:36px 16px; text-align:center; background:var(--card); cursor:pointer; transition:border-color .15s; }
-  #drop.over, #drop:focus-visible { border-color: var(--accent); outline: none; }
-  #drop strong { color: var(--accent); }
   .opts { display:flex; flex-wrap:wrap; gap:16px; margin:20px 0; }
   .opts label { display:flex; flex-direction:column; gap:4px; font-size:.875rem; color:var(--muted); }
   .opts input { width:110px; padding:8px; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:8px; }
@@ -37,11 +37,8 @@
   <h1>Recortar imágenes</h1>
   <p class="sub">Recorta el fondo blanco al borde del objeto y deja un margen fijo. Todo se procesa en tu navegador: las imágenes no se suben a ningún sitio.</p>
 
-  <div id="drop" tabindex="0" role="button" aria-label="Seleccionar imágenes">
-    <div>Arrastra imágenes aquí o <strong>haz clic para elegirlas</strong></div>
-    <div class="note">JPG y PNG, tantas como quieras</div>
-    <input id="fichero" type="file" accept="image/jpeg,image/png" multiple hidden>
-  </div>
+  <!-- Zona de arrastre de imágenes (Dropzone común) -->
+  <div id="drop"></div>
 
   <div class="opts">
     <label>Margen (px)<input id="margen" type="number" min="0" value="60"></label>
@@ -362,13 +359,19 @@ async function descargarZip() {
 
 // ---------- Eventos ----------
 
-const drop = $("drop"), fichero = $("fichero");
-drop.addEventListener("click", () => fichero.click());
-drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fichero.click(); } });
-fichero.addEventListener("change", () => { procesarFicheros(fichero.files); fichero.value = ""; });
-for (const ev of ["dragenter", "dragover"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); });
-for (const ev of ["dragleave", "drop"]) drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); });
-drop.addEventListener("drop", (e) => procesarFicheros(e.dataTransfer.files));
+window.DUtilsDropzone.crear({
+  contenedor: $("drop"),
+  id: "drop",
+  idInput: "fichero",
+  accept: "image/jpeg,image/png",
+  multiple: true,
+  texto: "Arrastra imágenes aquí o <strong>haz clic para elegirlas</strong>",
+  pista: "JPG y PNG, tantas como quieras",
+  icono: "subir",
+  soportaPegado: true,
+  onArchivos: (ficheros) => procesarFicheros(ficheros)
+});
+
 $("btnUrls").addEventListener("click", procesarUrls);
 $("btnZip").addEventListener("click", descargarZip);
 $("btnLimpiar").addEventListener("click", limpiar);

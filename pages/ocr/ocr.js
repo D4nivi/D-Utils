@@ -302,60 +302,19 @@
       });
     }
 
-    // Eventos de Drag & Drop
-    if (elDrop) {
-      elDrop.addEventListener("click", function () {
-        if (elFichero) elFichero.click();
-      });
-
-      elDrop.addEventListener("dragover", function (e) {
-        e.preventDefault();
-        elDrop.classList.add("over");
-      });
-
-      elDrop.addEventListener("dragleave", function (e) {
-        e.preventDefault();
-        elDrop.classList.remove("over");
-      });
-
-      elDrop.addEventListener("drop", function (e) {
-        e.preventDefault();
-        elDrop.classList.remove("over");
-        if (e.dataTransfer && e.dataTransfer.files) {
-          agregarArchivos(e.dataTransfer.files);
-        }
-      });
-    }
-
-    // Input de ficheros
-    if (elFichero) {
-      elFichero.addEventListener("change", function () {
-        if (this.files) {
-          agregarArchivos(this.files);
-          this.value = "";
-        }
-      });
-    }
-
-    // Pegado directo con portapapeles (Ctrl+V)
-    window.addEventListener("paste", function (e) {
-      var clipboardData = e.clipboardData || window.clipboardData;
-      if (!clipboardData || !clipboardData.items) return;
-
-      var archivosImg = [];
-      for (var i = 0; i < clipboardData.items.length; i++) {
-        var item = clipboardData.items[i];
-        if (item.type.indexOf("image") !== -1) {
-          var blob = item.getAsFile();
-          if (blob) {
-            archivosImg.push(new File([blob], "captura_" + Date.now() + ".png", { type: blob.type }));
-          }
-        }
-      }
-
-      if (archivosImg.length > 0) {
-        e.preventDefault();
-        agregarArchivos(archivosImg);
+    // Inicialización del componente común Dropzone
+    window.DUtilsDropzone.crear({
+      contenedor: elDrop,
+      id: "drop",
+      idInput: "fichero",
+      accept: "image/jpeg,image/png,image/webp",
+      multiple: true,
+      texto: "Arrastra imágenes aquí o <strong>haz clic para elegirlas</strong>",
+      pista: "JPG, PNG y WebP · Soporta múltiples imágenes y pegado directo con <kbd>Ctrl+V</kbd>",
+      icono: "subir",
+      soportaPegado: true,
+      onArchivos: function (ficheros) {
+        agregarArchivos(ficheros);
       }
     });
 

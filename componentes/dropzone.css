@@ -1,0 +1,93 @@
+/* =========================================================
+   D-Utils · Componente Reutilizable de Zona de Carga (Dropzone)
+   Diseño táctico adaptativo con variables CSS globales
+   ========================================================= */
+
+.dutils-dropzone,
+.ocr-dropzone {
+  border: 2px dashed var(--line);
+  border-radius: var(--radio-card, 12px);
+  padding: 36px 20px;
+  text-align: center;
+  background: var(--card);
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .1s ease;
+  user-select: none;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  position: relative;
+}
+
+.dutils-dropzone:hover,
+.dutils-dropzone.over,
+.dutils-dropzone:focus-visible,
+.ocr-dropzone:hover,
+.ocr-dropzone.over,
+.ocr-dropzone:focus-visible {
+  border-color: var(--accent);
+  background: var(--card);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.dutils-dropzone-icono,
+.ocr-dropzone-icono {
+  width: 44px;
+  height: 44px;
+  color: var(--accent);
+  margin-bottom: 2px;
+  transition: transform .2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dutils-dropzone-icono svg,
+.ocr-dropzone-icono svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dutils-dropzone:hover .dutils-dropzone-icono,
+.dutils-dropzone.over .dutils-dropzone-icono,
+.ocr-dropzone:hover .ocr-dropzone-icono,
+.ocr-dropzone.over .ocr-dropzone-icono {
+  transform: scale(1.12);
+}
+
+.dutils-dropzone-texto,
+.ocr-dropzone-texto {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--fg);
+  line-height: 1.4;
+}
+
+.dutils-dropzone-texto strong,
+.ocr-dropzone-texto strong {
+  color: var(--accent);
+}
+
+.dutils-dropzone-pista,
+.ocr-dropzone-pista {
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-family: var(--fuente-mono);
+  line-height: 1.4;
+}
+
+.dutils-dropzone-pista kbd,
+.ocr-dropzone-pista kbd {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--fg);
+  font-size: 0.75rem;
+  font-family: inherit;
+}

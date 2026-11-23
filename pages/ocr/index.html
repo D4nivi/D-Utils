@@ -6,10 +6,12 @@
 <meta name="robots" content="noindex">
 <title>OCR (Extracción de texto) · D-Utils</title>
 <link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../componentes/dropzone.css">
 <link rel="stylesheet" href="../../componentes/bloque-texto.css">
 <link rel="stylesheet" href="ocr.css">
 <script src="../../assets/base.js"></script>
 <script src="../../componentes/iconos.js"></script>
+<script src="../../componentes/dropzone.js"></script>
 <script src="../../componentes/bloque-texto.js"></script>
 <script src="../../componentes/footer.js"></script>
 <script src="assets/tesseract.min.js"></script>
@@ -35,17 +37,8 @@
     <div><strong>Aviso de seguridad del navegador:</strong> Estás abriendo la herramienta desde <code>file://</code>. Por seguridad interna, los navegadores impiden que los Web Workers carguen WebAssembly y ficheros locales directamente. Para ejecutar el OCR, abre esta página a través de un servidor web local (por ejemplo con <code>npx serve</code>, la extensión Live Server de VS Code o <code>python -m http.server</code>) o directamente en GitHub Pages.</div>
   </div>
 
-  <!-- Zona de arrastre de imágenes (Dropzone) -->
-  <div id="drop" class="ocr-dropzone" tabindex="0" role="button" aria-label="Seleccionar o soltar imágenes">
-    <svg class="ocr-dropzone-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-      <polyline points="17 8 12 3 7 8"/>
-      <line x1="12" y1="3" x2="12" y2="15"/>
-    </svg>
-    <div class="ocr-dropzone-texto">Arrastra imágenes aquí o <strong>haz clic para elegirlas</strong></div>
-    <div class="ocr-dropzone-pista">JPG, PNG y WebP · Soporta múltiples imágenes y pegado directo con <kbd>Ctrl+V</kbd></div>
-    <input id="fichero" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
-  </div>
+  <!-- Zona de arrastre de imágenes (Dropzone común) -->
+  <div id="drop"></div>
 
   <!-- Cola de imágenes seleccionadas -->
   <div id="cola-imagenes" style="display: none;">

@@ -35,62 +35,8 @@ main {
 }
 
 /* =========================================================
-   Zona de soltar imágenes (Dropzone)
+   Zona de soltar imágenes (Dropzone centralizado en componentes/dropzone.css)
    ========================================================= */
-.ocr-dropzone {
-  border: 2px dashed var(--line);
-  border-radius: var(--radio-card, 12px);
-  padding: 38px 20px;
-  text-align: center;
-  background: var(--card-bg);
-  cursor: pointer;
-  transition: border-color .15s ease, background-color .15s ease, transform .1s ease;
-  user-select: none;
-  outline: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin: 20px 0;
-  position: relative;
-}
-
-.ocr-dropzone:hover,
-.ocr-dropzone.over,
-.ocr-dropzone:focus-visible {
-  border-color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.04);
-  box-shadow: 0 0 16px var(--accent-glow);
-}
-
-.ocr-dropzone-icono {
-  width: 44px;
-  height: 44px;
-  color: var(--accent);
-  margin-bottom: 4px;
-  transition: transform .2s ease;
-}
-
-.ocr-dropzone:hover .ocr-dropzone-icono,
-.ocr-dropzone.over .ocr-dropzone-icono {
-  transform: scale(1.1);
-}
-
-.ocr-dropzone-texto {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--fg);
-}
-
-.ocr-dropzone-texto strong {
-  color: var(--accent);
-}
-
-.ocr-dropzone-pista {
-  font-family: var(--fuente-mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-}
 
 /* =========================================================
    Cola y galería de imágenes cargadas

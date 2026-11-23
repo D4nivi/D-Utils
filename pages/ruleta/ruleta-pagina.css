@@ -86,6 +86,7 @@
   backdrop-filter: blur(14px);
   box-shadow: var(--sombra-card, none);
   position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -97,6 +98,8 @@
   top: 0; left: 0; right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--accent-sec), var(--accent), transparent);
+  border-top-left-radius: var(--radio-card, 14px);
+  border-top-right-radius: var(--radio-card, 14px);
 }
 
 /* Slider / Conmutador de Modos */

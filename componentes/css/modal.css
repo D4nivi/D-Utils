@@ -1,0 +1,103 @@
+/* =========================================================
+   D-Utils · Ventanas Modales y Popups Tácticos
+   Estilos compartidos para overlays y tarjetas modales
+   ========================================================= */
+
+.modal-overlay,
+.ruleta-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 11, 20, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-overlay.abierto,
+.ruleta-modal-overlay.abierto {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card,
+.ruleta-modal-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--card-bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radio-card, 16px);
+  padding: 32px 28px 28px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 32px var(--accent-glow);
+  position: relative;
+  text-align: center;
+  transform: scale(0.92) translateY(12px);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+.modal-overlay.abierto .modal-card,
+.ruleta-modal-overlay.abierto .ruleta-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-card::before,
+.ruleta-modal-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-sec), var(--accent-ok));
+}
+
+.btn-cerrar-modal {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.btn-cerrar-modal:hover {
+  color: var(--fg);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.modal-acciones-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-modal-accion {
+  width: 100%;
+  padding: 13px 20px;
+  font-family: var(--fuente);
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--radio-borde, 999px);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+}

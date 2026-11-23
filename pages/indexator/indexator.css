@@ -71,29 +71,7 @@ main {
   box-shadow: 0 0 8px var(--accent-glow);
 }
 
-/* =========================================================
-   Aviso de delimitador '---'
-   ========================================================= */
-
-.aviso-separador {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  background: rgba(255, 184, 0, 0.12);
-  border: 1px solid var(--accent-warn);
-  border-radius: var(--radio-borde, 8px);
-  color: var(--fg);
-  font-family: var(--fuente-mono);
-  font-size: 0.825rem;
-  margin-top: 16px;
-  transition: opacity .2s ease;
-}
-
-.aviso-separador.oculto {
-  display: none;
-}
-
+/* Aviso de delimitador '---' */
 .aviso-icono {
   color: var(--accent-warn);
   font-size: 1.1rem;

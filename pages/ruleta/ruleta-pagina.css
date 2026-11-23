@@ -59,60 +59,6 @@
   gap: 18px;
 }
 
-.ruleta-panel-datos::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-sec), var(--accent), transparent);
-  border-top-left-radius: var(--radio-card, 14px);
-  border-top-right-radius: var(--radio-card, 14px);
-}
-
-/* Slider / Conmutador de Modos */
-.slider-modo-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(0, 0, 0, 0.18);
-  border: 1px solid var(--line);
-  border-radius: var(--radio-borde, 999px);
-  padding: 4px;
-  position: relative;
-  user-select: none;
-}
-
-.btn-tab-modo {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 9px 16px;
-  font-family: var(--fuente-mono);
-  font-size: 0.825rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--muted);
-  background: transparent;
-  border: none;
-  border-radius: var(--radio-borde, 999px);
-  cursor: pointer;
-  transition: color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
-  z-index: 2;
-}
-
-.btn-tab-modo:hover {
-  color: var(--fg);
-}
-
-.btn-tab-modo.activo {
-  color: var(--on-accent, #050b14);
-  background: var(--accent);
-  box-shadow: 0 2px 10px var(--accent-glow);
-}
-
 /* Barra de Opciones Comunes: Mezclar, Limpiar, Ordenar a la izquierda del todo */
 .barra-acciones-datos {
   display: flex;
@@ -383,78 +329,7 @@
   transform: translateY(1px);
 }
 
-/* ---------- Popup Modal del Ganador ---------- */
-.ruleta-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(5, 11, 20, 0.78);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.ruleta-modal-overlay.abierto {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.ruleta-modal-card {
-  width: 100%;
-  max-width: 480px;
-  background: var(--card-bg);
-  border: 1px solid var(--accent);
-  border-radius: var(--radio-card, 16px);
-  padding: 32px 28px 28px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 32px var(--accent-glow);
-  position: relative;
-  text-align: center;
-  transform: scale(0.92) translateY(12px);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  overflow: hidden;
-}
-
-.ruleta-modal-overlay.abierto .ruleta-modal-card {
-  transform: scale(1) translateY(0);
-}
-
-.ruleta-modal-card::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-sec), var(--accent-ok));
-}
-
-.btn-cerrar-modal {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  border-radius: 50%;
-  color: var(--muted);
-  cursor: pointer;
-  transition: color 0.15s ease, background 0.15s ease;
-}
-
-.btn-cerrar-modal:hover {
-  color: var(--fg);
-  background: rgba(255, 255, 255, 0.08);
-}
-
+/* ---------- Contenido Específico del Modal del Ganador ---------- */
 .modal-ganador-icono {
   width: 54px;
   height: 54px;
@@ -488,27 +363,6 @@
   word-break: break-word;
   line-height: 1.25;
   text-shadow: 0 0 20px var(--accent-glow);
-}
-
-.modal-acciones-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.btn-modal-accion {
-  width: 100%;
-  padding: 13px 20px;
-  font-family: var(--fuente);
-  font-size: 0.95rem;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border-radius: var(--radio-borde, 999px);
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .btn-modal-girar-otra {

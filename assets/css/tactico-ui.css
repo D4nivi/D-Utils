@@ -346,3 +346,242 @@
   color: var(--muted);
   line-height: 1.4;
 }
+
+/* ---------- Borde Neón Superior Decorativo ---------- */
+.card-accent-top,
+.panel-hero,
+.ruleta-panel-datos,
+.ruleta-panel-ruleta,
+.simbolos-controles,
+.kpi-card-diff {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-accent-top::before,
+.panel-hero::before,
+.ruleta-panel-datos::before,
+.ruleta-panel-ruleta::before,
+.simbolos-controles::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-sec), transparent);
+}
+
+/* ---------- Conmutador / Selector Segmentado de Modos ---------- */
+.selector-segmentado,
+.slider-modo-container {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--line);
+  border-radius: var(--radio-borde, 999px);
+  padding: 3px;
+  gap: 2px;
+  user-select: none;
+}
+
+.btn-segmento,
+.btn-tab-modo {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 6px 14px;
+  font-family: var(--fuente-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: var(--radio-borde, 999px);
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+
+.btn-segmento:hover:not(.activo),
+.btn-tab-modo:hover:not(.activo) {
+  color: var(--fg);
+}
+
+.btn-segmento.activo,
+.btn-tab-modo.activo {
+  background: var(--accent);
+  color: var(--on-accent, #050b14);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ---------- Avisos y Banners Tácticos ---------- */
+.aviso-tactico,
+.aviso-protocolo,
+.aviso-separador,
+.banner-identicos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: var(--radio-card, 10px);
+  font-family: var(--fuente-mono);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  margin: 16px 0;
+  box-sizing: border-box;
+}
+
+.aviso-tactico.aviso-warn,
+.aviso-protocolo,
+.aviso-separador {
+  background: rgba(255, 184, 0, 0.1);
+  border: 1px solid var(--accent-warn);
+  color: var(--fg);
+}
+
+.aviso-tactico.aviso-warn strong,
+.aviso-protocolo strong {
+  color: var(--accent-warn);
+}
+
+.aviso-tactico.aviso-ok,
+.banner-identicos {
+  background: rgba(30, 215, 96, 0.12);
+  border: 1px solid rgba(30, 215, 96, 0.4);
+  color: #1ed760;
+  font-weight: 700;
+  justify-content: center;
+}
+
+.aviso-tactico.oculto,
+.aviso-protocolo.oculto,
+.aviso-separador.oculto,
+.banner-identicos:not(.visible) {
+  display: none !important;
+}
+
+/* ---------- Módulos y Tiles de Métricas / KPI ---------- */
+.grid-metricas,
+.kpi-row-diff {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.kpi-tile,
+.metrica-tile,
+.kpi-card-diff {
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+
+.kpi-tile:hover,
+.metrica-tile:hover {
+  border-color: rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--accent-rgb), 0.03);
+}
+
+.kpi-nombre,
+.metrica-nombre,
+.kpi-etiqueta-diff {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 500;
+  font-family: var(--fuente-mono);
+  letter-spacing: 0.02em;
+}
+
+.kpi-valor,
+.metrica-valor,
+.kpi-valor-diff {
+  font-family: var(--fuente-mono);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+/* ---------- Estados Vacíos (Empty States) ---------- */
+.estado-vacio,
+.vacio-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 20px;
+  background: var(--card-bg);
+  border: 1px dashed var(--line);
+  border-radius: var(--radio-card, 12px);
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--fuente-mono);
+  font-size: 0.85rem;
+  margin: 20px 0;
+}
+
+.estado-vacio-icono {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.estado-vacio-texto {
+  margin: 0;
+  color: var(--muted);
+}
+
+.estado-vacio-texto strong {
+  color: var(--fg);
+}
+
+/* ---------- Notificación Toast HUD (Inferior) ---------- */
+.hud-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  visibility: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px;
+  background: var(--card);
+  border: 1px solid var(--accent);
+  border-radius: var(--radio-borde, 999px);
+  color: var(--fg);
+  font-family: var(--fuente-mono);
+  font-size: 0.825rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 16px var(--accent-glow);
+  backdrop-filter: blur(14px);
+  transition: transform .2s ease, opacity .2s ease, visibility .2s ease;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.hud-toast.activo {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.hud-toast .toast-char {
+  font-size: 1.25rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.hud-toast .toast-meta strong {
+  color: var(--accent-ok);
+  margin-right: 6px;
+}

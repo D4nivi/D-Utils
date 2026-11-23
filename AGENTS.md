@@ -35,7 +35,8 @@ There is no package manager, build step, bundler, linter, or test suite.
     All icons belong here; never hardcode SVGs in other scripts.
   - `fondo.js`: fondo dinámico y nebulosas en canvas adaptables al tema (`window.DUtilsFondo`).
   - `radio.js` / `css/radio.css`: reproductor de radio táctica integrada (`window.DUtilsRadio`).
-  - `buscador.js`: accent-insensitive search, filter chips, and empty state.
+  - `buscador.js` / `css/buscador.css`: accent-insensitive search, filter chips, and empty state.
+  - `css/modal.css`: ventanas modales y popups tácticos (`.modal-overlay`, `.modal-card`).
   - `footer.js` / `css/footer.css`: pie del sistema táctico y atajos interactivos (`window.DUtilsFooter`).
   - `dropzone.js` / `css/dropzone.css`: panel común de arrastre y subida de archivos parametrizable (`window.DUtilsDropzone`).
   - `bloque-texto.js` / `css/bloque-texto.css`: editor y visor de texto reutilizable con barra de acciones (`window.DUtilsBloqueTexto`).

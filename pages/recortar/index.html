@@ -7,29 +7,11 @@
 <title>Recortar imágenes · D-Utils</title>
 <link rel="stylesheet" href="../../assets/css/base.css">
 <link rel="stylesheet" href="../../componentes/css/dropzone.css">
+<link rel="stylesheet" href="recortar.css">
 <script src="../../assets/base.js"></script>
 <script src="../../componentes/iconos.js"></script>
 <script src="../../componentes/dropzone.js"></script>
 <script src="../../componentes/footer.js"></script>
-<style>
-  main { max-width: 920px; }
-  .opts { display:flex; flex-wrap:wrap; gap:16px; margin:20px 0; }
-  .opts label { display:flex; flex-direction:column; gap:4px; font-size:.875rem; color:var(--muted); }
-  .opts input { width:110px; padding:8px; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:8px; }
-  details { margin: 8px 0 20px; }
-  summary { cursor:pointer; color:var(--accent); }
-  textarea { width:100%; min-height:90px; margin-top:8px; padding:8px; font:13px/1.4 ui-monospace,Menlo,monospace; color:var(--fg); background:var(--card); border:1px solid var(--line); border-radius:8px; }
-  .bar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:20px 0 12px; }
-  #estado { color:var(--muted); font-size:.875rem; }
-  #resultados { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
-  .item { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px; font-size:.8125rem; }
-  .item .th { aspect-ratio:1; display:flex; align-items:center; justify-content:center; background:#fff; border-radius:6px; overflow:hidden; margin-bottom:8px; border:1px solid var(--line); }
-  .item img { max-width:100%; max-height:100%; display:block; }
-  .item .n { word-break:break-all; font-weight:600; }
-  .item .m { color:var(--muted); }
-  .item.err { border-color:var(--error); }
-  .item.err .m { color:var(--error); }
-</style>
 </head>
 <body>
 <main>

@@ -305,28 +305,6 @@
   vertical-align: middle;
 }
 
-/* Banner de Textos Idénticos */
-.banner-identicos {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 14px 20px;
-  background: rgba(30, 215, 96, 0.12);
-  border: 1px solid rgba(30, 215, 96, 0.4);
-  border-radius: 10px;
-  color: #1ed760;
-  font-family: var(--fuente-mono);
-  font-size: 0.88rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 14px rgba(30, 215, 96, 0.08);
-}
-
-.banner-identicos.visible {
-  display: flex;
-}
-
 /* Leyenda de Colores */
 .seccion-leyenda {
   display: flex;
@@ -382,52 +360,10 @@
   margin-bottom: 40px;
 }
 
-.kpi-row-diff {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
-}
-
-.kpi-card-diff {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  padding: 12px 16px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  position: relative;
-  overflow: hidden;
-}
-
-.kpi-card-diff::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--accent);
-}
-
 .kpi-card-diff.del::before { background: #ff3c5a; }
 .kpi-card-diff.ins::before { background: #1ed760; }
 .kpi-card-diff.mod::before { background: #ffb400; }
 .kpi-card-diff.similitud::before { background: var(--accent); }
-
-.kpi-etiqueta-diff {
-  font-family: var(--fuente-mono);
-  font-size: 0.82rem;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
-
-.kpi-valor-diff {
-  font-family: var(--fuente-mono);
-  font-size: 1.8rem;
-  font-weight: 800;
-  line-height: 1.1;
-  color: var(--fg);
-  margin-top: 2px;
-}
 
 /* Tabla comparativa de composición */
 .tabla-composicion-wrapper {

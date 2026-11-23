@@ -10,35 +10,6 @@ main {
 }
 
 /* =========================================================
-   Banner de advertencia para protocolo file://
-   ========================================================= */
-.aviso-protocolo {
-  background: rgba(255, 184, 0, 0.1);
-  border: 1px solid var(--accent-warn);
-  border-radius: var(--radio-card, 10px);
-  padding: 14px 18px;
-  margin: 16px 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 0.85rem;
-  color: var(--fg);
-  line-height: 1.5;
-}
-
-.aviso-protocolo strong {
-  color: var(--accent-warn);
-}
-
-.aviso-protocolo.oculto {
-  display: none !important;
-}
-
-/* =========================================================
-   Zona de soltar imágenes (Dropzone centralizado en componentes/dropzone.css)
-   ========================================================= */
-
-/* =========================================================
    Cola y galería de imágenes cargadas
    ========================================================= */
 .ocr-cola-cabecera {

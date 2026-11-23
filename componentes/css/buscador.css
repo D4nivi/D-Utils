@@ -1,0 +1,185 @@
+/* =========================================================
+   D-Utils · Consola de Búsqueda y Filtros Rápidos (Buscador)
+   Acompaña a componentes/buscador.js y usado en Portada y Símbolos
+   ========================================================= */
+
+.control-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+/* Envoltorio principal de la barra de búsqueda */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border: var(--card-border-width, 1px) solid var(--line);
+  border-radius: var(--radio-card, 10px);
+  backdrop-filter: blur(10px);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  width: 18px;
+  height: 18px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+/* Campo de texto de búsqueda unificado */
+.search-input,
+#buscador,
+#buscador-simbolos {
+  width: 100%;
+  padding: 13px 80px 13px 46px;
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-family: var(--fuente);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.search-input::placeholder,
+#buscador::placeholder,
+#buscador-simbolos::placeholder {
+  color: var(--muted);
+  opacity: 0.85;
+}
+
+/* Ocultar botones nativos en WebKit/Blink */
+.search-input::-webkit-search-decoration,
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-results-button,
+.search-input::-webkit-search-results-decoration,
+#buscador::-webkit-search-cancel-button,
+#buscador-simbolos::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+/* Botón limpiar texto dentro del input */
+.btn-limpiar-busqueda {
+  position: absolute;
+  right: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--fg);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .12s ease, transform .12s ease;
+}
+
+.btn-limpiar-busqueda:hover {
+  background: var(--accent);
+  color: var(--on-accent, #050b14);
+}
+
+/* Atajo de teclado en la barra */
+.search-kbd {
+  position: absolute;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-family: var(--fuente-mono);
+  color: var(--muted);
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Fila y grupo de filtros */
+.filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filter-group,
+.filtros-categorias {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Chips tácticos de filtrado */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radio-borde, 999px);
+  font-size: 0.8rem;
+  font-family: var(--fuente-mono);
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--card);
+  border: var(--card-border-width, 1px) solid var(--line);
+  cursor: pointer;
+  transition: all .15s ease;
+  backdrop-filter: blur(6px);
+  user-select: none;
+}
+
+.filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--fg);
+  transform: translateY(-1px);
+}
+
+.filter-chip.active {
+  background: var(--hud-tag-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.chip-count {
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
+
+/* Barra de estado o telemetría de resultados */
+.meta-stats,
+.simbolos-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--fuente-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.meta-stats strong,
+.simbolos-status-bar strong {
+  color: var(--accent);
+}

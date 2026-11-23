@@ -74,24 +74,15 @@
     var raiz = document.createElement("div");
     raiz.className = "col-escritura bloque-texto-instancia";
 
-    // Cabecera opcional (Título y Badge)
-    if (opciones.titulo || opciones.badge) {
+    // Cabecera opcional (Título)
+    if (opciones.titulo) {
       var cabecera = document.createElement("div");
       cabecera.className = "bloque-texto-cabecera";
 
-      if (opciones.titulo) {
-        var elTitulo = document.createElement("h3");
-        elTitulo.className = "bloque-texto-titulo";
-        elTitulo.textContent = opciones.titulo;
-        cabecera.appendChild(elTitulo);
-      }
-
-      if (opciones.badge) {
-        var elBadge = document.createElement("span");
-        elBadge.className = "hud-badge hud-badge-mini";
-        elBadge.innerHTML = '<span class="pulse-dot"></span>' + opciones.badge;
-        cabecera.appendChild(elBadge);
-      }
+      var elTitulo = document.createElement("h3");
+      elTitulo.className = "bloque-texto-titulo";
+      elTitulo.textContent = opciones.titulo;
+      cabecera.appendChild(elTitulo);
 
       raiz.appendChild(cabecera);
     }
@@ -196,19 +187,14 @@
 
     dropZone.appendChild(textarea);
 
-    // Pie del editor
+    // Pie del editor (solo conteo de caracteres)
     var editorPie = document.createElement("div");
     editorPie.className = "editor-pie";
-
-    var elPista = document.createElement("span");
-    elPista.className = "editor-pista";
-    elPista.innerHTML = '<span class="editor-dot"></span> <span class="editor-pista-texto">' + pistaTexto + '</span>';
 
     var elConteo = document.createElement("span");
     elConteo.className = "editor-cuenta-pie";
     elConteo.textContent = "0 caracteres";
 
-    editorPie.appendChild(elPista);
     editorPie.appendChild(elConteo);
     dropZone.appendChild(editorPie);
 

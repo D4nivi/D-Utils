@@ -4,9 +4,17 @@
 
 /* 1. Recorte de imágenes: marco dinámico escaneando */
 @keyframes scan-box {
-  0%, 100% { stroke-dashoffset: 0; }
-  50% { stroke-dashoffset: 16; }
+
+  0%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dashoffset: 16;
+  }
 }
+
 .anim-crop-border {
   stroke-dasharray: 8 4;
   animation: scan-box 4s linear infinite;
@@ -14,72 +22,312 @@
 
 /* 2. Símbolos: pulso holográfico de glifo */
 @keyframes glyph-pulse {
-  0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 2px transparent); }
-  50% { opacity: 1; filter: drop-shadow(0 0 8px var(--accent)); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    filter: drop-shadow(0 0 2px transparent);
+  }
+
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px var(--accent));
+  }
 }
+
 .anim-glyph {
   animation: glyph-pulse 2.4s ease-in-out infinite;
 }
 
 /* 3. Ruleta: giro lento en reposo + aceleración/fricción inercial al hacer hover */
 @keyframes giro-ruleta-lento {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
+
 .anim-wheel {
   transform-origin: 80px 58px;
   animation: giro-ruleta-lento 24s linear infinite;
 }
+
 @keyframes giro-ruleta-real {
   0% {
     transform: rotate(0deg);
     animation-timing-function: cubic-bezier(0.08, 0.85, 0.2, 1);
   }
+
   90% {
     transform: rotate(1800deg);
   }
+
   100% {
     transform: rotate(1800deg);
   }
 }
+
 .tool-card:hover .anim-wheel {
   animation: giro-ruleta-real 3.2s infinite;
 }
 
 /* 4. Contador de palabras: ecualizador métrico de frecuencias */
 @keyframes wave-bar {
-  0%, 100% { height: 12px; }
-  50% { height: 32px; }
+
+  0%,
+  100% {
+    height: 12px;
+  }
+
+  50% {
+    height: 32px;
+  }
 }
-.anim-bar-1 { animation: wave-bar 1.2s ease-in-out infinite; }
-.anim-bar-2 { animation: wave-bar 1.8s ease-in-out infinite 0.2s; }
-.anim-bar-3 { animation: wave-bar 1.4s ease-in-out infinite 0.4s; }
+
+.anim-bar-1 {
+  animation: wave-bar 1.2s ease-in-out infinite;
+}
+
+.anim-bar-2 {
+  animation: wave-bar 1.8s ease-in-out infinite 0.2s;
+}
+
+.anim-bar-3 {
+  animation: wave-bar 1.4s ease-in-out infinite 0.4s;
+}
 
 /* 5. Comparador de textos: haz de escaneo diff sincronizado */
 @keyframes scan-diff {
-  0%, 100% { transform: translateY(0); opacity: 0.2; }
-  50% { transform: translateY(50px); opacity: 0.9; }
+
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translateY(50px);
+    opacity: 0.9;
+  }
 }
+
 .anim-diff-beam {
   animation: scan-diff 2.5s ease-in-out infinite;
 }
 
 /* 6. OCR: barrido láser óptico vertical */
 @keyframes laser-sweep {
-  0%, 100% { transform: translateY(24px); }
-  50% { transform: translateY(88px); }
+
+  0%,
+  100% {
+    transform: translateY(24px);
+  }
+
+  50% {
+    transform: translateY(88px);
+  }
 }
+
 .anim-ocr-beam {
   animation: laser-sweep 2.8s ease-in-out infinite;
 }
 
 /* 7. Indexator: pulsos de paquetes en nodos de red */
 @keyframes node-glow {
-  0%, 100% { fill: var(--accent); opacity: 0.4; }
-  50% { fill: var(--accent-sec); opacity: 1; }
+
+  0%,
+  100% {
+    fill: var(--accent);
+    opacity: 0.4;
+  }
+
+  50% {
+    fill: var(--accent-sec);
+    opacity: 1;
+  }
 }
+
 .anim-node {
   animation: node-glow 2s ease-in-out infinite alternate;
+}
+
+/* 8. Superscript: máquina de escribir en vivo */
+@keyframes anim-type-1 {
+  0% {
+    width: 0;
+  }
+
+  12% {
+    width: 28px;
+  }
+
+  86% {
+    width: 28px;
+  }
+
+  92% {
+    width: 0;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes anim-type-2 {
+
+  0%,
+  18% {
+    width: 0;
+  }
+
+  62% {
+    width: 118px;
+  }
+
+  86% {
+    width: 118px;
+  }
+
+  92% {
+    width: 0;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes anim-type-3 {
+
+  0%,
+  68% {
+    width: 0;
+  }
+
+  78% {
+    width: 18px;
+  }
+
+  86% {
+    width: 18px;
+  }
+
+  92% {
+    width: 0;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+.anim-sup-type-1 {
+  animation: anim-type-1 8s steps(4, end) infinite;
+}
+
+.anim-sup-type-2 {
+  animation: anim-type-2 8s steps(27, end) infinite;
+}
+
+.anim-sup-type-3 {
+  animation: anim-type-3 8s steps(2, end) infinite;
+}
+
+@keyframes anim-sup-cursor-move {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  12%,
+  18% {
+    transform: translate(26px, 0);
+    opacity: 1;
+  }
+
+  19% {
+    transform: translate(0, 15px);
+    opacity: 0;
+  }
+
+  20% {
+    transform: translate(0, 15px);
+    opacity: 1;
+  }
+
+  62%,
+  68% {
+    transform: translate(114px, 15px);
+    opacity: 1;
+  }
+
+  69% {
+    transform: translate(0, 30px);
+    opacity: 0;
+  }
+
+  70% {
+    transform: translate(0, 30px);
+    opacity: 1;
+  }
+
+  78%,
+  86% {
+    transform: translate(16px, 30px);
+    opacity: 1;
+  }
+
+  90%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes anim-sup-cursor-blink {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.anim-sup-cursor {
+  animation: anim-sup-cursor-move 8s infinite, anim-sup-cursor-blink 0.6s infinite;
+}
+
+@keyframes anim-sup-glow {
+
+  0%,
+  75% {
+    opacity: 0.35;
+    filter: none;
+  }
+
+  80%,
+  86% {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px var(--accent-ok));
+  }
+
+  92%,
+  100% {
+    opacity: 0.35;
+    filter: none;
+  }
+}
+
+.anim-sup-result {
+  animation: anim-sup-glow 8s ease-in-out infinite;
 }
 
 /* ---------- Variaciones dinámicas según tema visual ---------- */
@@ -88,9 +336,17 @@
 }
 
 @keyframes cartoon-bounce {
-  0% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-6px) scale(1.02) rotate(-0.6deg); }
-  100% { transform: translateY(-4px) scale(1.015) rotate(0deg); }
+  0% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-6px) scale(1.02) rotate(-0.6deg);
+  }
+
+  100% {
+    transform: translateY(-4px) scale(1.015) rotate(0deg);
+  }
 }
 
 [data-theme="gatos"] .tool-card:hover {
@@ -100,14 +356,43 @@
 
 /* Accesibilidad: reducción de movimiento */
 @media (prefers-reduced-motion: reduce) {
+
   .anim-crop-border,
   .anim-glyph,
   .anim-wheel,
-  .anim-bar-1, .anim-bar-2, .anim-bar-3,
+  .anim-bar-1,
+  .anim-bar-2,
+  .anim-bar-3,
   .anim-diff-beam,
   .anim-ocr-beam,
   .anim-node,
+  .anim-sup-type-1,
+  .anim-sup-type-2,
+  .anim-sup-type-3,
+  .anim-sup-cursor,
+  .anim-sup-result,
   [data-theme="cartoon"] .tool-card:hover {
     animation: none !important;
+  }
+
+  .anim-sup-type-1 {
+    width: 28px !important;
+  }
+
+  .anim-sup-type-2 {
+    width: 118px !important;
+  }
+
+  .anim-sup-type-3 {
+    width: 18px !important;
+  }
+
+  .anim-sup-cursor {
+    display: none !important;
+  }
+
+  .anim-sup-result {
+    opacity: 1 !important;
+    filter: none !important;
   }
 }

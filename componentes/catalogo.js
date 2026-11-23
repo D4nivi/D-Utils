@@ -109,6 +109,21 @@
       accionTexto: "ABRIR MÓDULO →",
       icono: "indexator",
       keywords: "indexator indexar obsidian markdown indice contenidos encabezados titulos wikilinks notas reindexar jerarquia subdivision"
+    },
+    {
+      id: "superscript",
+      titulo: "Superscript",
+      url: "pages/superscript/",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
+      categoria: "cat-texto",
+      categoriaTexto: "TEXTO // MOD_08",
+      descripcion: "Transforma texto normal al instante en caracteres superíndice Unicode (Superscript) listos para copiar en cualquier chat o red social.",
+      tags: ["SUPERÍNDICE", "UNICODE", "INSTANTÁNEO"],
+      accionTexto: "ABRIR MÓDULO →",
+      icono: "superscript",
+      keywords: "superscript superindice texto letras pequeñas elevar exponente unicode caracteres copiar pegar transformador conversor"
     }
   ];
 

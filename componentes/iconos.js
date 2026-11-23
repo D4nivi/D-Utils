@@ -150,6 +150,34 @@
         '<text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent-ok)" text-anchor="middle" font-weight="700">INDEX_NODES // TOPOLOGY</text>' +
       '</svg>',
 
+    // 8. Superscript (conversión a superíndice con animación en vivo)
+    "superscript":
+      '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs>' +
+          '<clipPath id="clip-sup-1"><rect class="anim-sup-type-1" x="20" y="34" width="0" height="12"/></clipPath>' +
+          '<clipPath id="clip-sup-2"><rect class="anim-sup-type-2" x="20" y="49" width="0" height="12"/></clipPath>' +
+          '<clipPath id="clip-sup-3"><rect class="anim-sup-type-3" x="20" y="64" width="0" height="12"/></clipPath>' +
+        '</defs>' +
+        '<rect x="12" y="12" width="136" height="96" rx="5" fill="var(--card)" stroke="var(--card-border)" stroke-width="1"/>' +
+        '<rect x="12" y="12" width="136" height="16" rx="5" fill="rgba(var(--accent-rgb), 0.1)"/>' +
+        '<line x1="12" y1="28" x2="148" y2="28" stroke="var(--line)" stroke-width="1"/>' +
+        '<circle cx="20" cy="20" r="2" fill="var(--accent-sec)"/>' +
+        '<circle cx="26" cy="20" r="2" fill="var(--accent-warn)"/>' +
+        '<circle cx="32" cy="20" r="2" fill="var(--accent-ok)"/>' +
+        '<text x="80" y="23" font-family="monospace" font-size="5.5" fill="var(--muted)" text-anchor="middle" font-weight="700">BLOQUE_TEXTO // ENTRADA</text>' +
+        '<text x="140" y="23" font-family="monospace" font-size="5.5" fill="var(--accent)" text-anchor="end" font-weight="700">Aᵇ</text>' +
+        '<text clip-path="url(#clip-sup-1)" x="20" y="43" font-family="monospace" font-size="6.5" fill="var(--accent)" font-weight="600">Hola</text>' +
+        '<text clip-path="url(#clip-sup-2)" x="20" y="58" font-family="monospace" font-size="5.8" fill="var(--fg)" font-weight="600">esto es un texto de ejemplo</text>' +
+        '<text clip-path="url(#clip-sup-3)" x="20" y="73" font-family="monospace" font-size="6.5" fill="var(--accent)" font-weight="600">xd</text>' +
+        '<rect class="anim-sup-cursor" x="20" y="35" width="2" height="9" fill="var(--accent)"/>' +
+        '<g class="anim-sup-result" transform="translate(18, 82)">' +
+          '<rect x="0" y="0" width="124" height="18" rx="3" fill="rgba(0, 255, 159, 0.08)" stroke="var(--accent-ok)" stroke-width="0.8"/>' +
+          '<text x="6" y="12" font-family="monospace" font-size="5.5" fill="var(--accent-ok)" font-weight="700">Aᵇ</text>' +
+          '<text x="18" y="12" font-family="monospace" font-size="6" fill="var(--accent-ok)">ʰᵒˡᵃ ᵉˢᵗᵒ ᵉˢ... ˣᵈ</text>' +
+          '<text x="118" y="12" font-family="monospace" font-size="5" fill="var(--muted)" text-anchor="end">OK</text>' +
+        '</g>' +
+      '</svg>',
+
     // Iconos de interfaz (UI)
     "sol":
       '<svg class="switch-icon switch-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -415,6 +443,30 @@
           '<line class="anim-ocr-beam" x1="28" y1="64" x2="132" y2="64" stroke="#ff477e" stroke-width="3" stroke-dasharray="6 4"/>' +
           '<rect x="42" y="76" width="76" height="20" rx="8" fill="#ffd600" stroke="#181818" stroke-width="2"/>' +
           '<text x="80" y="90" font-family="sans-serif" font-size="8" fill="#181818" text-anchor="middle" font-weight="900">★ ESCÁNER POP ★</text>' +
+        '</svg>',
+
+      "superscript":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<defs>' +
+            '<clipPath id="clip-sup-c1"><rect class="anim-sup-type-1" x="22" y="34" width="0" height="12"/></clipPath>' +
+            '<clipPath id="clip-sup-c2"><rect class="anim-sup-type-2" x="22" y="49" width="0" height="12"/></clipPath>' +
+            '<clipPath id="clip-sup-c3"><rect class="anim-sup-type-3" x="22" y="64" width="0" height="12"/></clipPath>' +
+          '</defs>' +
+          '<rect x="14" y="12" width="132" height="96" rx="12" fill="#ffffff" stroke="#181818" stroke-width="3"/>' +
+          '<rect x="14" y="12" width="132" height="18" rx="12" fill="#ffd600" stroke="#181818" stroke-width="2"/>' +
+          '<circle cx="24" cy="21" r="3" fill="#ff477e" stroke="#181818" stroke-width="1.2"/>' +
+          '<circle cx="32" cy="21" r="3" fill="#00d2d3" stroke="#181818" stroke-width="1.2"/>' +
+          '<circle cx="40" cy="21" r="3" fill="#10ac84" stroke="#181818" stroke-width="1.2"/>' +
+          '<text x="86" y="24" font-family="sans-serif" font-size="6.5" fill="#181818" text-anchor="middle" font-weight="900">★ SUPERSCRIPT POP ★</text>' +
+          '<text clip-path="url(#clip-sup-c1)" x="22" y="43" font-family="monospace" font-size="6.5" fill="#ff477e" font-weight="700">Hola</text>' +
+          '<text clip-path="url(#clip-sup-c2)" x="22" y="58" font-family="monospace" font-size="5.8" fill="#181818" font-weight="700">esto es un texto de ejemplo</text>' +
+          '<text clip-path="url(#clip-sup-c3)" x="22" y="73" font-family="monospace" font-size="6.5" fill="#00d2d3" font-weight="700">xd</text>' +
+          '<rect class="anim-sup-cursor" x="22" y="35" width="2" height="9" fill="#ff477e"/>' +
+          '<g class="anim-sup-result" transform="translate(18, 80)">' +
+            '<rect x="0" y="0" width="124" height="20" rx="6" fill="#fff3b0" stroke="#181818" stroke-width="2"/>' +
+            '<text x="8" y="13" font-family="monospace" font-size="6" fill="#ff477e" font-weight="900">Aᵇ</text>' +
+            '<text x="22" y="13" font-family="monospace" font-size="6.5" fill="#181818" font-weight="900">ʰᵒˡᵃ ᵉˢᵗᵒ ᵉˢ... ˣᵈ</text>' +
+          '</g>' +
         '</svg>'
     },
 
@@ -491,6 +543,30 @@
           '</g>' +
           '<rect x="42" y="78" width="76" height="18" rx="8" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>' +
           '<text x="80" y="90" font-family="sans-serif" font-size="8" fill="var(--accent)" text-anchor="middle" font-weight="700">♥ ESCÁNER MISHI ♥</text>' +
+        '</svg>',
+
+      "superscript":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<defs>' +
+            '<clipPath id="clip-sup-g1"><rect class="anim-sup-type-1" x="22" y="34" width="0" height="12"/></clipPath>' +
+            '<clipPath id="clip-sup-g2"><rect class="anim-sup-type-2" x="22" y="49" width="0" height="12"/></clipPath>' +
+            '<clipPath id="clip-sup-g3"><rect class="anim-sup-type-3" x="22" y="64" width="0" height="12"/></clipPath>' +
+          '</defs>' +
+          '<rect x="14" y="12" width="132" height="96" rx="14" fill="var(--card)" stroke="var(--accent)" stroke-width="1.8"/>' +
+          '<rect x="14" y="12" width="132" height="18" rx="14" fill="rgba(255,133,162,0.18)"/>' +
+          '<circle cx="24" cy="21" r="2.5" fill="var(--accent)"/>' +
+          '<circle cx="31" cy="21" r="2.5" fill="var(--accent-sec)"/>' +
+          '<circle cx="38" cy="21" r="2.5" fill="var(--accent-ok)"/>' +
+          '<text x="86" y="24" font-family="sans-serif" font-size="6" fill="var(--accent)" text-anchor="middle" font-weight="700">♥ TEXTO MISHI Aᵇ ♥</text>' +
+          '<text clip-path="url(#clip-sup-g1)" x="22" y="43" font-family="monospace" font-size="6.5" fill="var(--accent)" font-weight="600">Hola</text>' +
+          '<text clip-path="url(#clip-sup-g2)" x="22" y="58" font-family="monospace" font-size="5.8" fill="var(--fg)" font-weight="600">esto es un texto de ejemplo</text>' +
+          '<text clip-path="url(#clip-sup-g3)" x="22" y="73" font-family="monospace" font-size="6.5" fill="var(--accent-sec)" font-weight="600">xd</text>' +
+          '<rect class="anim-sup-cursor" x="22" y="35" width="2" height="9" fill="var(--accent)"/>' +
+          '<g class="anim-sup-result" transform="translate(18, 80)">' +
+            '<rect x="0" y="0" width="124" height="20" rx="8" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>' +
+            '<text x="8" y="13" font-family="monospace" font-size="6" fill="var(--accent)" font-weight="700">♥ Aᵇ</text>' +
+            '<text x="26" y="13" font-family="monospace" font-size="6.5" fill="var(--accent-ok)">ʰᵒˡᵃ ᵉˢᵗᵒ ᵉˢ... ˣᵈ</text>' +
+          '</g>' +
         '</svg>'
     }
   };

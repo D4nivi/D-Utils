@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Descargar momos · D-Utils</title>
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="descargar-momos.css">
+<script src="../../assets/base.js"></script>
+<script src="../../componentes/iconos.js"></script>
+<script src="../../componentes/footer.js"></script>
+<script src="comun.js"></script>
+<script src="twitter.js"></script>
+<script src="instagram.js"></script>
+<script src="tiktok.js"></script>
+<script src="descargar-momos.js"></script>
+</head>
+<body>
+<main>
+  <nav><a href="../../index.html">← D-Utils // Centro de control</a></nav>
+
+  <div class="meta-header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+      <span class="meta-code">MOD_09 // EXTRACTOR MULTIRED</span>
+    </div>
+    <span class="meta-code">TWITTER · INSTAGRAM · TIKTOK</span>
+  </div>
+
+  <h1>Descargar momos</h1>
+  <p class="sub">Extractor táctico de vídeos, fotos y GIFs para redes sociales. Pega tu enlace, selecciona la calidad deseada y descarga al instante.</p>
+
+  <!-- Panel principal del descargador -->
+  <section class="panel-controles card-accent-top descargador-panel">
+    <!-- Slider / Selector segmentado de red social -->
+    <div class="slider-red-wrapper">
+      <label class="etiqueta-segmento" for="slider-redes">RED SOCIAL:</label>
+      <div id="slider-redes" class="selector-segmentado" role="tablist" aria-label="Seleccionar red social">
+        <button type="button" class="btn-segmento activo" data-red="twitter" role="tab" aria-selected="true">
+          <span class="icono-red-tab" id="tab-ico-twitter"></span>
+          <span>Twitter</span>
+        </button>
+        <button type="button" class="btn-segmento" data-red="instagram" role="tab" aria-selected="false">
+          <span class="icono-red-tab" id="tab-ico-instagram"></span>
+          <span>Instagram</span>
+        </button>
+        <button type="button" class="btn-segmento" data-red="tiktok" role="tab" aria-selected="false">
+          <span class="icono-red-tab" id="tab-ico-tiktok"></span>
+          <span>TikTok</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de entrada con pegar y botón de descarga sólido -->
+    <div class="barra-descarga-tactica">
+      <div class="input-contenedor-tactico">
+        <span class="input-icono-red" id="input-icono-activo" aria-hidden="true"></span>
+        <input
+          type="url"
+          id="input-url"
+          class="input-url-momo"
+          placeholder="Pega el enlace del tweet / momo (ej. https://x.com/usuario/status/...)"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Enlace del video o publicación"
+        />
+        <button
+          type="button"
+          id="btn-limpiar"
+          class="btn-limpiar-input oculto"
+          title="Borrar enlace"
+          aria-label="Borrar texto del campo"
+        ></button>
+      </div>
+
+      <!-- Botón Pegar Portapapeles -->
+      <button
+        type="button"
+        id="btn-pegar"
+        class="btn-tactico btn-pegar-portapapeles"
+        title="Pegar enlace del portapapeles"
+      >
+        <span class="btn-icono" id="ico-btn-pegar"></span>
+        <span>Pegar</span>
+      </button>
+
+      <!-- Botón Descargar (Grande, color sólido, icono dinámico) -->
+      <button
+        type="button"
+        id="btn-descargar"
+        class="btn-tactico btn-descargar-solido"
+        title="Extraer y descargar medio"
+      >
+        <span class="btn-icono" id="ico-btn-descargar"></span>
+        <span id="txt-btn-descargar">Descargar</span>
+      </button>
+    </div>
+
+    <!-- Indicador de estado de carga / escaneo táctico -->
+    <div id="estado-carga" class="estado-carga-tactica oculto" aria-live="polite">
+      <div class="radar-spinner"></div>
+      <div class="carga-texto-wrapper">
+        <span class="carga-titulo">ESCANEANDO MULTIMEDIA...</span>
+        <span class="carga-sub" id="carga-subtexto">Conectando con el servidor y obteniendo calidades</span>
+      </div>
+    </div>
+
+    <!-- Mensaje de aviso táctico para errores o advertencias -->
+    <div id="aviso-error" class="aviso-tactico aviso-error oculto" role="alert">
+      <span class="aviso-icono">⚠</span>
+      <span id="aviso-error-texto">Introduce un enlace válido para continuar.</span>
+    </div>
+  </section>
+
+  <!-- Contenedor de resultado: Carátula y opciones de calidad -->
+  <section id="contenedor-resultado" class="contenedor-resultado oculto" aria-live="polite">
+    <div class="tarjeta-resultado card-accent-top">
+      <!-- Encabezado del resultado -->
+      <div class="resultado-cabecera">
+        <div class="resultado-autor-info">
+          <div id="res-avatar" class="resultado-avatar"></div>
+          <div>
+            <h3 id="res-autor-nombre" class="resultado-autor-nombre">Usuario</h3>
+            <span id="res-autor-handle" class="resultado-autor-handle">@usuario</span>
+          </div>
+        </div>
+        <div class="resultado-badges">
+          <span id="res-badge-red" class="hud-badge hud-badge-tag">TWITTER / X</span>
+          <span id="res-badge-tipo" class="hud-badge hud-badge-ok">VÍDEO HD</span>
+        </div>
+      </div>
+
+      <!-- Cuerpo del resultado: Carátula a la izquierda, Calidades a la derecha -->
+      <div class="resultado-cuerpo">
+        <!-- Columna de carátula / preview -->
+        <div class="resultado-media-col">
+          <div class="caratula-wrapper" id="caratula-host">
+            <img id="res-caratula-img" class="caratula-img" src="" alt="Carátula del contenido" />
+            <div id="caratula-overlay-play" class="caratula-overlay-play oculto">
+              <span class="icono-play-hud">▶</span>
+            </div>
+            <span id="res-duracion-tag" class="caratula-duracion-tag oculto">00:00</span>
+          </div>
+        </div>
+
+        <!-- Columna de opciones de calidad y descarga -->
+        <div class="resultado-opciones-col">
+          <p id="res-titulo" class="resultado-titulo">Texto o descripción del momo...</p>
+
+          <!-- Aviso secundario si aplica -->
+          <div id="res-aviso-secundario" class="aviso-tactico aviso-info oculto"></div>
+
+          <div class="opciones-lista-header">
+            <span class="opciones-titulo">OPCIONES DE DESCARGA DISPONIBLES:</span>
+          </div>
+
+          <!-- Lista de botones de calidad -->
+          <div id="lista-calidades" class="lista-calidades">
+            <!-- Inyectado dinámicamente -->
+          </div>
+
+          <!-- Acciones adicionales: copiar enlace directo -->
+          <div class="resultado-acciones-secundarias">
+            <button type="button" id="btn-copiar-enlace" class="btn-tactico btn-tactico-sm">
+              <span class="btn-icono" id="ico-copiar-enlace"></span>
+              <span>Copiar enlace original</span>
+            </button>
+            <button type="button" id="btn-nueva-descarga" class="btn-tactico btn-tactico-sm">
+              <span class="btn-icono" id="ico-nueva-descarga"></span>
+              <span>Limpiar / Nueva descarga</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pie del sistema con telemetría y atajos -->
+  <div id="footer-host"></div>
+</main>
+</body>
+</html>

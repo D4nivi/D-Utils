@@ -178,6 +178,34 @@
         '</g>' +
       '</svg>',
 
+    // 9. Descargar momos (extractor de vídeo, imagen y GIF de redes)
+    "descargar-momos":
+      '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<rect x="18" y="16" width="124" height="88" rx="6" fill="var(--card)" stroke="var(--card-border)" stroke-width="1"/>' +
+        '<rect x="26" y="24" width="108" height="20" rx="4" fill="rgba(var(--accent-rgb), 0.12)" stroke="var(--line)" stroke-width="1"/>' +
+        '<!-- Iconos de redes en miniatura -->' +
+        '<circle cx="38" cy="34" r="5" fill="rgba(255,255,255,0.08)"/>' +
+        '<text x="38" y="37" font-family="sans-serif" font-size="6" font-weight="900" fill="var(--fg)" text-anchor="middle">𝕏</text>' +
+        '<circle cx="52" cy="34" r="5" fill="rgba(255,255,255,0.08)"/>' +
+        '<rect x="49" y="31" width="6" height="6" rx="1.5" stroke="var(--accent-sec)" stroke-width="0.8"/>' +
+        '<circle cx="66" cy="34" r="5" fill="rgba(255,255,255,0.08)"/>' +
+        '<path d="M66 31 v4 a1.5 1.5 0 0 1 -1.5 1.5" stroke="var(--accent)" stroke-width="0.8" fill="none"/>' +
+        '<text x="80" y="36.5" font-family="monospace" font-size="5" fill="var(--muted)">https://...</text>' +
+        '<!-- Carátula central con botón de play -->' +
+        '<rect x="26" y="50" width="66" height="46" rx="4" fill="rgba(0,0,0,0.3)" stroke="var(--line)" stroke-width="1"/>' +
+        '<polygon points="56,66 68,73 56,80" fill="var(--accent)"/>' +
+        '<rect x="30" y="54" width="22" height="8" rx="2" fill="rgba(0,0,0,0.6)"/>' +
+        '<text x="41" y="60" font-family="monospace" font-size="5" fill="var(--accent-ok)" font-weight="700" text-anchor="middle">1080p</text>' +
+        '<!-- Botones de calidades al lado -->' +
+        '<rect x="98" y="50" width="36" height="12" rx="3" fill="var(--accent)" opacity="0.9"/>' +
+        '<text x="116" y="58.5" font-family="monospace" font-size="5" fill="#050b14" font-weight="700" text-anchor="middle">HD MP4 ↓</text>' +
+        '<rect x="98" y="66" width="36" height="12" rx="3" fill="var(--card)" stroke="var(--line)" stroke-width="1"/>' +
+        '<text x="116" y="74.5" font-family="monospace" font-size="5" fill="var(--fg)" font-weight="600" text-anchor="middle">SD MP4</text>' +
+        '<rect x="98" y="82" width="36" height="12" rx="3" fill="var(--card)" stroke="var(--line)" stroke-width="1"/>' +
+        '<text x="116" y="90.5" font-family="monospace" font-size="5" fill="var(--muted)" font-weight="600" text-anchor="middle">AUDIO</text>' +
+        '<text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent)" text-anchor="middle" font-weight="700">MEME_EXTRACTOR // V1.0</text>' +
+      '</svg>',
+
     // Iconos de interfaz (UI)
     "sol":
       '<svg class="switch-icon switch-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
@@ -385,6 +413,56 @@
         '<circle cx="12" cy="8" r="3" fill="#ffffff"/>' +
       '</svg>',
 
+    "descarga":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>' +
+        '<polyline points="7 10 12 15 17 10"/>' +
+        '<line x1="12" y1="15" x2="12" y2="3"/>' +
+      '</svg>',
+
+    "red-x":
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+        '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>' +
+      '</svg>',
+
+    "red-instagram":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none"/>' +
+        '<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none"/>' +
+        '<circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>' +
+      '</svg>',
+
+    "red-tiktok":
+      '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+        '<path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.49 6.27 6.27 0 0 0 1.86-4.49V8.78a8.18 8.18 0 0 0 3.91 1z"/>' +
+      '</svg>',
+
+    "video":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<polygon points="23 7 16 12 23 17 23 7" fill="none"/>' +
+        '<rect x="1" y="5" width="15" height="14" rx="2" ry="2" fill="none"/>' +
+      '</svg>',
+
+    "imagen":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="none"/>' +
+        '<circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" stroke="none"/>' +
+        '<polyline points="21 15 16 10 5 21" fill="none"/>' +
+      '</svg>',
+
+    "musica":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M9 18V5l12-2v13" fill="none"/>' +
+        '<circle cx="6" cy="18" r="3" fill="currentColor" stroke="none"/>' +
+        '<circle cx="18" cy="16" r="3" fill="currentColor" stroke="none"/>' +
+      '</svg>',
+
+    "enlace":
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>' +
+        '<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>' +
+      '</svg>',
+
     // Variaciones temáticas específicas para el tema "cartoon"
     "cartoon": {
       "recortar":
@@ -467,6 +545,24 @@
             '<text x="8" y="13" font-family="monospace" font-size="6" fill="#ff477e" font-weight="900">Aᵇ</text>' +
             '<text x="22" y="13" font-family="monospace" font-size="6.5" fill="#181818" font-weight="900">ʰᵒˡᵃ ᵉˢᵗᵒ ᵉˢ... ˣᵈ</text>' +
           '</g>' +
+        '</svg>',
+
+      "descargar-momos":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="18" y="14" width="124" height="92" rx="14" fill="#ffffff" stroke="#181818" stroke-width="3"/>' +
+          '<rect x="28" y="22" width="104" height="24" rx="8" fill="#ffd600" stroke="#181818" stroke-width="2"/>' +
+          '<circle cx="42" cy="34" r="7" fill="#ff477e" stroke="#181818" stroke-width="1.5"/>' +
+          '<text x="42" y="38" font-family="sans-serif" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle">𝕏</text>' +
+          '<circle cx="60" cy="34" r="7" fill="#00d2d3" stroke="#181818" stroke-width="1.5"/>' +
+          '<text x="60" y="38" font-family="sans-serif" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle">📷</text>' +
+          '<circle cx="78" cy="34" r="7" fill="#10ac84" stroke="#181818" stroke-width="1.5"/>' +
+          '<text x="78" y="38" font-family="sans-serif" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle">🎵</text>' +
+          '<rect x="28" y="52" width="60" height="44" rx="8" fill="#fff3b0" stroke="#181818" stroke-width="2"/>' +
+          '<polygon points="52,66 68,74 52,82" fill="#ff477e" stroke="#181818" stroke-width="1.5"/>' +
+          '<rect x="94" y="54" width="38" height="16" rx="6" fill="#ff477e" stroke="#181818" stroke-width="2"/>' +
+          '<text x="113" y="65" font-family="sans-serif" font-size="7" fill="#ffffff" font-weight="900" text-anchor="middle">HD ↓</text>' +
+          '<rect x="94" y="74" width="38" height="16" rx="6" fill="#00d2d3" stroke="#181818" stroke-width="2"/>' +
+          '<text x="113" y="85" font-family="sans-serif" font-size="7" fill="#181818" font-weight="900" text-anchor="middle">SD ↓</text>' +
         '</svg>'
     },
 
@@ -567,6 +663,25 @@
             '<text x="8" y="13" font-family="monospace" font-size="6" fill="var(--accent)" font-weight="700">♥ Aᵇ</text>' +
             '<text x="26" y="13" font-family="monospace" font-size="6.5" fill="var(--accent-ok)">ʰᵒˡᵃ ᵉˢᵗᵒ ᵉˢ... ˣᵈ</text>' +
           '</g>' +
+        '</svg>',
+
+      "descargar-momos":
+        '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<rect x="18" y="14" width="124" height="92" rx="14" fill="var(--card)" stroke="var(--accent)" stroke-width="2"/>' +
+          '<rect x="26" y="22" width="108" height="22" rx="8" fill="rgba(255,133,162,0.18)"/>' +
+          '<text x="80" y="36" font-family="sans-serif" font-size="7" fill="var(--accent)" text-anchor="middle" font-weight="700">♥ MOMOS MISHI DOWNLOAD ♥</text>' +
+          '<rect x="26" y="50" width="62" height="46" rx="10" fill="var(--card)" stroke="var(--accent-sec)" stroke-width="1.5"/>' +
+          '<!-- Michi viendo meme -->' +
+          '<circle cx="57" cy="68" r="8" fill="var(--accent)"/>' +
+          '<polygon points="50,62 52,55 57,61" fill="var(--accent)"/>' +
+          '<polygon points="61,61 66,55 68,62" fill="var(--accent)"/>' +
+          '<circle cx="54" cy="67" r="1.2" fill="#fff"/>' +
+          '<circle cx="60" cy="67" r="1.2" fill="#fff"/>' +
+          '<polygon points="57,70 55.5,69 58.5,69" fill="var(--accent-sec)"/>' +
+          '<rect x="94" y="52" width="38" height="18" rx="8" fill="var(--card)" stroke="var(--accent)" stroke-width="1.5"/>' +
+          '<text x="113" y="64" font-family="sans-serif" font-size="7" fill="var(--accent)" font-weight="700" text-anchor="middle">HD ↓</text>' +
+          '<rect x="94" y="76" width="38" height="18" rx="8" fill="var(--card)" stroke="var(--accent-ok)" stroke-width="1.5"/>' +
+          '<text x="113" y="88" font-family="sans-serif" font-size="7" fill="var(--accent-ok)" font-weight="700" text-anchor="middle">SD ↓</text>' +
         '</svg>'
     }
   };

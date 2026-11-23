@@ -124,6 +124,21 @@
       accionTexto: "ABRIR MÓDULO →",
       icono: "superscript",
       keywords: "superscript superindice texto letras pequeñas elevar exponente unicode caracteres copiar pegar transformador conversor"
+    },
+    {
+      id: "descargar-momos",
+      titulo: "Descargar momos",
+      url: "pages/descargar-momos/",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
+      categoria: "cat-utilidad",
+      categoriaTexto: "UTILIDAD // MOD_09",
+      descripcion: "Extractor y descargador táctico de vídeos, imágenes y GIFs de Twitter / X, Instagram y TikTok con selección de calidades.",
+      tags: ["REDES SOCIALES", "VÍDEOS/GIFS", "CALIDADES"],
+      accionTexto: "ABRIR MÓDULO →",
+      icono: "descargar-momos",
+      keywords: "descargar momos memes videos fotos imagenes gifs twitter x instagram tiktok reels shorts tikwm vxtwitter extractor multimedia calidad"
     }
   ];
 

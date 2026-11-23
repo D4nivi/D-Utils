@@ -22,11 +22,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # Job de compilación y empaquetado: prepara los activos y genera el artefacto de Pages
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -48,9 +45,17 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository (incluye los activos generados en ocr/assets/)
+          # Subir todo el repositorio (incluyendo los activos generados en ocr/assets/)
           path: '.'
 
+  # Job de despliegue: publica el artefacto una vez finalizado el build
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v4

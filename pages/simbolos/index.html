@@ -1,88 +1,87 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Símbolos para copiar/pegar · D-Utils</title>
-<link rel="stylesheet" href="../../assets/css/base.css">
-<script src="../../assets/base.js"></script>
-<style>
-  main { max-width: 860px; margin: 0 auto; padding: 12px 24px 64px; }
-  nav { margin-bottom: 24px; }
-  nav a { font-family: var(--fuente-mono); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
-  .panel-dev {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 36px 32px;
-    backdrop-filter: blur(14px);
-    position: relative;
-    overflow: hidden;
-  }
-  .panel-dev::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-warn), transparent);
-  }
-  .dev-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .specs-box {
-    margin: 28px 0;
-    padding: 20px;
-    background: rgba(0,0,0,0.15);
-    border: 1px dashed var(--line);
-    border-radius: 8px;
-    font-family: var(--fuente-mono);
-    font-size: 0.85rem;
-  }
-  .specs-box h3 {
-    font-size: 0.9rem;
-    color: var(--accent-warn);
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
-  .specs-box ul {
-    margin: 0; padding-left: 20px; color: var(--muted); line-height: 1.7;
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Símbolos para copiar/pegar · D-Utils</title>
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="simbolos.css">
+  <script src="../../assets/base.js"></script>
+  <script src="../../componentes/iconos.js"></script>
+  <script src="simbolos-datos.js"></script>
+  <script src="simbolos.js"></script>
 </head>
+
 <body>
-<main>
-  <nav><a href="../../index.html">← D-Utils // Centro de control</a></nav>
+  <main class="simbolos-main">
+    <!-- Navegación superior -->
+    <nav><a href="../../index.html">← D-Utils // Centro de control</a></nav>
 
-  <div class="panel-dev">
-    <div class="dev-header">
-      <span class="hud-badge hud-badge-warn"><span class="pulse-dot"></span>EN CONSTRUCCIÓN</span>
-      <span style="font-family: var(--fuente-mono); font-size: 0.8rem; color: var(--muted);">MOD_02 // GLIFOS &amp; SÍMBOLOS</span>
+    <!-- Encabezado HUD -->
+    <header class="simbolos-header">
+      <div class="meta-header">
+        <div class="meta-header-left">
+          <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+          <span class="meta-code">MOD_02 // GLIFOS &amp; SÍMBOLOS</span>
+        </div>
+
+        <a href="https://manualdelatex.com/simbolos" target="_blank" rel="noopener noreferrer" class="btn-tactico btn-latex" title="Manual de símbolos LaTeX (abre en nueva pestaña)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          <span>Símbolos LaTeX</span>
+        </a>
+      </div>
+
+      <h1>Símbolos para copiar/pegar</h1>
+      <p class="sub">
+        Catálogo clasificado de glifos, caracteres técnicos, flechas, matemáticas y símbolos frecuentes listos para transferir al portapapeles con un solo clic.
+      </p>
+    </header>
+
+    <!-- Consola de búsqueda y filtros -->
+    <section class="simbolos-controles" aria-label="Búsqueda y filtros de símbolos">
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input id="buscador-simbolos" type="search" placeholder="Buscar por símbolo, nombre, categoría, código Alt o Unicode…" autocomplete="off" spellcheck="false" aria-label="Buscar símbolos">
+        <button type="button" id="btn-limpiar-busqueda" class="btn-limpiar-busqueda" title="Borrar búsqueda" aria-label="Borrar búsqueda" hidden>×</button>
+        <div class="search-kbd" title="Atajo de teclado">
+          <kbd>/</kbd>
+        </div>
+      </div>
+
+      <!-- Filtros por categoría (Chips) -->
+      <div class="filtros-categorias-wrap" role="toolbar" aria-label="Filtros de categoría">
+        <div id="filtros-categorias" class="filtros-categorias"></div>
+      </div>
+
+      <!-- Estado de visualización -->
+      <div class="simbolos-status-bar">
+        <span>Mostrando <strong id="contador-visibles">0</strong> símbolos</span>
+        <span><strong id="contador-categorias">0</strong> categorías activas</span>
+      </div>
+    </section>
+
+    <!-- Estado vacío de búsqueda -->
+    <div id="estado-vacio" class="estado-vacio" hidden aria-live="polite">
+      <div class="estado-vacio-icono">🔍</div>
+      <p class="estado-vacio-texto">No se encontraron símbolos para "<strong id="termino-busqueda-vacio"></strong>"</p>
+      <button type="button" id="btn-limpiar-filtro" class="btn-tactico">Restablecer búsqueda</button>
     </div>
 
-    <h1>Símbolos para copiar/pegar</h1>
-    <p class="sub">Catálogo clasificado de glifos, flechas, caracteres estéticos y símbolos frecuentes para copiar al portapapeles con un solo clic.</p>
+    <!-- Contenedor dinámico de categorías y símbolos -->
+    <div id="contenedor-simbolos"></div>
+  </main>
 
-    <div class="specs-box">
-      <h3>Planificación de características del módulo</h3>
-      <ul>
-        <li>Agrupación por categorías: Matemáticas, Flechas, Glifos estéticos / Anime, Monedas y Puntuación especial.</li>
-        <li>Buscador de símbolos en tiempo real por nombre o concepto.</li>
-        <li>Copiado instantáneo al portapapeles con feedback auditivo y visual "BUFFER_COPIED".</li>
-        <li>Historial local temporal de símbolos más utilizados.</li>
-      </ul>
-    </div>
-
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <a href="../../index.html"><button type="button">Volver al catálogo</button></a>
-      <span class="note">Módulo en cola de desarrollo estático.</span>
-    </div>
-  </div>
-</main>
+  <!-- Notificación flotante HUD al copiar -->
+  <div id="hud-toast" class="hud-toast" role="status" aria-live="polite"></div>
 </body>
+
 </html>

@@ -24,16 +24,16 @@
       id: "simbolos",
       titulo: "Símbolos para copiar/pegar",
       url: "pages/simbolos/",
-      estado: "construccion",
-      badgeClase: "hud-badge-warn",
-      badgeTexto: "EN CONSTRUCCIÓN",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
       categoria: "cat-texto",
       categoriaTexto: "TEXTO // MOD_02",
       descripcion: "Colección de símbolos técnicos, glifos estéticos y caracteres frecuentes listos para transferir al portapapeles con un solo toque.",
       tags: ["PORTAPAPELES", "UNICODE", "GLIFOS"],
-      accionTexto: "VER DETALLE →",
+      accionTexto: "ABRIR MÓDULO →",
       icono: "simbolos",
-      keywords: "simbolos caracteres texto glifos copiar pegar unicode flechas kaomoji emoticonos iconos portapapeles clipboard"
+      keywords: "simbolos caracteres texto glifos copiar pegar unicode flechas matematicas latex kaomoji emoticonos iconos portapapeles clipboard alt codigos oem"
     },
     {
       id: "ruleta",

@@ -206,6 +206,23 @@
         '<text x="80" y="112" font-family="monospace" font-size="7" fill="var(--accent)" text-anchor="middle" font-weight="700">MEME_EXTRACTOR // V1.0</text>' +
       '</svg>',
 
+    // 10. Vídeo a GIF (conversión de vídeo a GIF animado)
+    "video-to-gif":
+      '<svg viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<rect x="16" y="22" width="54" height="68" rx="5" fill="var(--card)" stroke="var(--line)" stroke-width="1.2"/>' +
+        '<rect x="22" y="30" width="42" height="28" rx="3" fill="rgba(var(--accent-rgb), 0.14)" stroke="var(--accent)" stroke-width="1"/>' +
+        '<polygon points="39,38 50,44 39,50" fill="var(--accent)"/>' +
+        '<text x="43" y="70" font-family="monospace" font-size="6.5" fill="var(--fg)" text-anchor="middle" font-weight="700">MP4 / WEBM</text>' +
+        '<text x="43" y="80" font-family="monospace" font-size="5.5" fill="var(--muted)" text-anchor="middle">AVI · MOV · FLV</text>' +
+        '<path d="M74 56 H86 M82 51 L87 56 L82 61" stroke="var(--accent-ok)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+        '<rect x="90" y="22" width="54" height="68" rx="5" fill="var(--card)" stroke="var(--accent-ok)" stroke-width="1.4"/>' +
+        '<rect x="96" y="30" width="42" height="28" rx="3" fill="rgba(0, 255, 159, 0.12)" stroke="var(--accent-ok)" stroke-width="1" stroke-dasharray="3 2"/>' +
+        '<text x="117" y="48" font-family="monospace" font-size="11" fill="var(--accent-ok)" text-anchor="middle" font-weight="900">GIF</text>' +
+        '<text x="117" y="70" font-family="monospace" font-size="6" fill="var(--accent-ok)" text-anchor="middle" font-weight="700">1–25 FPS</text>' +
+        '<text x="117" y="80" font-family="monospace" font-size="5.5" fill="var(--muted)" text-anchor="middle">ALFA · LOOP</text>' +
+        '<text x="80" y="108" font-family="monospace" font-size="7" fill="var(--accent)" text-anchor="middle" font-weight="700">VIDEO_ENCODER // GIF89A</text>' +
+      '</svg>',
+
     // Iconos de interfaz (UI)
     "sol":
       '<svg class="switch-icon switch-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +

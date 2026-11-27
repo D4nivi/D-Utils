@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Conversor de Vídeo a GIF · D-Utils</title>
+<link rel="stylesheet" href="../../assets/css/base.css">
+<link rel="stylesheet" href="../../componentes/css/dropzone.css">
+<link rel="stylesheet" href="video-to-gif.css">
+<script src="../../assets/base.js"></script>
+<script src="../../componentes/iconos.js"></script>
+<script src="../../componentes/dropzone.js"></script>
+<script src="../../componentes/footer.js"></script>
+<script src="converters/codificador-gif.js"></script>
+<script src="converters/conversor-base.js"></script>
+<script src="converters/conversor-mp4.js"></script>
+<script src="converters/conversor-webm.js"></script>
+<script src="converters/conversor-mov.js"></script>
+<script src="converters/conversor-avi.js"></script>
+<script src="converters/conversor-flv.js"></script>
+<script src="converters/conversor-generico.js"></script>
+<script src="video-to-gif.js"></script>
+</head>
+<body>
+<main>
+  <nav><a href="../../index.html">← D-Utils // Centro de control</a></nav>
+
+  <div class="meta-header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="hud-badge hud-badge-ok"><span class="pulse-dot"></span>DISPONIBLE</span>
+      <span class="meta-code">MOD_10 // VÍDEO A GIF</span>
+    </div>
+    <span class="meta-code">PROCESAMIENTO 100% LOCAL</span>
+  </div>
+
+  <h1>Conversor de Vídeo a GIF</h1>
+  <p class="sub">Convierte vídeos MP4, WebM, AVI, MOV, FLV o WMV en GIFs animados de alta calidad directamente en tu navegador, con recorte de tiempo, control de FPS, repeticiones y soporte de transparencia.</p>
+
+  <!-- Chips informativos de formatos soportados -->
+  <div class="formatos-soportados" aria-label="Formatos soportados">
+    <span class="hud-badge hud-badge-tag">MP4 → GIF</span>
+    <span class="hud-badge hud-badge-tag">WebM → GIF</span>
+    <span class="hud-badge hud-badge-tag">AVI → GIF</span>
+    <span class="hud-badge hud-badge-tag">MOV → GIF</span>
+    <span class="hud-badge hud-badge-tag">FLV → GIF</span>
+    <span class="hud-badge hud-badge-tag">WMV → GIF</span>
+  </div>
+
+  <!-- Zona de carga de archivo -->
+  <section class="panel-carga">
+    <div id="drop-video"></div>
+
+    <details class="url-remota-caja">
+      <summary>Cargar vídeo desde una URL remota</summary>
+      <div class="url-remota-fila">
+        <input
+          type="url"
+          id="input-url-video"
+          placeholder="https://ejemplo.com/video.mp4"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="URL del vídeo remoto"
+        >
+        <button type="button" id="btn-cargar-url" class="btn-tactico">Cargar URL</button>
+      </div>
+      <p class="nota-cors">Solo funciona si el servidor remoto permite CORS. Si el navegador lo bloquea, descarga el vídeo y arrástralo arriba.</p>
+    </details>
+  </section>
+
+  <!-- Aviso de error -->
+  <div id="aviso-error" class="aviso-tactico aviso-error oculto" role="alert">
+    <span class="aviso-icono">⚠</span>
+    <span id="aviso-error-texto"></span>
+  </div>
+
+  <!-- Workspace de edición y conversión (visible al cargar un vídeo) -->
+  <section id="panel-editor" class="panel-controles card-accent-top oculto" aria-live="polite">
+    <div class="editor-grid">
+      <!-- Columna izquierda: Reproductor y metadatos -->
+      <div class="editor-preview-col">
+        <div class="video-cabecera">
+          <span id="badge-formato" class="hud-badge hud-badge-tag">MP4</span>
+          <span id="info-origen" class="meta-code">0 × 0 px · 0.0 s</span>
+        </div>
+        <div class="video-marco">
+          <video id="video-preview" controls muted playsinline crossorigin="anonymous"></video>
+        </div>
+        <div class="video-acciones-tiempo">
+          <button type="button" id="btn-marcar-inicio" class="btn-tactico btn-tactico-sm" title="Usar la posición actual del vídeo como inicio">
+            Fijar inicio aquí
+          </button>
+          <button type="button" id="btn-marcar-fin" class="btn-tactico btn-tactico-sm" title="Usar la posición actual del vídeo como fin">
+            Fijar fin aquí
+          </button>
+          <button type="button" id="btn-cambiar-video" class="btn-tactico btn-tactico-sm">
+            Cambiar vídeo
+          </button>
+        </div>
+      </div>
+
+      <!-- Columna derecha: Parámetros de salida -->
+      <div class="editor-controles-col">
+        <div class="grupo-control">
+          <div class="grupo-titulo">1. Recorte de tiempo (segundos)</div>
+          <div class="fila-dos">
+            <label class="campo-tactico">
+              <span>Inicio (s)</span>
+              <input type="number" id="input-inicio" min="0" step="0.1" placeholder="0.0">
+            </label>
+            <label class="campo-tactico">
+              <span>Fin (s)</span>
+              <input type="number" id="input-fin" min="0.1" step="0.1" placeholder="5.0">
+            </label>
+          </div>
+          <p class="pista-control" id="pista-tiempo">Si no seleccionas nada, se convertirán los primeros 5 segundos del vídeo.</p>
+        </div>
+
+        <div class="grupo-control">
+          <div class="grupo-titulo">2. Dimensiones (solo reducir, nunca ampliar)</div>
+          <div class="selector-segmentado" role="radiogroup" aria-label="Modo de redimensionado">
+            <button type="button" class="btn-segmento activo" data-modo-dim="original" role="radio" aria-checked="true">Original</button>
+            <button type="button" class="btn-segmento" data-modo-dim="ancho" role="radio" aria-checked="false">Por ancho</button>
+            <button type="button" class="btn-segmento" data-modo-dim="alto" role="radio" aria-checked="false">Por alto</button>
+          </div>
+          <div id="caja-valor-dim" class="fila-dim oculto">
+            <label class="campo-tactico">
+              <span id="label-valor-dim">Ancho máximo (px)</span>
+              <input type="number" id="input-valor-dim" min="16" step="1" value="480">
+            </label>
+          </div>
+          <p class="pista-control" id="pista-dimensiones">Resolución de salida: —</p>
+        </div>
+
+        <div class="grupo-control">
+          <div class="grupo-titulo">3. Velocidad y repeticiones</div>
+          <div class="fila-dos">
+            <label class="campo-tactico">
+              <span>FPS (1 – 25)</span>
+              <div class="fps-combo">
+                <input type="range" id="rango-fps" min="1" max="25" value="10" aria-label="Fotogramas por segundo">
+                <input type="number" id="input-fps" min="1" max="25" value="10" aria-label="Valor numérico de FPS">
+              </div>
+            </label>
+            <label class="campo-tactico">
+              <span>Repeticiones (0 = infinito)</span>
+              <input type="number" id="input-repeticiones" min="0" max="9999" step="1" value="0">
+            </label>
+          </div>
+        </div>
+
+        <div class="grupo-control">
+          <label class="check-transparencia">
+            <input type="checkbox" id="check-transparencia">
+            <span>Preservar transparencia (canal alfa → GIF transparente)</span>
+          </label>
+          <p class="pista-control" id="pista-transparencia">Disponible para vídeos con canal alfa (WebM VP8/VP9 o MOV compatible).</p>
+        </div>
+
+        <div class="acciones-conversion">
+          <button type="button" id="btn-convertir" class="btn-tactico btn-tactico-primario">
+            Convertir a GIF
+          </button>
+          <button type="button" id="btn-cancelar" class="btn-tactico btn-tactico-peligro oculto">
+            Cancelar
+          </button>
+        </div>
+
+        <div id="barra-progreso-caja" class="progreso-caja oculto" aria-live="polite">
+          <div class="progreso-cabecera">
+            <span id="progreso-texto">Preparando conversión...</span>
+            <span id="progreso-porcentaje" class="meta-code">0%</span>
+          </div>
+          <div class="progreso-pista">
+            <div id="progreso-relleno" class="progreso-relleno"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resultado del GIF generado -->
+  <section id="panel-resultado" class="panel-controles card-accent-top oculto" aria-live="polite">
+    <div class="resultado-header">
+      <h2>GIF generado</h2>
+      <div class="resultado-stats">
+        <span id="res-dims" class="hud-badge hud-badge-ok">0 × 0 px</span>
+        <span id="res-frames" class="hud-badge hud-badge-tag">0 fotogramas</span>
+        <span id="res-peso" class="hud-badge hud-badge-tag">0 KB</span>
+      </div>
+    </div>
+
+    <div class="resultado-visor-ajedrez">
+      <img id="img-resultado-gif" src="" alt="Vista previa del GIF convertido">
+    </div>
+
+    <div class="resultado-acciones">
+      <a id="btn-descargar-gif" class="btn-tactico btn-tactico-primario" download="animacion.gif" href="#">
+        Descargar GIF
+      </a>
+      <button type="button" id="btn-limpiar-todo" class="btn-tactico">
+        Limpiar / Nuevo vídeo
+      </button>
+    </div>
+  </section>
+
+  <div id="footer-host"></div>
+</main>
+</body>
+</html>

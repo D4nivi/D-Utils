@@ -139,6 +139,21 @@
       accionTexto: "ABRIR MÓDULO →",
       icono: "descargar-momos",
       keywords: "descargar momos memes videos fotos imagenes gifs twitter x instagram tiktok reels shorts tikwm vxtwitter extractor multimedia calidad"
+    },
+    {
+      id: "video-to-gif",
+      titulo: "Vídeo a GIF",
+      url: "pages/video-to-gif/",
+      estado: "disponibles",
+      badgeClase: "hud-badge-ok",
+      badgeTexto: "DISPONIBLE",
+      categoria: "cat-imagen",
+      categoriaTexto: "IMAGEN // MOD_10",
+      descripcion: "Convierte vídeos MP4, WebM, AVI, MOV, FLV o WMV a GIF animado en tu navegador. Recorte de tiempo, FPS, repeticiones y transparencia.",
+      tags: ["GIF89A LOCAL", "ALFA / LOOP", "1–25 FPS"],
+      accionTexto: "ABRIR MÓDULO →",
+      icono: "video-to-gif",
+      keywords: "video a gif convertir mp4 webm avi mov flv wmv transparente alfa alpha recortar tiempo fps loop repeticiones animacion"
     }
   ];
 
